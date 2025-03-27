@@ -1,0 +1,10 @@
+#!/bin/bash
+date
+echo "Running short version of experiments"
+cd machines/machine-check
+cargo criterion --offline --output-format quiet --bench composition_benchmark_short 2>/dev/null
+cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general 2>/dev/null
+cd $DIR/process_results
+python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESULT_DIR --short
+date
+
