@@ -8,14 +8,22 @@ docker:
 # Run all benchmarks in the docker container
 @run-benchmarks-short:
     echo "Running short version of experiments"
-    #cd machines/machine-check && cargo criterion --offline --output-format quiet --bench composition_benchmark_short 2>err.out
-    #cd machines/machine-check && cargo test -- --ignored --nocapture short_run_bench_sub_sizes_general 2>err.out
-    just save-figures
+    cd machines/machine-check && cargo criterion --offline --output-format quiet --bench composition_benchmark_short 2>err.out
+    cd machines/machine-check && cargo test -- --ignored --nocapture short_run_bench_sub_sizes_general 2>err.out
+    just process-results-short
 
-save-figure-1:
+@run-benchmarks:
+    echo "Running full version of experiments"
+    cd machines/machine-check && cargo criterion --offline --output-format quiet --bench composition_benchmark_full 2>err.out
+    cd machines/machine-check && cargo test -- --ignored --nocapture full_run_bench_sub_sizes_general 2>err.out
+    just process-results
+
+process-results-short:
     #! /bin/bash
     cd process_results
-    python3 process_results.py -t ../machines/machine-check/target/criterion/data -s ../machines/machine-check/bench_and_results/short_subscription_size_benchmarks/general_pattern
+    python3 process_results.py -p ../machines/machine-check/target/criterion/data/main/'General pattern algorithm 1 vs. exact short run' -a ../machines/machine-check/bench_and_results/short_subscription_size_benchmarks/general_pattern --short
 
-@save-figures:
-    just save-figure-1
+process-results:
+    #! /bin/bash
+    cd process_results
+    python3 process_results.py -p ../machines/machine-check/target/criterion/data/main/'General pattern algorithm 1 vs. exact full run' -a ../machines/machine-check/bench_and_results/subscription_size_benchmarks/general_pattern
