@@ -6,4 +6,5 @@ cargo criterion --offline --output-format quiet --bench composition_benchmark_sh
 cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general 2>/dev/null
 cd $DIR/process_results
 python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESULT_DIR --short
+cd /ecoop25_artifact/machines/demo/ && bash demo_run_machines.sh
 date
