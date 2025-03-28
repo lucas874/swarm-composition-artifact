@@ -1,0 +1,3 @@
+sudo docker build -t ecoop25_artifact .
+sudo docker run -it ecoop25_artifact 
+sudo docker cp 035e711c2bcf:/ecoop25_artifact/process_results/results_short_run/out.pdf out120.pdf
