@@ -48,9 +48,6 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh -sS
 ENV NVM_DIR=/root/.nvm
 RUN source ${NVM_DIR}/nvm.sh && nvm install ${NODE_VERSION}
 RUN source ${NVM_DIR}/nvm.sh && npm install typescript -g
-#RUN npm install typescript -g
-#RUN node -v
-#RUN npm -v
 
 # Set up working directory
 WORKDIR ${DIR}
@@ -60,4 +57,4 @@ RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-runner && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-check && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-check && npm run build
-RUN source ${NVM_DIR}/nvm.sh && cd machines/demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-factory-demo && npm install
