@@ -36,18 +36,6 @@ RUN tar -xvf ax-2.18.1-linux-amd64.tar.gz
 RUN mv ax /usr/local/bin
 RUN rm ax-2.18.1-linux-amd64.tar.gz
 
-# Should they be in workdir instead so that they can easily be reviewed/inspected?
-COPY warehouse-demo /usr/local/bin
-RUN chmod +x /usr/local/bin/warehouse-demo
-COPY warehouse-factory-demo /usr/local/bin
-RUN chmod +x /usr/local/bin/warehouse-factory-demo
-COPY warehouse-factory-quality-demo /usr/local/bin
-RUN chmod +x /usr/local/bin/warehouse-factory-quality-demo
-COPY kick-the-tires /usr/local/bin
-RUN chmod +x /usr/local/bin/kick-the-tires
-COPY run-benchmarks /usr/local/bin
-RUN chmod +x /usr/local/bin/run-benchmarks
-
 # Set up nvm, nodejs and npm
 ARG NODE_VERSION=20
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh -sSf | bash
@@ -66,3 +54,15 @@ RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-check && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-factory-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-factory-quality-demo && npm install
+
+# Should they be in workdir instead so that they can easily be reviewed/inspected? Now they are in workdir
+COPY warehouse-demo.sh .
+RUN chmod +x warehouse-demo.sh
+COPY warehouse-factory-demo.sh .
+RUN chmod +x warehouse-factory-demo.sh
+COPY warehouse-factory-quality-demo.sh .
+RUN chmod +x warehouse-factory-quality-demo.sh
+COPY kick-the-tires.sh .
+RUN chmod +x kick-the-tires.sh
+COPY run-benchmarks.sh .
+RUN chmod +x run-benchmarks.sh
