@@ -36,7 +36,13 @@ RUN tar -xvf ax-2.18.1-linux-amd64.tar.gz
 RUN mv ax /usr/local/bin
 RUN rm ax-2.18.1-linux-amd64.tar.gz
 
-# Should they be in workdir instead so that they can easily be reviewed?
+# Should they be in workdir instead so that they can easily be reviewed/inspected?
+COPY warehouse-demo /usr/local/bin
+RUN chmod +x /usr/local/bin/warehouse-demo
+COPY warehouse-factory-demo /usr/local/bin
+RUN chmod +x /usr/local/bin/warehouse-factory-demo
+COPY warehouse-factory-quality-demo /usr/local/bin
+RUN chmod +x /usr/local/bin/warehouse-factory-quality-demo
 COPY kick-the-tires /usr/local/bin
 RUN chmod +x /usr/local/bin/kick-the-tires
 COPY run-benchmarks /usr/local/bin
@@ -57,4 +63,6 @@ RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-runner && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-check && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-check && npm run build
+RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-factory-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-factory-quality-demo && npm install

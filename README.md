@@ -10,5 +10,21 @@
     - Running the image: ```sudo docker run -it ecoop25_artifact```
     - More commands found in `some_commands.txt`
 * The scripts `run-benchmarks` and `kick-the-tires` are installed in the image by `Dockerfile`.
+    - `run-benchmarks` runs the experiments reported in the paper and generates plots corresponding to Figure 7 and Figure 8
+    - `kick-the-tires` runs a shortened version of the experiments and generates corresponding plots and runs the Warehouse || Factory implemented as described in the article.
 
 This repository should not be submitted. Only a built Docker image and the description is to be submitted.
+
+TODO:
+    * remove date command invocation from scripts.
+
+Questions:
+    * Storing scripts in home folder of image as xyz.sh or installing them as /usr/local/bin/xyz like now?
+    * Getting things out of container somewhat awkward but alternative, mounting on some directory, is not very good either. Makes assumptions on host and more files etc.
+        - right now you have to run  ```docker ps``` to get the container id and then
+        - run ```docker cp <container id>:/ecoop25_artifact/process_results/results/ results``` to copy the results from the container to the host.
+    * Changing and editing example, ideas? Reusable badge. Also to claim the reusable badge artifacts have to be "very carefully documented".
+    * Running the demo. Awkward state names and when to exit? Right now a prompt telling user to press Ctrl + C.
+    * Generally awkard to run extended machines -- no knowledge of statenames and weird casting. Consider making a 'has' function. Similar to current is. state.has(arg) true is when arg enables all the commands enabled in state?
+    * `run-benchmarks` runs 10 repetitions of each sample. This takes ~8 hours in total on the machine it was tested on. The experiments in paper used 50 repetitions. Is this ok?
+    * Licenses
