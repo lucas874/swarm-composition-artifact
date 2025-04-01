@@ -6,8 +6,8 @@
 * `machines/` is a clone of [machines](https://github.com/lucas874/machines/tree/prepare_benchmarks_for_art). Stored in the image.
 * `process_results/` contains scripts that turn the benchmarks results into csvs and pdfs. Stored in the image.
 * `Dockerfile` is used to build the image.
-    - From the root of this repository, the image is built by running: ```sudo docker build -t ecoop25_artifact .```
-    - To run the image run: ```sudo docker run -it ecoop25_artifact```
+    - Building the image: ```sudo docker build -t ecoop25_artifact .``` (from the root of this repo)
+    - Running the image: ```sudo docker run -it ecoop25_artifact```
     - More commands in found `some_commands.txt`
 * `run-benchmarks` and `kick-the-tires` are installed in the image by Dockerfile
 
