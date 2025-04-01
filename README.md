@@ -1,6 +1,8 @@
 # ECOOP 25 Artifact - Supplementary to *Compositional Design, Implementation, and Verification of Swarms*
 ## This repository contains the means to build the artifact and *not* the artifact itself. A repository for storing the work in progress for the artifact.
 
+Clone this repo using `git clone --recurse-submodules ...` to get all dependencies.
+
 ### Files:
 * `artifact_description/` contains the artifact description. It uses the latex template listed [here](https://drops.dagstuhl.de/entities/journal/DARTS#author).
 * `machines/` is a clone of [machines](https://github.com/lucas874/machines/tree/prepare_benchmarks_for_art). Stored in the image.
@@ -31,3 +33,4 @@ Questions:
 * Functional and reusable badges. What type of documentation is requested? What exactly is "appropriate evidence of verification and validation"?
 * Tested platforms.
 * Size of artifact when running, size of image, size of compressed image? Others have done it with the compressed image. The one actually downloaded.
+* Restructuring directories
