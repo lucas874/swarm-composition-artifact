@@ -31,7 +31,7 @@ charge on the Dagstuhl Research Online Publication Server (DROPS).}{}
 
 
 % Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{A Sample Research Description for the DARTS series (Artifact)} %TODO Please add
+\title{Compositional Design, Implementation, and Verification of Swarms (Artifact)} %TODO Please add
 
 \titlerunning{A Sample DARTS Research Description (Artifact)} %optional, in case that the title is too long; the running title should fit into the top page column
 
@@ -71,22 +71,19 @@ charge on the Dagstuhl Research Online Publication Server (DROPS).}{}
 \maketitle
 
 \begin{abstract}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent convallis orci arcu, eu mollis dolor. Aliquam eleifend suscipit lacinia. Maecenas quam mi, porta ut lacinia sed, convallis ac dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. 
- \end{abstract}
+\input{abstract}
+\end{abstract}
 
 % ARTIFACT: please stick to the structure of 7 sections provided below
 
 % ARTIFACT: section on the scope of the artifact (what claims of the paper are intended to be backed by this artifact?)
 \begin{scope}
-What is the scope of the artifact? What claims of the related scholarly paper are intended to be backed by this artifact?
+\input{scope}
 \end{scope}
 
 % ARTIFACT: section on the contents of the artifact (code, data, etc.)
 \begin{content}
-The artifact package includes:
-\begin{itemize}
-\item \dots
-\end{itemize}
+\input{content}
 \end{content}
 
 % ARTIFACT: section containing links to sites holding the
@@ -102,9 +99,7 @@ In addition, the artifact is also available at:
 % work, including requirements beyond the operating system such as large
 % amounts of memory or many processor cores
 \begin{platforms}
-Please specify the platforms on which the artifact is known to
-work, including requirements beyond the operating system such as large
-amounts of memory or many processor cores.
+\input{platforms}
 \end{platforms}
 
 % ARTIFACT: section specifying the license under which the artifact is
@@ -121,12 +116,6 @@ amounts of memory or many processor cores.
 % to the Dagstuhl Research Online Publication Server
 \artifactsize{x.xx GiB}
 
-% ARTIFACT: optional appendix
-\appendix
-\section{Morbi eros magna}
-
-Morbi eros magna, vestibulum non posuere non, porta eu quam. Maecenas vitae orci risus, eget imperdiet mauris. Donec massa mauris, pellentesque vel lobortis eu, molestie ac turpis. Sed condimentum convallis dolor, a dignissim est ultrices eu. Donec consectetur volutpat eros, et ornare dui ultricies id. Vivamus eu augue eget dolor euismod ultrices et sit amet nisi. Vivamus malesuada leo ac leo ullamcorper tempor. Donec justo mi, tempor vitae aliquet non, faucibus eu lacus. Donec dictum gravida neque, non porta turpis imperdiet eget. Curabitur quis euismod ligula \cite{DBLP:books/mk/GrayR93,DBLP:conf/focs/FOCS16,DBLP:conf/focs/HopcroftPV75,DBLP:journals/cacm/Dijkstra68a,DBLP:journals/cacm/Knuth74}. 
-
 
 % ARTIFACT: include here any additional references, if needed...
 
@@ -136,7 +125,7 @@ Morbi eros magna, vestibulum non posuere non, porta eu quam. Maecenas vitae orci
 
 %% Either use bibtex (recommended), 
 
-\bibliography{darts-v2021-sample-article}
+\bibliography{artifact-description}
 
 %% .. or use the thebibliography environment explicitely
 
