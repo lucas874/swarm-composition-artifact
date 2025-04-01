@@ -8,7 +8,7 @@
 * `Dockerfile` is used to build the image.
     - Building the image: ```sudo docker build -t ecoop25_artifact .``` (from the root of this repo)
     - Running the image: ```sudo docker run -it ecoop25_artifact```
-    - More commands in found `some_commands.txt`
-* `run-benchmarks` and `kick-the-tires` are installed in the image by Dockerfile
+    - More commands found in `some_commands.txt`
+* The scripts `run-benchmarks` and `kick-the-tires` are installed in the image by `Dockerfile`.
 
 This repository should not be submitted. Only a built Docker image and the description is to be submitted.
