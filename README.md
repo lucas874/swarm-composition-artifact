@@ -30,7 +30,7 @@ Questions:
 * Generally awkard to run extended machines -- no knowledge of statenames and weird casting. Consider making a 'has' function. Similar to current is. state.has(arg) true is when arg enables all the commands enabled in state?
 * `run-benchmarks` runs 10 repetitions of each sample. This takes ~8 hours in total on the machine it was tested on. The experiments in paper used 50 repetitions. Is this ok?
 * Licenses
-* Functional and reusable badges. What type of documentation is requested? What exactly is "appropriate evidence of verification and validation"?
+* Functional and reusable badges. What type of documentation is requested, comments in code, readmes, good pdf, docs? Readmes awkward given that artifact is a container? What exactly is "appropriate evidence of verification and validation"?
 * Tested platforms.
 * Size of artifact when running, size of image, size of compressed image? Others have done it with the compressed image. The one actually downloaded.
 * Restructuring directories
