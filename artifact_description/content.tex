@@ -1,4 +1,10 @@
-The artifact package consists of a docker image, which contains:
+The artifact package is a Docker image, which has been saved as a tar file compressed with gzip. The image includes the directories:
 \begin{itemize}
-\item A checkout of \texttt{https://github.com/lucas874/machines/tree/ecoop25-artifact}.
+%\item A checkout of \texttt{https://github.com/lucas874/machines/tree/ecoop25-artifact}.
+\item \texttt{machine-check/}: Contains the source code for the \texttt{machine-check} library and the benchmark suite used for the experiments.
+\item \texttt{machine-runner/}: Contains the source code for the \texttt{machine-runner} library.
+\item \texttt{process\_results/}: Contains scripts that process processes the results from the experiments generating CSV files and figures.
+\item \texttt{demos/}: Contains source code implementing the swarm protocols given as examples in the paper. 
+\item \texttt{process\_results/}: Contains scripts that process processes the results from the experiments generating CSV files and figures.
+\item \texttt{scripts/}: Contains scripts to run the experiments and generate figures, and to run the demos. 
 \end{itemize}
