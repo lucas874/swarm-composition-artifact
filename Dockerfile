@@ -49,7 +49,7 @@ RUN source ${NVM_DIR}/nvm.sh && npm install typescript -g
 # Set up working directory
 WORKDIR ${DIR}
 COPY machines/machine-check machine-check
-RUN cd machine-check && unzip bench_and_results.zip
+RUN cd machine-check && rm -rf bench_and_results && unzip bench_and_results.zip
 COPY machines/machine-runner machine-runner
 
 COPY machines/warehouse-demo demos/warehouse-demo
