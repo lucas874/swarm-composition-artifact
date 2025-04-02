@@ -38,9 +38,9 @@ def write_csv(out_path, filename, data):
         writer = csv.writer(f)
         writer.writerows(data)
 
-def cbor_to_csv(experiment_results_directory, output_directory, filename):
+def cbor_to_csv(experiment_results_directory, output_directory, filename, benchmark_directory):
     cbors = read_cbor(experiment_results_directory)
-    benchmarks = read_files("../machines/machine-check/bench_and_results/benchmarks/general_pattern/")
+    benchmarks = read_files(f"{benchmark_directory}/benchmarks/general_pattern/")
     benches = dict()
     for k in benchmarks:
         for v in benchmarks[k]:

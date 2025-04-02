@@ -6,18 +6,19 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser(description="Turn experiment results in to csvs")
-    parser.add_argument('-a', '--accuracy', type=str, help='Folder containing subscription size results')
-    parser.add_argument('-p', '--performance', type=str, help='Folder containing execution time results')
+    parser.add_argument('-a', '--accuracy', type=str, help='Directory containing subscription size results')
+    parser.add_argument('-p', '--performance', type=str, help='Directory containing execution time results')
+    parser.add_argument('-b', '--benchmarks', type=str, help='Directory containing benchmarks')
     parser.add_argument('--short', action='store_true', help='Short run option (running with full benchmark suite is default)')
     args = parser.parse_args()
 
-    if not args.accuracy or not args.performance:
+    if not args.accuracy or not args.performance or not args.benchmarks:
         parser.print_help()
         sys.exit(1)
 
     result_directory = f"results_short_run" if args.short else f"results"
     execution_time_csv_filename = "general_pattern_microseconds_performance_results_edges.csv"
-    cbor_to_csv(args.performance, result_directory, execution_time_csv_filename)
+    cbor_to_csv(args.performance, result_directory, execution_time_csv_filename, args.benchmarks)
 
     sub_size_csv_filename = "subscription_sizes_efrac.csv"
     subscription_results(args.accuracy, result_directory, sub_size_csv_filename)

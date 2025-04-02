@@ -4,7 +4,7 @@ sudo docker cp 035e711c2bcf:/ecoop25_artifact/process_results/results_short_run/
 sudo docker save -o ecoop25-artifact-image.tar ecoop25_artifact
 docker save myimage:latest | gzip > myimage_latest.tar.gz
 sudo docker load -i ecoop25-artifact-image.tar
-
+sudo docker cp <container id>:/ecoop25_artifact/process_results/results_short_run results_short_
 
 
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf

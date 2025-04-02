@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y curl gzip nano python3-pip python3.12-venv just tmux && \
+    apt-get install -y curl gzip zip nano python3-pip python3.12-venv just tmux && \
     apt-get clean
 
 # Use bash for the shell
@@ -10,12 +10,15 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Set up some environment variables
 ENV DIR=/ecoop25_artifact
-ENV CRITERION_DATA_DIR="${DIR}/machines/machine-check/target/criterion/data/main"
+ENV MACHINE_CHECK_DIR="${DIR}/machine-check"
+ENV MACHINE_RUNNER_DIR="${DIR}/machine-runner"
+ENV CRITERION_DATA_DIR="${MACHINE_CHECK_DIR}/target/criterion/data/main"
 ENV SHORT_CRITERION_DATA_DIR="${CRITERION_DATA_DIR}/General-pattern-algorithm1-vs.-exact-short-run"
 ENV FULL_CRITERION_DATA_DIR="${CRITERION_DATA_DIR}/General-pattern-algorithm1-vs.-exact-full-run"
-ENV BENCHMARK_DIR="${DIR}/machines/machine-check/bench_and_results"
+ENV BENCHMARK_DIR="${MACHINE_CHECK_DIR}/bench_and_results"
 ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmarks/general_pattern"
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
+ENV DEMO_DIR="${DIR}/demos"
 
 # Install cargo etc.
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -45,24 +48,35 @@ RUN source ${NVM_DIR}/nvm.sh && npm install typescript -g
 
 # Set up working directory
 WORKDIR ${DIR}
-COPY machines ./machines
+COPY machines/machine-check machine-check
+RUN cd machine-check && rm -rf bench_and_results && unzip bench_and_results.zip
+COPY machines/machine-runner machine-runner
+
+COPY machines/warehouse-demo demos/warehouse-demo
+COPY new_package_jsons/warehouse-demo/package.json demos/warehouse-demo/
+
+#COPY machines/warehouse-demo-without-branch-tracking demos/warehouse-demo-without-branch-tracking
+#COPY new_package_jsons/warehouse-demo-without-branch-tracking/package.json demos/warehouse-demo-without-branch-tracking/
+
+COPY machines/warehouse-factory-demo demos/warehouse-factory-demo
+COPY new_package_jsons/warehouse-factory-demo/package.json demos/warehouse-factory-demo/
+
+COPY machines/warehouse-factory-quality-demo demos/warehouse-factory-quality-demo
+COPY new_package_jsons/warehouse-factory-quality-demo/package.json demos/warehouse-factory-quality-demo/
+
 COPY process_results ./process_results
-RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-runner && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-runner && npm run build
-RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-check && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd machines/machine-check && npm run build
-RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-demo && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-factory-demo && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd machines/warehouse-factory-quality-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
+RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm run build
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
 
 # Should they be in workdir instead so that they can easily be reviewed/inspected? Now they are in workdir
-COPY warehouse-demo.sh .
-RUN chmod +x warehouse-demo.sh
-COPY warehouse-factory-demo.sh .
-RUN chmod +x warehouse-factory-demo.sh
-COPY warehouse-factory-quality-demo.sh .
-RUN chmod +x warehouse-factory-quality-demo.sh
-COPY kick-the-tires.sh .
-RUN chmod +x kick-the-tires.sh
-COPY run-benchmarks.sh .
-RUN chmod +x run-benchmarks.sh
+COPY scripts scripts
+RUN chmod +x scripts/warehouse-demo.sh
+RUN chmod +x scripts/warehouse-factory-demo.sh
+RUN chmod +x scripts/warehouse-factory-quality-demo.sh
+RUN chmod +x scripts/kick-the-tires.sh
+RUN chmod +x scripts/run-benchmarks.sh
