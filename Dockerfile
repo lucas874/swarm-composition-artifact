@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y curl gzip nano python3-pip python3.12-venv just tmux && \
+    apt-get install -y curl gzip zip nano python3-pip python3.12-venv just tmux && \
     apt-get clean
 
 # Use bash for the shell
@@ -49,6 +49,7 @@ RUN source ${NVM_DIR}/nvm.sh && npm install typescript -g
 # Set up working directory
 WORKDIR ${DIR}
 COPY machines/machine-check machine-check
+RUN cd machine-check && unzip bench_and_results.zip
 COPY machines/machine-runner machine-runner
 
 COPY machines/warehouse-demo demos/warehouse-demo

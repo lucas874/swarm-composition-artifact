@@ -12,7 +12,7 @@ def main():
     parser.add_argument('--short', action='store_true', help='Short run option (running with full benchmark suite is default)')
     args = parser.parse_args()
 
-    if not args.accuracy or not args.performance:
+    if not args.accuracy or not args.performance or not args.benchmarks:
         parser.print_help()
         sys.exit(1)
 
