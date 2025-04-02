@@ -8,3 +8,6 @@ sudo docker cp <container id>:/ecoop25_artifact/process_results/results_short_ru
 
 
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+sudo docker ps -q -f ancestor=ecoop25_artifact:latest
+sudo docker cp $(sudo docker ps --filter "ancestor=ecoop25_artifact:latest" --format "{{.ID}}"):/ecoop25_artifact/process_results/results_short_run . 
+sudo docker cp $(sudo docker ps --filter "ancestor=ecoop25_artifact" --format "{{.ID}}"):/ecoop25_artifact/process_results/results_short_run .

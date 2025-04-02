@@ -1,15 +1,16 @@
 \subparagraph{Quick-start Guide} On Unix-like systems the integrity of the artifact can be checked by issuing the command `\texttt{echo "<md5sum>  <xxx>.tar.gz" | md5sum -c -}' which outputs `\texttt{<xxx>.tar.gz: FAILED}' on failure and `\texttt{<xxx>.tar.gz: OK}' on success.\\
 
-To check basic functionality during the kick-the-tires phase, please start the container and run the kick-the-tires script. This is done by running the commands: 
+To check basic functionality during the kick-the-tires phase, please start the Docker image and run the kick-the-tires script. This is done by running the commands: 
 \begin{itemize}
 	\item \texttt{docker load -i <xxx>.tar.gz}
-	\item \texttt{docker run -it ecoop25\_artifact}
+	\item \texttt{docker run -it ecoop25\_artifact:latest}
 	\item \texttt{cd scripts/ \&\& ./kick-the-tires.sh}
 \end{itemize}
 
 
-The script runs the experiments documented in the paper on a reduced input set before starting the execution of a swarm implementing the swarm protocol depicted in Figure 4 of the paper. The results of the experiments are stored in the directory \texttt{/ecoop25\_artifact/process\_results/results\_short\_run} and includes two CSV files and a PDF containing plots of the data in the CSVs. The progression of each machine of the protocol can be followed in the terminal. 
+The script runs the experiments documented in the paper on a reduced input set before starting the execution of a swarm implementing the swarm protocol depicted in Figure 4 of the paper. The results of the experiments are stored in the directory \texttt{/ecoop25\_artifact/process\_results/results\_short\_run} and includes two CSV files and a PDF containing plots of the data in the CSVs. The progression of each machine of the protocol can be followed in the terminal. Running the script takes about 2-4 minutes.
 
-Running the script takes about 2-4 minutes. Depending on your user permissions you may have to prepend \texttt{sudo} to the first two commands: \texttt{sudo docker ...}.
+To copy the results from the Docker container to the host machine, please run\\ {\tiny `\texttt{docker cp \$(docker ps --filter "ancestor=ecoop25\_artifact" --format "{{.ID}}"):/ecoop25\_artifact/process\_results/results\_short\_run .}'} 
 
-To copy the results from the Docker container to the host machine ...
+Depending on your Docker system configuration, you may have to preface each Docker command (including nested ones) with \texttt{sudo}: \texttt{sudo docker ...}.
+
