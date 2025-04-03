@@ -11,6 +11,14 @@ To check basic functionality during the kick-the-tires phase, please start the D
 %The script runs the experiments documented in the paper on a reduced input set before starting the execution of a swarm implementing the swarm protocol depicted in Figure 4 of the paper. 
 The script first runs the experiments documented in the paper on a reduced input set and then starts a demonstration, where a swarm implemented using our tool executes the swarm protocol depicted in Figure 4 of the paper. The results of the experiments are stored in the directory \texttt{/ecoop25\_artifact/process\_results/results\_short\_run} and include two CSV files and a PDF containing plots corresponding to Figure 7 and Figure 8 of the paper, but for the reduced input set. During the demonstration, the progression of each machine of the protocol can be followed in the terminal. The scripts takes about 2-4 minutes to run.\\ 
 
-To copy the results from the Docker container to the host machine, please run\\ {\tiny `\texttt{docker cp \$(docker ps --filter "ancestor=ecoop25\_artifact" --format "{{.ID}}"):/ecoop25\_artifact/process\_results/results\_short\_run .}'} 
+%To copy the results from the Docker container to the host machine, please run\\ {\tiny `\texttt{docker cp \$(docker ps --filter "ancestor=ecoop25\_artifact" --format "{{.ID}}"):/ecoop25\_artifact/process\_results/results\_short\_run .}'} 
+To copy the results from the Docker container to the host machine, please run
+
+\begin{lstlisting}[language=bash]
+docker cp $(docker ps --filter "ancestor=ecoop25_artifact" \
+--format "{{.ID}}"):/ecoop25_artifact/process_results/results_short_run .
+\end{lstlisting}
 
 Depending on your Docker system configuration, you may have to preface each Docker command (including nested ones) with \texttt{sudo}: \texttt{sudo docker ...}.
+
+
