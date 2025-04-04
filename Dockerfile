@@ -65,6 +65,7 @@ COPY machines/warehouse-factory-quality-demo demos/warehouse-factory-quality-dem
 COPY new_package_jsons/warehouse-factory-quality-demo/package.json demos/warehouse-factory-quality-demo/
 
 COPY process_results ./process_results
+
 RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
 
