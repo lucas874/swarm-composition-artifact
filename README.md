@@ -21,17 +21,17 @@ This repository should not be submitted. Only a built Docker image and the descr
 * Getting things out of container somewhat awkward but alternative, mounting on some directory, is not very good either. Makes assumptions on host and more files etc.
     - right now you have to run  ```docker ps``` to get the container id and then
     - run ```docker cp <container id>:/ecoop25_artifact/process_results/results/ results``` to copy the results from the container to the host.
+    - or the oneline ```sudo docker cp $(sudo docker ps --filter "ancestor=ecoop25_artifact" --format "{{.ID}}"):/ecoop25_artifact/<file> .```
 * Changing and editing example, ideas? Reusable badge. Also to claim the reusable badge artifacts have to be "very carefully documented".
+* Functional and reusable badges. What type of documentation is requested, comments in code, readmes, good pdf, docs? Readmes awkward given that artifact is a container? What exactly is "appropriate evidence of verification and validation"? "... found to be documented, consistent, complete, exercisable, and include appropriate evidence of verification and validation."
+* Readmes are awkward given the format of the artifact. So where to give instructions? In the submission template they say in the appendix of the artifact description.
 * Running the demo. Awkward state names and when to exit? Right now a prompt telling user to press Ctrl + C.
 * Generally awkard to run extended machines -- no knowledge of statenames and weird casting. Consider making a 'has' function. Similar to current is. state.has(arg) true is when arg enables all the commands enabled in state?
 * `run-benchmarks` runs 10 repetitions of each sample. This takes ~8 hours in total on the machine it was tested on. The experiments in paper used 50 repetitions. Is this ok?
 * Licenses
-* Functional and reusable badges. What type of documentation is requested, comments in code, readmes, good pdf, docs? Readmes awkward given that artifact is a container? What exactly is "appropriate evidence of verification and validation"?
-* Readmes are awkward given the format of the artifact. So where to give instructions? In the submission template they say in the appendix of the artifact description.
 * Tested platforms.
 * Size of artifact when running, size of image, size of compressed image? Others have done it with the compressed image. The one actually downloaded. Yes also the one we give the md5sum for.
 * Storing scripts in home folder of image as xyz.sh or installing them as /usr/local/bin/xyz like now?
-
 
 #### TODO:
 * Remove date command invocation from scripts.
