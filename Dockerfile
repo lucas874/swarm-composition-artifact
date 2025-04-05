@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y curl gzip zip nano python3-pip python3.12-venv just tmux && \
+    apt-get install -y curl gzip zip nano python3-pip python3.12-venv pv tmux && \
     apt-get clean
 
 # Use bash for the shell
@@ -68,6 +68,7 @@ COPY process_results ./process_results
 
 RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
+RUN cd machine-check && mkdir -p target/criterion/data/main/General-pattern-algorithm1-vs.-exact-short-run/
 
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
