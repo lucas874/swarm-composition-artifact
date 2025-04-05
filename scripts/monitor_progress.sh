@@ -29,3 +29,10 @@ while true; do
   fi
   sleep "$interval"
 done | pv -N "Shortened performance test" -t -p -s "$target_size" > /dev/null
+
+
+#if [ "$#" -ne 2 ]; then
+#  echo "Usage: bash monitor_progress.sh <directory being monitored> <number of files expected at the end of process>"
+#  echo "Exiting."
+#  exit 1
+#fi
