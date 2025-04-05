@@ -1,18 +1,31 @@
 #!/bin/bash
 
-DIR="target/criterion/data/main/General-pattern-algorithm1-vs.-exact-short-run"
-TARGET_SIZE=$((9600))
-INTERVAL=1  # check every 1 second
+if [ -z "$1" ]
+then
+  echo "No input path given. Exiting."
+  exit 1
+fi
 
+if [ -z "$2" ]
+then
+  echo "No target number of files given. Exiting."
+  exit 1
+fi
+dir="$1"
+target_size="$2"
+interval=1  # check every 1 second
 prev_size=0
-curr_size=$(du -sb "$DIR" | cut -f1)
-while ((curr_size < TARGET_SIZE)); do
+curr_size=$(find "$dir" -mindepth 2 -type d | wc -l)
+while true; do
   delta=$((curr_size - prev_size))
   if (( delta > 0 )); then
     head -c "$delta" /dev/zero
   fi
   prev_size=$curr_size
-  curr_size=$(du -sb "$DIR" | cut -f1)
-  sleep "$INTERVAL"
-done | pv -s "$TARGET_SIZE" > /dev/null
-
+  curr_size=$(find "$dir" -mindepth 2 -type d | wc -l)
+  if ((prev_size >= target_size));
+  then
+    break
+  fi
+  sleep "$interval"
+done | pv -s "$target_size" > /dev/null
