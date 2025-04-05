@@ -70,6 +70,8 @@ RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
 RUN cd machine-check && mkdir -p target/criterion/data/main/General-pattern-algorithm1-vs.-exact-short-run/
 
+RUN mkdir logs
+
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm install

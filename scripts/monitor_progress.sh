@@ -28,4 +28,4 @@ while true; do
     break
   fi
   sleep "$interval"
-done | pv -N "Shortened performance benchmark" -t -p -s "$target_size" > /dev/null
+done | pv -N "Shortened performance test" -t -p -s "$target_size" > /dev/null
