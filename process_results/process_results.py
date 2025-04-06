@@ -3,6 +3,7 @@ from process_subscription_size_results import subscription_results
 from generate_plots import two_plots
 import sys
 import argparse
+import os
 
 def main():
     parser = argparse.ArgumentParser(description="Turn experiment results in to csvs")
@@ -16,7 +17,8 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    result_directory = f"results_short_run" if args.short else f"results"
+    #result_directory = f"results_short_run" if args.short else f"results"
+    result_directory = f"{os.getenv("RES_SHORT_DIR", default="results_short_run")}" if args.short else f"{os.getenv("RES_DIR", default="results")}"
     execution_time_csv_filename = "performance_results.csv"
     cbor_to_csv(args.performance, result_directory, execution_time_csv_filename, args.benchmarks)
 

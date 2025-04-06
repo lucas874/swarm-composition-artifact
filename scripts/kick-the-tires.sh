@@ -26,3 +26,12 @@ python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESUL
 echo "--Entering "$DEMO_DIR/warehouse-factory-demo/" and running demo at: $(date)--" >> $short_log
 cd $DEMO_DIR/warehouse-factory-demo/ && bash demo_run_machines.sh
 echo "--Demo ended at: $(date)--" >> $short_log
+
+files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/out.pdf")
+for file in "${files[@]}"; do
+    if [ ! -e "$file" ]; then
+        echo "ERROR. Please send entire contents of $LOG_DIR"
+       	exit 1
+    fi
+done
+echo "kick-the-tires everything is OK"

@@ -39,3 +39,4 @@ This repository should not be submitted. Only a built Docker image and the descr
 * LOG things from demos as well
 * Remember to check -- if everything ok then ok otherwise send log file to us blabla
 * TEst if everythin works with redirecting stderr to log file so like make rust code not work see if stack trace logged etc.
+* Report to same log everywhere?

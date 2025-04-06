@@ -21,7 +21,8 @@ ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmar
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
 ENV DEMO_DIR="${DIR}/demos"
 ENV PROCESS_RES_DIR="${DIR}/process_results"
-ENV PROCESS_RES_SHORT_DIR="${PROCESS_RES_DIR}}/results_short_run"
+ENV RES_SHORT_DIR="${DIR}/results_short_run"
+ENV RES_DIR="${DIR}/results"
 ENV LOG_DIR="${DIR}/logs"
 
 # Install cargo etc.
