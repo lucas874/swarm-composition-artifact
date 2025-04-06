@@ -5,7 +5,7 @@ echo "  (1) Shortened performance tests."
 echo "  (2) Shortened accuracy tests."
 echo "  (3) Warehouse || Factory demo."
 
-short_log=$DIR/logs/short_test.log
+short_log=$LOG_DIR/short_test.log
 rm -rf $SHORT_CRITERION_DATA_DIR
 mkdir -p $SHORT_CRITERION_DATA_DIR
 rm -rf $SHORT_ACCURACY_RESULT_DIR
@@ -22,7 +22,7 @@ bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR 8 "Shortene
 echo "--Shortened accuracy ended at: $(date)--" >> $short_log
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $short_log
 cd $PROCESS_RES_DIR
-python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR --short >> $short_log 2>&1
+python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL --short >> $short_log 2>&1
 echo "--Entering "$DEMO_DIR/warehouse-factory-demo/" and running demo at: $(date)--" >> $short_log
 cd $DEMO_DIR/warehouse-factory-demo/ && bash demo_run_machines.sh
 echo "--Demo ended at: $(date)--" >> $short_log

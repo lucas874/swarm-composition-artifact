@@ -16,10 +16,13 @@ ENV CRITERION_DATA_DIR="${MACHINE_CHECK_DIR}/target/criterion/data/main"
 ENV SHORT_CRITERION_DATA_DIR="${CRITERION_DATA_DIR}/General-pattern-algorithm1-vs.-exact-short-run"
 ENV FULL_CRITERION_DATA_DIR="${CRITERION_DATA_DIR}/General-pattern-algorithm1-vs.-exact-full-run"
 ENV BENCHMARK_DIR="${MACHINE_CHECK_DIR}/bench_and_results"
+ENV BENCHMARK_DIR_GENERAL="${BENCHMARK_DIR}/benchmarks/general_pattern"
 ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmarks/general_pattern"
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
 ENV DEMO_DIR="${DIR}/demos"
 ENV PROCESS_RES_DIR="${DIR}/process_results"
+ENV PROCESS_RES_SHORT_DIR="${PROCESS_RES_DIR}}/results_short_run"
+ENV LOG_DIR="${DIR}/logs"
 
 # Install cargo etc.
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y

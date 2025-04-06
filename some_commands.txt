@@ -17,3 +17,6 @@ The reviewing template is from ecoop24 and links to ecoop24 submission template.
 
 Send stdout and stderr to out_criterion_short.txt and run process in the background
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short &>out_criterion_short.txt&
+
+sudo docker system prune -a
+sudo docker system prune --volumes

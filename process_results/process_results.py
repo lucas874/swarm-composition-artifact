@@ -17,10 +17,10 @@ def main():
         sys.exit(1)
 
     result_directory = f"results_short_run" if args.short else f"results"
-    execution_time_csv_filename = "general_pattern_microseconds_performance_results_edges.csv"
+    execution_time_csv_filename = "performance_results.csv"
     cbor_to_csv(args.performance, result_directory, execution_time_csv_filename, args.benchmarks)
 
-    sub_size_csv_filename = "subscription_sizes_efrac.csv"
+    sub_size_csv_filename = "accuracy_results.csv"
     subscription_results(args.accuracy, result_directory, sub_size_csv_filename)
 
     output_pdf_filename = f"{result_directory}/out.pdf"
