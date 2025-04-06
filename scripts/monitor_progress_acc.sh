@@ -1,16 +1,20 @@
 #!/bin/bash
 
-if [ "$#" -ne 2 ]; then
-  echo "Usage: bash monitor_sub_size.sh <directory being monitored> <number of files expected at the end of process>"
+if [ "$#" -ne 3 ]; then
+  echo "Usage: bash monitor_progress_acc.sh <directory> <number of files expected in directory at the end> <message at progress bar>"
   echo "Exiting."
   exit 1
 fi
 
 dir="$1"
 target_size="$2"
+message="$3"
 interval=1  # check every 1 second
 prev_size=0
-curr_size=$(find "$dir" -type f | wc -l)
+find_cmd=(find "$dir" -type f)
+count_cmd=(wc -l)
+curr_size=$("${find_cmd[@]}" | "${count_cmd[@]}")
+
 while true; do
   delta=$((curr_size - prev_size))
   if (( delta > 0 )); then
@@ -23,4 +27,4 @@ while true; do
     break
   fi
   sleep "$interval"
-done | pv -N "Shortened accuracy test" -t -p -s "$target_size" > /dev/null
+done | pv -N "$message" -t -p -s "$target_size" > /dev/null

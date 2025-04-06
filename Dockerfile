@@ -68,8 +68,8 @@ COPY process_results ./process_results
 
 RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
-RUN mkdir -p ${SHORT_CRITERION_DATA_DIR}
-RUN mkdir -p ${SHORT_ACCURACY_RESULT_DIR}
+#RUN mkdir -p ${SHORT_CRITERION_DATA_DIR}
+#RUN mkdir -p ${SHORT_ACCURACY_RESULT_DIR}
 
 RUN mkdir logs
 
