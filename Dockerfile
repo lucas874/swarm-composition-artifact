@@ -19,6 +19,7 @@ ENV BENCHMARK_DIR="${MACHINE_CHECK_DIR}/bench_and_results"
 ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmarks/general_pattern"
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
 ENV DEMO_DIR="${DIR}/demos"
+ENV PROCESS_RES_DIR="${DIR}/process_results"
 
 # Install cargo etc.
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -68,8 +69,6 @@ COPY process_results ./process_results
 
 RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
-#RUN mkdir -p ${SHORT_CRITERION_DATA_DIR}
-#RUN mkdir -p ${SHORT_ACCURACY_RESULT_DIR}
 
 RUN mkdir logs
 

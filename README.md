@@ -36,3 +36,5 @@ This repository should not be submitted. Only a built Docker image and the descr
 #### TODO:
 * Remove date command invocation from scripts.
 * Output where results are stored in scripts.
+* LOG things from demos as well
+* Remember to check -- if everything ok then ok otherwise send log file to us blabla
