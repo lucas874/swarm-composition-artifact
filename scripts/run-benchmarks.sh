@@ -8,7 +8,7 @@ echo "  (1) Accuracy test."
 echo "  (2) Performance test."
 
 logfile=$LOG_DIR/report.log
-num_files=906
+num_files=908
 mkdir -p $FULL_CRITERION_DATA_DIR
 mkdir -p $FULL_ACCURACY_RESULT_DIR
 
@@ -24,19 +24,16 @@ echo "--Performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
 python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_DIR --short >> $logfile 2>&1
-echo "--Entering "$DEMO_DIR/warehouse-factory-demo/" and running demo at: $(date)--" >> $logfile
-cd $DEMO_DIR/warehouse-factory-demo/ && bash demo_run_machines.sh 2>> $logfile
-echo "--Demo ended at: $(date)--" >> $logfile
 
 files=("$RES_DIR/accuracy_results.csv" "$RES_DIR/performance_results.csv" "$RES_DIR/out.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
-        echo "ERROR. Please send entire contents of $LOG_DIR"
+        echo "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
        	exit 1
     fi
 done
 
-echo -e "Experiments done. Everything is ${green}OK${color_off}. Results are found in "$RES_DIR""
+echo -e "Experiments done. Everything is ${green}OK${color_off}. Results written to "$RES_DIR.""
 
 #date
 #echo "Running: (1) full version of execution time experiments. (2) full version of subscription size experiments."
