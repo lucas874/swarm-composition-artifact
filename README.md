@@ -50,3 +50,5 @@ This repository should not be submitted. Only a built Docker image and the descr
 * Clearer output: Say everything ok or something went wrong please send logfile to us. Both log and long experiment
 * Consider not using cargo test for subscription size things
 * Write a proper readme. Explaining things like how to change examples etc.
+* Check that everything with machines went ok. e.g. by redirecting stderr of machines to some file and then checking if empty or nonexisting.
+* checkmarks etc.
