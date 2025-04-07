@@ -20,3 +20,4 @@ cargo criterion --offline --output-format quiet --plotting-backend disabled --be
 
 sudo docker system prune -a
 sudo docker system prune --volumes
+sudo docker cp $(sudo docker ps --filter "ancestor=ecoop25_artifact" --format "{{.ID}}"):/ecoop25_artifact/results_short_run .

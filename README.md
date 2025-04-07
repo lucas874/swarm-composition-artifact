@@ -40,3 +40,13 @@ This repository should not be submitted. Only a built Docker image and the descr
 * Remember to check -- if everything ok then ok otherwise send log file to us blabla
 * TEst if everythin works with redirecting stderr to log file so like make rust code not work see if stack trace logged etc.
 * Report to same log everywhere?
+* You may assume bash. Try with mounting. May assume that we can hand in a readme and the artifact itself.
+* add more logging so that we can se how/if something goes wrong. look at tracing.
+* Pipe to pv instead of dev null. Log everything basically, building and running. Looking is for our sake.
+* DONE. Using cargo build --release -all-targets Make build time shorter possibly, when running kick-the-tires? Building more things in dockerfile what does criterion run and what does npm run build build?
+	Say this make take a minute...
+* Reusable show how to uncomment something to make it fail or not being a proper implementation. And how to implement something.
+* Mount things, have a look at https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/jolie/lemma2jolie build script.
+* Clearer output: Say everything ok or something went wrong please send logfile to us. Both log and long experiment
+* Consider not using cargo test for subscription size things
+* Write a proper readme. Explaining things like how to change examples etc.
