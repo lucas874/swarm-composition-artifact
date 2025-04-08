@@ -14,6 +14,8 @@ echo "  (2) Shortened performance tests."
 echo "  (3) Warehouse || Factory demo."
 
 logfile=$LOG_DIR/report.log
+machine_logfile=$LOG_DIR/machines.log
+ax_logfile=$LOG_DIR/ax_all.log
 num_files=8
 rm -rf $SHORT_CRITERION_DATA_DIR
 mkdir -p $SHORT_CRITERION_DATA_DIR
@@ -32,8 +34,8 @@ echo "--Shortened performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
 python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_SHORT_DIR >> $logfile 2>&1
-echo "--Entering "$DEMO_DIR/warehouse-factory-demo/" and running demo at: $(date)--" >> $logfile
-cd $DEMO_DIR/warehouse-factory-demo/ && bash demo_run_machines.sh 2>> $logfile
+echo "--Running demo at: $(date)--" >> $logfile
+bash $DIR/scripts/warehouse-factory-demo-kick.sh $machine_logfile $ax_logfile 2>> $logfile
 echo "--Demo ended at: $(date)--" >> $logfile
 
 files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/out.pdf")
