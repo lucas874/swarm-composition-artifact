@@ -21,17 +21,17 @@ while ! pgrep -f subscription_size_experiments > /dev/null 2>&1; do
     break
   fi
 done
+
+# Loop and update progress bar.
 while true; do
-#while pgrep -f subscription_size_experiments > /dev/null 2>&1; do
   delta=$((curr_size - prev_size))
   if (( delta > 0 )); then
     head -c "$delta" /dev/zero
   fi
   prev_size=$curr_size
   curr_size=$("${find_cmd[@]}" | "${count_cmd[@]}")
-  #if ((prev_size >= target_size)); then
-  #  break
-  #fi
+
+  # Terminate loop if monitored process finished.
   if ! pgrep -f subscription_size_experiments > /dev/null 2>&1; then
     delta=$((curr_size - prev_size))
     head -c "$delta" /dev/zero
