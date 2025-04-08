@@ -54,3 +54,5 @@ This repository should not be submitted. Only a built Docker image and the descr
 * checkmarks etc.
 * Remove progress prints in rust code
 * Check that perf bench has the right number of files
+* Consider zipping old criterion folder and old benchmark sub size folder if invoked again.
+* Test new things -- checking the existence of process -- by introducing errors to rust code. Hoping it will fail, send trace to stdout, move on report error to user and store stderr in file.
