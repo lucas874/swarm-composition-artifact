@@ -3,6 +3,11 @@ color_off='\033[0m'
 green='\033[0;32m'
 red='\033[0;31m'
 
+error_and_exit() {
+    echo -e "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
+    exit 1
+}
+
 echo "Running:"
 echo "  (1) Shortened accuracy tests."
 echo "  (2) Shortened performance tests."
@@ -19,12 +24,10 @@ cd $MACHINE_CHECK_DIR
 echo "--Shortened accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general >> $logfile 2>&1 &
 bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "Shortened accuracy test"
-#python3 $DIR/scripts/python_monitoring.py $SHORT_ACCURACY_RESULT_DIR $num_files "Shortened accuracy test"
 echo "--Shortened accuracy ended at: $(date)--" >> $logfile
 echo "--Shortened performance test began at: $(date)--" >> $logfile
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short >> $logfile 2>&1 &
 bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "Shortened performance test"
-#python3 $DIR/scripts/pm1.py $SHORT_CRITERION_DATA_DIR $num_files "Shortened performance test"
 echo "--Shortened performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
@@ -36,15 +39,17 @@ echo "--Demo ended at: $(date)--" >> $logfile
 files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/out.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
-        echo -e "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
-       	exit 1
+        echo 1
+        error_and_exit
     fi
 done
 if ! diff "$RES_SHORT_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results.csv" >> $logfile 2>&1; then
-    echo -e "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
-    exit 1
+    echo 2
+    error_and_exit
+fi
+if [ $(wc -l < "$RES_SHORT_DIR/performance_results.csv") -ne 5 ]; then
+    echo 3
+    error_and_exit
 fi
 
 echo -e "kick-the-tires everything is ${green}OK.${color_off} Results are written to "$RES_SHORT_DIR.""
-
-#tput cuu 4; tput el;echo "  (1) Shortened performance tests [X].";tput cud 4

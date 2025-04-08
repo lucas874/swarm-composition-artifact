@@ -14,10 +14,12 @@ prev_size=0
 find_cmd=(find "$dir" -type f)
 count_cmd=(wc -l)
 curr_size=$("${find_cmd[@]}" | "${count_cmd[@]}")
+
+# Busy wait for process to begin, break if waiting more than 5 minutes. Should take seconds.
 while ! pgrep -f subscription_size_experiments > /dev/null 2>&1; do
-  #sleep 0.5
-  #head -c 0 /dev/zero
-  :
+  if [ $(ps -o etimes= -p "$$") -gt $((5 * 60)) ]; then
+    break
+  fi
 done
 while true; do
 #while pgrep -f subscription_size_experiments > /dev/null 2>&1; do
