@@ -11,7 +11,6 @@ def main():
     parser.add_argument('-p', '--performance', type=str, help='Directory containing execution time results')
     parser.add_argument('-b', '--benchmarks', type=str, help='Directory containing benchmarks')
     parser.add_argument('-o', '--output_directory', type=str, help='Directory to store plots and csvs')
-    parser.add_argument('--short', action='store_true', help='Short run option (running with full benchmark suite is default)')
     args = parser.parse_args()
 
     if not args.accuracy or not args.performance or not args.benchmarks:

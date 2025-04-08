@@ -23,7 +23,7 @@ bash $DIR/scripts/monitor_progress_perf.sh $FULL_CRITERION_DATA_DIR $num_files "
 echo "--Performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
-python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_DIR --short >> $logfile 2>&1
+python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_DIR >> $logfile 2>&1
 
 files=("$RES_DIR/accuracy_results.csv" "$RES_DIR/performance_results.csv" "$RES_DIR/out.pdf")
 for file in "${files[@]}"; do
@@ -34,12 +34,3 @@ for file in "${files[@]}"; do
 done
 
 echo -e "Experiments done. Everything is ${green}OK${color_off}. Results written to "$RES_DIR.""
-
-#date
-#echo "Running: (1) full version of execution time experiments. (2) full version of subscription size experiments."
-#cd $MACHINE_CHECK_DIR
-#cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_full 2>/dev/null
-#cargo test -- --ignored --nocapture --exact full_run_bench_sub_sizes_general 2>/dev/null
-#cd $DIR/process_results
-#python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL
-#date
