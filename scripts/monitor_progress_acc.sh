@@ -14,16 +14,25 @@ prev_size=0
 find_cmd=(find "$dir" -type f)
 count_cmd=(wc -l)
 curr_size=$("${find_cmd[@]}" | "${count_cmd[@]}")
-
+while ! pgrep -f subscription_size_experiments > /dev/null 2>&1; do
+  #sleep 0.5
+  #head -c 0 /dev/zero
+  :
+done
 while true; do
+#while pgrep -f subscription_size_experiments > /dev/null 2>&1; do
   delta=$((curr_size - prev_size))
   if (( delta > 0 )); then
     head -c "$delta" /dev/zero
   fi
   prev_size=$curr_size
-  curr_size=$(find "$dir" -type f | wc -l)
-  if ((prev_size >= target_size));
-  then
+  curr_size=$("${find_cmd[@]}" | "${count_cmd[@]}")
+  #if ((prev_size >= target_size)); then
+  #  break
+  #fi
+  if ! pgrep -f subscription_size_experiments > /dev/null 2>&1; then
+    delta=$((curr_size - prev_size))
+    head -c "$delta" /dev/zero
     break
   fi
   sleep "$interval"

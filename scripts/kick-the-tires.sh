@@ -19,10 +19,12 @@ cd $MACHINE_CHECK_DIR
 echo "--Shortened accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general >> $logfile 2>&1 &
 bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "Shortened accuracy test"
+#python3 $DIR/scripts/python_monitoring.py $SHORT_ACCURACY_RESULT_DIR $num_files "Shortened accuracy test"
 echo "--Shortened accuracy ended at: $(date)--" >> $logfile
 echo "--Shortened performance test began at: $(date)--" >> $logfile
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short >> $logfile 2>&1 &
 bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "Shortened performance test"
+#python3 $DIR/scripts/pm1.py $SHORT_CRITERION_DATA_DIR $num_files "Shortened performance test"
 echo "--Shortened performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
@@ -34,7 +36,7 @@ echo "--Demo ended at: $(date)--" >> $logfile
 files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/out.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
-        echo "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
+        echo -e "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
        	exit 1
     fi
 done

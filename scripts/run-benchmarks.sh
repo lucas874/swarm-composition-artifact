@@ -28,7 +28,7 @@ python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_
 files=("$RES_DIR/accuracy_results.csv" "$RES_DIR/performance_results.csv" "$RES_DIR/out.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
-        echo "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
+        echo -e "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
        	exit 1
     fi
 done

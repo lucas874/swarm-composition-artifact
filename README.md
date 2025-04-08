@@ -53,3 +53,4 @@ This repository should not be submitted. Only a built Docker image and the descr
 * Check that everything with machines went ok. e.g. by redirecting stderr of machines to some file and then checking if empty or nonexisting.
 * checkmarks etc.
 * Remove progress prints in rust code
+* Check that perf bench has the right number of files
