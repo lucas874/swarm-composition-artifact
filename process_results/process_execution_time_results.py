@@ -40,7 +40,7 @@ def write_csv(out_path, filename, data):
 
 def cbor_to_csv(experiment_results_directory, output_directory, filename, benchmark_directory):
     cbors = read_cbor(experiment_results_directory)
-    benchmarks = read_files(f"{benchmark_directory}/benchmarks/general_pattern/")
+    benchmarks = read_files(benchmark_directory)
     benches = dict()
     for k in benchmarks:
         for v in benchmarks[k]:

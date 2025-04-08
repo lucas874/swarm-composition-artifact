@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y curl gzip zip nano python3-pip python3.12-venv just tmux && \
+    apt-get install -y curl gzip zip nano python3-pip python3.12-venv pv tmux && \
     apt-get clean
 
 # Use bash for the shell
@@ -16,9 +16,14 @@ ENV CRITERION_DATA_DIR="${MACHINE_CHECK_DIR}/target/criterion/data/main"
 ENV SHORT_CRITERION_DATA_DIR="${CRITERION_DATA_DIR}/General-pattern-algorithm1-vs.-exact-short-run"
 ENV FULL_CRITERION_DATA_DIR="${CRITERION_DATA_DIR}/General-pattern-algorithm1-vs.-exact-full-run"
 ENV BENCHMARK_DIR="${MACHINE_CHECK_DIR}/bench_and_results"
+ENV BENCHMARK_DIR_GENERAL="${BENCHMARK_DIR}/benchmarks/general_pattern"
 ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmarks/general_pattern"
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
 ENV DEMO_DIR="${DIR}/demos"
+ENV PROCESS_RES_DIR="${DIR}/process_results"
+ENV RES_SHORT_DIR="${DIR}/results_short_run"
+ENV RES_DIR="${DIR}/results"
+ENV LOG_DIR="${DIR}/logs"
 
 # Install cargo etc.
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -68,6 +73,8 @@ COPY process_results ./process_results
 
 RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
+
+RUN mkdir logs
 
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
