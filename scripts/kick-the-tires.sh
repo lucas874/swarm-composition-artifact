@@ -41,17 +41,27 @@ echo "--Demo ended at: $(date)--" >> $logfile
 files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/out.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
-        echo 1
+        echo "ERROR: $file does not exist" >> $logfile
         error_and_exit
     fi
 done
-if ! diff "$RES_SHORT_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results.csv" >> $logfile 2>&1; then
-    echo 2
+if ! diff "$RES_SHORT_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results_short.csv" >> $logfile 2>&1; then
+    echo "ERROR: $RES_SHORT_DIR/accuracy_results.csv and $PROCESS_RES_DIR/golden_accuracy_results_short.csv differ." >> $logfile
     error_and_exit
 fi
 if [ $(wc -l < "$RES_SHORT_DIR/performance_results.csv") -ne 5 ]; then
-    echo 3
+    echo "ERROR: $RES_SHORT_DIR/performance_results.csv not as expected" >> $logfile
     error_and_exit
 fi
+files=("$RLOG" "$FLOG" "$TLOG" "$DLOG")
+for file in "${files[@]}"; do
+    if [ ! -e "$file" ]; then
+        echo "ERROR: $file does not exist" >> $logfile
+        error_and_exit
+    elif ! grep "final state" $file > /dev/null 2>&1; then
+        echo "ERROR: $file machine did not reach final state" >> $logfile
+        error_and_exit
+    fi
+done
 
 echo -e "kick-the-tires everything is ${green}OK.${color_off} Results are written to "$RES_SHORT_DIR.""

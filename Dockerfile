@@ -24,6 +24,10 @@ ENV PROCESS_RES_DIR="${DIR}/process_results"
 ENV RES_SHORT_DIR="${DIR}/results_short_run"
 ENV RES_DIR="${DIR}/results"
 ENV LOG_DIR="${DIR}/logs"
+ENV RLOG="${LOG_DIR}/robot.log"
+ENV FLOG="${LOG_DIR}/forklift.log"
+ENV TLOG="${LOG_DIR}/transporter.log"
+ENV DLOG="${LOG_DIR}/door.log"
 
 # Install cargo etc.
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y

@@ -2,4 +2,3 @@ cbor2
 seaborn
 pandas
 matplotlib
-tqdm
