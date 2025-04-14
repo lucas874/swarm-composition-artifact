@@ -28,22 +28,22 @@ bash $DIR/scripts/monitor_progress_perf.sh $FULL_CRITERION_DATA_DIR $num_files "
 echo "--Performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
-python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_DIR >> $logfile 2>&1
+python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_FULL_DIR >> $logfile 2>&1
 
-files=("$RES_DIR/accuracy_results.csv" "$RES_DIR/performance_results.csv" "$RES_DIR/out.pdf")
+files=("$RES_FULL_DIR/accuracy_results.csv" "$RES_FULL_DIR/performance_results.csv" "$RES_FULL_DIR/out.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         echo "ERROR: $file does not exist" >> $logfile
         error_and_exit
     fi
 done
-if ! diff "$RES_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results.csv" >> $logfile 2>&1; then
-    echo "ERROR: $RES_DIR/accuracy_results.csv and $PROCESS_RES_DIR/golden_accuracy_results.csv differ." >> $logfile
+if ! diff "$RES_FULL_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results.csv" >> $logfile 2>&1; then
+    echo "ERROR: $RES_FULL_DIR/accuracy_results.csv and $PROCESS_RES_DIR/golden_accuracy_results.csv differ." >> $logfile
     error_and_exit
 fi
-if [ $(wc -l < "$RES_DIR/performance_results.csv") -ne 455 ]; then
-    echo "ERROR: $RES_DIR/performance_results.csv not as expected" >> $logfile
+if [ $(wc -l < "$RES_FULL_DIR/performance_results.csv") -ne 455 ]; then
+    echo "ERROR: $RES_FULL_DIR/performance_results.csv not as expected" >> $logfile
     error_and_exit
 fi
 
-echo -e "Experiments done. Everything is ${green}OK${color_off}. Results written to "$RES_DIR.""
+echo -e "Experiments done. Everything is ${green}OK${color_off}. Results written to "$RES_FULL_DIR.""

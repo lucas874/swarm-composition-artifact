@@ -21,8 +21,9 @@ ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmar
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
 ENV DEMO_DIR="${DIR}/demos"
 ENV PROCESS_RES_DIR="${DIR}/process_results"
-ENV RES_SHORT_DIR="${DIR}/results_short_run"
 ENV RES_DIR="${DIR}/results"
+ENV RES_FULL_DIR="${RES_DIR}/results_full_run"
+ENV RES_SHORT_DIR="${RES_DIR}/results_short_run"
 ENV LOG_DIR="${DIR}/logs"
 ENV RLOG="${LOG_DIR}/robot.log"
 ENV FLOG="${LOG_DIR}/forklift.log"
@@ -61,6 +62,7 @@ COPY machines/machine-check machine-check
 RUN cd machine-check && rm -rf bench_and_results && unzip bench_and_results.zip
 COPY machines/machine-runner machine-runner
 
+COPY demos demos
 #COPY machines/warehouse-demo demos/warehouse-demo
 #COPY new_package_jsons/warehouse-demo/package.json demos/warehouse-demo/
 
@@ -87,10 +89,13 @@ RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm run build
-#RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install
-#RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
-#RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-kick && npm install
-#RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
+
+# run npm i in every demo -- even though we want users to mount demos. That way it should still work if not mounted.
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo-without-branch-tracking && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-kick && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
 
 # Should they be in workdir instead so that they can easily be reviewed/inspected? Now they are in workdir
 COPY scripts scripts
