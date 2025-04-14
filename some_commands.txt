@@ -39,4 +39,4 @@ RUST_LOG=debug cargo test
 
 
 sudo docker run -it -v $(pwd)/demos:/ecoop25_artifact/demos -v $(pwd)/results_short_run:/ecoop25_artifact/results_short_run ecoop25_artifact
-sudo docker run -it -v $(pwd)/demos:/ecoop25_artifact/demos -v $(pwd)/results:/ecoop25_artifact/results $(pwd)/demos:/ecoop25_artifact/logs ecoop25_artifact
+sudo docker run -it -v $(pwd)/demos:/ecoop25_artifact/demos -v $(pwd)/results:/ecoop25_artifact/results -v $(pwd)/logs:/ecoop25_artifact/logs ecoop25_artifact

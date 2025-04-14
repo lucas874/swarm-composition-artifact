@@ -77,3 +77,7 @@ This repository should not be submitted. Only a built Docker image and the descr
 * A possibility is writing a shell script through xtask and then using indicatif to have nice progress bar.
 * Example: use this thing to use tracing for paper test... RUST_LOG=debug cargo test paper
 * Remember to remove node_modules/ from demos!
+
+
+* Print thing [1/3] etc. Did not really work find other solution
+* Set user

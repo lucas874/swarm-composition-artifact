@@ -63,22 +63,8 @@ RUN cd machine-check && rm -rf bench_and_results && unzip bench_and_results.zip
 COPY machines/machine-runner machine-runner
 
 COPY demos demos
-#COPY machines/warehouse-demo demos/warehouse-demo
-#COPY new_package_jsons/warehouse-demo/package.json demos/warehouse-demo/
 
-#COPY machines/warehouse-demo-without-branch-tracking demos/warehouse-demo-without-branch-tracking
-#COPY new_package_jsons/warehouse-demo-without-branch-tracking/package.json demos/warehouse-demo-without-branch-tracking/
-
-#COPY machines/warehouse-factory-demo demos/warehouse-factory-demo
-#COPY new_package_jsons/warehouse-factory-demo/package.json demos/warehouse-factory-demo/
-
-#COPY machines/warehouse-factory-demo-kick demos/warehouse-factory-demo-kick
-#COPY new_package_jsons/warehouse-factory-demo-kick/package.json demos/warehouse-factory-demo-kick/
-
-#COPY machines/warehouse-factory-quality-demo demos/warehouse-factory-quality-demo
-#COPY new_package_jsons/warehouse-factory-quality-demo/package.json demos/warehouse-factory-quality-demo/
-
-COPY process_results ./process_results
+COPY process_results process_results
 
 RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
