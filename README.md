@@ -63,3 +63,16 @@ This repository should not be submitted. Only a built Docker image and the descr
 
 #### Other
 * You may assume bash. Try with mounting. May assume that we can hand in a readme and the artifact itself.
+* Consider just Just
+* investigate cargo target dir
+* mount multiple directories
+* have separate demo folder ...
+* Tracing! tracing env filter. Different subscribers. Appenders. DO not use that though. Consider setting up trace to only trace if something goes wrong. Then write to stdout. And then redirect to file.
+* Take a look at these things:
+ - https://docs.rs/color-eyre/latest/color_eyre/
+ - https://ratatui.rs/
+ - https://docs.rs/indicatif/latest/indicatif/
+ - https://docs.rs/xshell/latest/xshell/
+ - https://github.com/matklad/cargo-xtask
+* A possibility is writing a shell script through xtask and then using indicatif to have nice progress bar.
+* Example: use this thing to use tracing for paper test... RUST_LOG=debug cargo test paper

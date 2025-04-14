@@ -29,4 +29,10 @@ sudo docker cp $(sudo docker ps --filter "ancestor=ecoop25_artifact" --format "{
 sudo docker run -it --rm ecoop25_artifact
 
 to run creating a bind mount run e.g.
-sudo docker run -it --rm -v $(pwd)/machines:/ecoop25_artifact/machines ecoop25_artifact 
+sudo docker run -it --rm -v $(pwd)/machines:/ecoop25_artifact/machines ecoop25_artifact
+
+mounting multiple things:
+sudo docker run -it -v $(pwd)/warehouse-demo:/ecoop25_artifact/warehouse-demo -v $(pwd)/results_short_run:/ecoop25_artifact/results_short_run ecoop25_artifact
+
+RUST_LOG=debug cargo test
+RUST_LOG=debug cargo test
