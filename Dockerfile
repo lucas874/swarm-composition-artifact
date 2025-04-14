@@ -24,6 +24,10 @@ ENV PROCESS_RES_DIR="${DIR}/process_results"
 ENV RES_SHORT_DIR="${DIR}/results_short_run"
 ENV RES_DIR="${DIR}/results"
 ENV LOG_DIR="${DIR}/logs"
+ENV RLOG="${LOG_DIR}/robot.log"
+ENV FLOG="${LOG_DIR}/forklift.log"
+ENV TLOG="${LOG_DIR}/transporter.log"
+ENV DLOG="${LOG_DIR}/door.log"
 
 # Install cargo etc.
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -66,6 +70,9 @@ COPY new_package_jsons/warehouse-demo/package.json demos/warehouse-demo/
 COPY machines/warehouse-factory-demo demos/warehouse-factory-demo
 COPY new_package_jsons/warehouse-factory-demo/package.json demos/warehouse-factory-demo/
 
+COPY machines/warehouse-factory-demo-kick demos/warehouse-factory-demo-kick
+COPY new_package_jsons/warehouse-factory-demo-kick/package.json demos/warehouse-factory-demo-kick/
+
 COPY machines/warehouse-factory-quality-demo demos/warehouse-factory-quality-demo
 COPY new_package_jsons/warehouse-factory-quality-demo/package.json demos/warehouse-factory-quality-demo/
 
@@ -82,6 +89,7 @@ RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-kick && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
 
 # Should they be in workdir instead so that they can easily be reviewed/inspected? Now they are in workdir

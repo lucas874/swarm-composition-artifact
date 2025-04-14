@@ -34,22 +34,32 @@ This repository should not be submitted. Only a built Docker image and the descr
 * Storing scripts in home folder of image as xyz.sh or installing them as /usr/local/bin/xyz like now?
 
 #### TODO:
-* Remove date command invocation from scripts. DONE
-* Output where results are stored in scripts. DONE
-* LOG things from demos as well
-* Remember to check -- if everything ok then ok otherwise send log file to us blabla
 * TEst if everythin works with redirecting stderr to log file so like make rust code not work see if stack trace logged etc.
-* Report to same log everywhere? DONE. Except for demos should be separate...
-* You may assume bash. Try with mounting. May assume that we can hand in a readme and the artifact itself.
-* add more logging so that we can se how/if something goes wrong. look at tracing.
-* Pipe to pv instead of dev null. Log everything basically, building and running. Looking is for our sake.
+* add more logging so that we can se how/if something goes wrong. look at tracing. DONE, unless current amout of logging is not enough. Ask if it is.
 * DONE. Using cargo build --release -all-targets Make build time shorter possibly, when running kick-the-tires? Building more things in dockerfile what does criterion run and what does npm run build build?
 	Say this make take a minute...
 * Reusable show how to uncomment something to make it fail or not being a proper implementation. And how to implement something.
 * Mount things, have a look at https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/jolie/lemma2jolie build script.
-* Clearer output: Say everything ok or something went wrong please send logfile to us. Both log and long experiment
-* Consider not using cargo test for subscription size things. THINK it's fine. Just redirect and monitor as now.
 * Write a proper readme. Explaining things like how to change examples etc.
 * Check that everything with machines went ok. e.g. by redirecting stderr of machines to some file and then checking if empty or nonexisting.
 * checkmarks etc.
-* Remove progress prints in rust code
+* Consider zipping old criterion folder and old benchmark sub size folder if invoked again.
+* Test new things -- checking the existence of process -- by introducing errors to rust code. Hoping it will fail, send trace to stdout, move on report error to user and store stderr in file.
+* For mounting: consider mounting folders containing demos and the ones containing results. But not the ones with machine-check and runner source code because shadows. Might become weird?
+    - But shipping it with source code for those libraries and say that to observe changes in container you must rebuild the container
+
+
+#### DONE:
+* Remove date command invocation from scripts. DONE
+* Output where results are stored in scripts. DONE
+* LOG things from demos as well AND CHECK THEM DONE
+* Remember to check -- if everything ok then ok otherwise send log file to us blabla DONE
+* Report to same log everywhere? DONE. Except for demos should be separate...
+* Pipe to pv instead of dev null. Log everything basically, building and running. Looking is for our sake. DONE
+* Clearer output: Say everything ok or something went wrong please send logfile to us. Both log and long experiment DONE
+* Consider not using cargo test for subscription size things. THINK it's fine. Just redirect and monitor as now. DONE
+* Remove progress prints in rust code DONE
+* Check that perf bench has the right number of files. Checked that output csv has 5 for short or 455 lines for long. DONE
+
+#### Other
+* You may assume bash. Try with mounting. May assume that we can hand in a readme and the artifact itself.

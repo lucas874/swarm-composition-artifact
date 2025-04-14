@@ -15,6 +15,14 @@ find_cmd=(find "$dir" -mindepth 2 -type d)
 count_cmd=(wc -l)
 curr_size=$("${find_cmd[@]}" | "${count_cmd[@]}")
 
+# Busy wait for process to begin, break if waiting more than 5 minutes. Should take seconds.
+while ! pgrep -f composition_benchmark > /dev/null 2>&1; do
+  if [ $(ps -o etimes= -p "$$") -gt $((5 * 60)) ]; then
+    break
+  fi
+done
+
+# Loop and update progress bar.
 while true; do
   delta=$((curr_size - prev_size))
   if (( delta > 0 )); then
@@ -22,8 +30,11 @@ while true; do
   fi
   prev_size=$curr_size
   curr_size=$("${find_cmd[@]}" | "${count_cmd[@]}")
-  if ((prev_size >= target_size));
-  then
+
+  # Terminate loop if monitored process finished.
+  if ! pgrep -f composition_benchmark > /dev/null 2>&1; then
+    delta=$((curr_size - prev_size))
+    head -c "$delta" /dev/zero
     break
   fi
   sleep "$interval"

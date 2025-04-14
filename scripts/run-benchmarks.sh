@@ -3,6 +3,11 @@ color_off='\033[0m'
 green='\033[0;32m'
 red='\033[0;31m'
 
+error_and_exit() {
+    echo -e "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
+    exit 1
+}
+
 echo "Running:"
 echo "  (1) Accuracy test."
 echo "  (2) Performance test."
@@ -28,9 +33,17 @@ python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_
 files=("$RES_DIR/accuracy_results.csv" "$RES_DIR/performance_results.csv" "$RES_DIR/out.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
-        echo "${red}ERROR.${color_off} Please send entire contents of $LOG_DIR/"
-       	exit 1
+        echo "ERROR: $file does not exist" >> $logfile
+        error_and_exit
     fi
 done
+if ! diff "$RES_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results.csv" >> $logfile 2>&1; then
+    echo "ERROR: $RES_DIR/accuracy_results.csv and $PROCESS_RES_DIR/golden_accuracy_results.csv differ." >> $logfile
+    error_and_exit
+fi
+if [ $(wc -l < "$RES_DIR/performance_results.csv") -ne 455 ]; then
+    echo "ERROR: $RES_DIR/performance_results.csv not as expected" >> $logfile
+    error_and_exit
+fi
 
 echo -e "Experiments done. Everything is ${green}OK${color_off}. Results written to "$RES_DIR.""
