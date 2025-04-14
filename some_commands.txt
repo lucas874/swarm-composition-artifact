@@ -36,3 +36,6 @@ sudo docker run -it -v $(pwd)/warehouse-demo:/ecoop25_artifact/warehouse-demo -v
 
 RUST_LOG=debug cargo test
 RUST_LOG=debug cargo test
+
+
+sudo docker run -it -v $(pwd)/demos:/ecoop25_artifact/demos -v $(pwd)/results_short_run:/ecoop25_artifact/results_short_run ecoop25_artifact
