@@ -91,4 +91,4 @@ RUN chmod +x scripts/warehouse-factory-demo.sh
 RUN chmod +x scripts/warehouse-factory-quality-demo.sh
 RUN chmod +x scripts/kick-the-tires.sh
 RUN chmod +x scripts/run-benchmarks.sh
-RUN chmod +x scripts/simple_repl.sh
+RUN chmod +x scripts/repl.sh

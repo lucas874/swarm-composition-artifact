@@ -2,6 +2,7 @@
 
 cd $DEMO_DIR/warehouse-factory-demo-kick/
 npm i >> $LOG_DIR/report.log 2>&1
+echo "Starting warehouse demo. It may take a minute to start."
 
 # Commands to run in each window and pane
 START_R="echo 'Starting factory-robot of the Warehouse || Factory protocol.'; npm run start-factory-robot 2>&1 | tee -a $RLOG;exec bash"
