@@ -50,11 +50,12 @@ RUN mv ax /usr/local/bin
 RUN rm ax-2.18.1-linux-amd64.tar.gz
 
 # Set up nvm, nodejs and npm
-ARG NODE_VERSION=20
+ARG NODE_VERSION="20.19.0"
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh -sSf | bash
 ENV NVM_DIR=/root/.nvm
 RUN source ${NVM_DIR}/nvm.sh && nvm install ${NODE_VERSION}
 RUN source ${NVM_DIR}/nvm.sh && npm install typescript -g
+ENV PATH="${NVM_DIR}/versions/node/${NODE_VERSION}/bin:${PATH}"
 
 # Set up working directory
 WORKDIR ${DIR}
@@ -90,3 +91,4 @@ RUN chmod +x scripts/warehouse-factory-demo.sh
 RUN chmod +x scripts/warehouse-factory-quality-demo.sh
 RUN chmod +x scripts/kick-the-tires.sh
 RUN chmod +x scripts/run-benchmarks.sh
+RUN chmod +x scripts/simple_repl.sh

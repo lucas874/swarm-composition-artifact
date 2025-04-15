@@ -17,14 +17,17 @@ mkdir -p $SHORT_CRITERION_DATA_DIR
 rm -rf $SHORT_ACCURACY_RESULT_DIR
 mkdir -p $SHORT_ACCURACY_RESULT_DIR
 
+pkill -f "short_run_bench_sub_sizes_general"
+pkill -f "composition_benchmark_short"
+
 cd $MACHINE_CHECK_DIR
 echo "--Shortened accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "[1/3] Shortened accuracy experiment"
+bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "[1/3] Shortened accuracy experiment" $logfile "short"
 echo "--Shortened accuracy ended at: $(date)--" >> $logfile
 echo "--Shortened performance test began at: $(date)--" >> $logfile
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "[2/3] Shortened performance experiment"
+bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "[2/3] Shortened performance experiment" $logfile "short"
 echo "--Shortened performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR

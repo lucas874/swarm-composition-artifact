@@ -13,14 +13,18 @@ num_files=908
 mkdir -p $FULL_CRITERION_DATA_DIR
 mkdir -p $FULL_ACCURACY_RESULT_DIR
 
+# if experiments were already running in background for some reason -- terminate them
+pkill -f "full_run_bench_sub_sizes_general"
+pkill -f "composition_benchmark_full"
+
 cd $MACHINE_CHECK_DIR
 echo "--Accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact full_run_bench_sub_sizes_general >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_acc.sh $FULL_ACCURACY_RESULT_DIR $num_files "[1/2] Accuracy experiment"
+bash $DIR/scripts/monitor_progress_acc.sh $FULL_ACCURACY_RESULT_DIR $num_files "[1/2] Accuracy experiment" $logfile "full"
 echo "--Accuracy ended at: $(date)--" >> $logfile
 echo "--Performance test began at: $(date)--" >> $logfile
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_full >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_perf.sh $FULL_CRITERION_DATA_DIR $num_files "[2/2] Performance experiment"
+bash $DIR/scripts/monitor_progress_perf.sh $FULL_CRITERION_DATA_DIR $num_files "[2/2] Performance experiment" $logfile "full"
 echo "--Performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
