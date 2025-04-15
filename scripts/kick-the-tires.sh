@@ -8,11 +8,6 @@ error_and_exit() {
     exit 1
 }
 
-echo "Running:"
-echo "  (1) Shortened accuracy tests."
-echo "  (2) Shortened performance tests."
-echo "  (3) Warehouse || Factory demo."
-
 logfile=$LOG_DIR/report.log
 machine_logfile=$LOG_DIR/machines.log
 ax_logfile=$LOG_DIR/ax_all.log
@@ -25,11 +20,11 @@ mkdir -p $SHORT_ACCURACY_RESULT_DIR
 cd $MACHINE_CHECK_DIR
 echo "--Shortened accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "Shortened accuracy test"
+bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "[1/3] Shortened accuracy experiment"
 echo "--Shortened accuracy ended at: $(date)--" >> $logfile
 echo "--Shortened performance test began at: $(date)--" >> $logfile
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "Shortened performance test"
+bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "[2/3] Shortened performance experiment"
 echo "--Shortened performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
@@ -37,6 +32,7 @@ python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESUL
 echo "--Running demo at: $(date)--" >> $logfile
 bash $DIR/scripts/warehouse-factory-demo-kick.sh $machine_logfile $ax_logfile 2>> $logfile
 echo "--Demo ended at: $(date)--" >> $logfile
+echo "[3/3] Warehouse || Factory demo"
 
 files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/out.pdf")
 for file in "${files[@]}"; do
