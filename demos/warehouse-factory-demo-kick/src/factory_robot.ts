@@ -1,6 +1,6 @@
 import { Actyx } from '@actyx/sdk'
 import { createMachineRunnerBT } from '@actyx/machine-runner'
-import { Events, manifest, Composition, interfacing_swarms,getRandomInt  } from './protocol'
+import { Events, manifest, Composition, interfacing_swarms,getRandomInt, print_event  } from './protocol'
 import { checkWWFSwarmProtocol, checkComposedProjection, Subscriptions, ResultData, overapproxWWFSubscriptions, projectionAndInformation } from '@actyx/machine-check'
 
 const robotFinal = "{ { { 3 } } || { { 0 } }, { { 3 } } || { { 3 } } }"
@@ -27,9 +27,10 @@ export const s1 = robot.designState('s1').withPayload<{part: string}>()
 export const s2 = robot.designEmpty('s2').finish()
 
 s0.react([Events.partOK], s1, (_, e) => {
+  print_event(e);
   console.log("received a ", e.payload.part);
   return s1.make({part: e.payload.part})})
-s1.react([Events.car], s2, (_) => s2.make())
+s1.react([Events.car], s2, (_, e) => { print_event(e); return s2.make() })
 
 // Projection of Gwarehouse || Gfactory || Gquality over R
 const projectionInfoResult = projectionAndInformation(interfacing_swarms, sub, "R")

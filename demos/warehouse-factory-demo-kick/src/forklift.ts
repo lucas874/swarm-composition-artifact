@@ -1,6 +1,6 @@
 import { Actyx } from '@actyx/sdk'
 import { createMachineRunnerBT } from '@actyx/machine-runner'
-import { Events, manifest, Composition, interfacing_swarms, subs, getRandomInt } from './protocol'
+import { Events, manifest, Composition, interfacing_swarms, subs, getRandomInt, print_event } from './protocol'
 import { checkComposedProjection, projectionAndInformation } from '@actyx/machine-check'
 
 const forkliftFinal = "{ { { 3 } } || { { 0 } }, { { 3 } } || { { 2 } } }"
@@ -16,11 +16,12 @@ export const s1 = forklift.designState('s1').withPayload<{id: string}>()
 export const s2 = forklift.designEmpty('s2').finish()
 
 s0.react([Events.partReq], s1, (_, e) => {
+    print_event(e);
     console.log("a", e.payload.id, "was requested");
     if (getRandomInt(0, 10) >= 9) { return { id: "broken part" } }
     return s1.make({id: e.payload.id}) })
-s1.react([Events.pos], s0, (_) => s0.make())
-s0.react([Events.closingTime], s2, (_) => s2.make())
+s1.react([Events.pos], s0, (_, e) => { print_event(e); return s0.make() })
+s0.react([Events.closingTime], s2, (_, e) => { print_event(e); return s2.make() })
 
 // Projection of Gwarehouse || Gfactory || Gquality over FL
 const projectionInfoResult = projectionAndInformation(interfacing_swarms, subs, "FL")
