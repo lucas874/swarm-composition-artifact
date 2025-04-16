@@ -24,11 +24,11 @@ The artifact package (`ecoop25-artifact.tar.gz`) includes:
     * `run_no_volume.sh`: The same as `run_shell.sh` except that no volumes from the host are mounted.
 * `README.md`: This document.
 
-## Getting the artifact
+## Getting the Artifact
 To artifact is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
 
-## Quick-start guide (kick-the-tires)
-The following guide assumes a POSIX shell (e.g., bash, zsh). For instructions on how to run the artifact using PowerShell, please go to section [Running the artifact with Powershell](#running-the-artifact-with-powershell).
+## Quick-start Guide (kick-the-tires)
+The following guide assumes a POSIX shell (e.g., bash, zsh). For instructions on how to run the artifact using PowerShell, please go to section [Running the Artifact with Powershell](#running-the-artifact-with-powershell).
 
 To download, please follow the steps listed above in [Getting the artifact](#getting-the-artifact). Once downloaded, please extract the archive, e.g. by running
 ```bash
@@ -129,7 +129,7 @@ ERROR. Please send entire contents of /ecoop25_artifact/logs/
 ```
 appears after running the kick-the-tires script, pleas send the indicated directory, `ecoop25_artifact/logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container.
 
-## Reproducing the experimental results
+## Reproducing the Experimental Results
 
 To reproduce the experiments presented in the paper please `cd` to the directory extracted from the archive package, then run:
 ```bash
@@ -193,21 +193,32 @@ ERROR. Please send entire contents of /ecoop25_artifact/logs/
 appears after running the kick-the-tires script, pleas send the indicated directory, `ecoop25_artifact/logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container.
 
 
-## Running and editing example swarms
+## Running and Editing Example Swarms
 The script `run.sh` offers four different demos each running an example swarm. To run these select option `3, 4, 5`, or `6` in the REPL.
 
 The Warehouse || Factory demo, for example, consists of machines implementing the projections shown in Figure 5 of the paper and are obtained using the approach presented in Section 6 in the paper.
-The machine implementing the Forklift role for instance, was implemented for the Warehouse protocol and then automatically adapted to be as outlined in Example 25 in the paper.
+The source code of the machines in the demo is found in `ecoop25_artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container, but simply by rerunning the demo.
+
+The machine implementing the forklift role for instance, is implemented for the Warehouse protocol and then automatically adapted to be as outlined in Example 25 in the paper.
 The other machines were similarly implemented for their original protocol and adapted to become correct implementation of the composed swarm protocol.
 
-The source code for the machines are found in `ecoop25_artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container.
+The well-formedness of the subscription used for the composed swarm is generated and checked in the file `ecoop25_artifact/demos/warehouse-factory-demo/src/protocol.ts`.
+To make the well-formedness fail and see the results of this, outcomment line 69 in `protocol.ts`, which changes the subscription of the forklift role to just consist of the single event type *pos*.
+By rerunning the Warehouse || Factory demo (by running option 4 in the REPL), we get the following error:
 
+```bash
+Error: subsequently active role FL does not subscribe to events in transition (0 || 0)--[request@T<partReq>]-->(1 || 1), role FL does not subscribe to event types closingTime, partReq in branching transitions at state 0 || 0, but is involved after transition (0 || 0)--[request@T<partReq>]-->(1 || 1)
+```
 
-## Alternative ways of running the artifact
-Running
+Indicating that both causal-consistency and determinacy is violated if we change the subscription of forklift to only contain *pos*.
 
-## Running the artifact with PowerShell
-TODO
+TODO: Add more context do not just refer to causal-consistency... Also suggest other ways to make it fail and things that do not make it fail, but just changes the behavior of the swarm, e.g. changing reaction code.
+
+## Alternative Ways of Running the Artifact
+TODO: the idea is this, you can also run the script without mounting a volume and you can run the script mounting a volume and starting a shell in the container. For inspecting the filesystem and running scripts in another way than through the REPL.
+
+## Running the Artifact with PowerShell
+TODO. Try out on windows and possibly add scripts for setting things up on windows.
 
 ## Altering and Recompiling the Libraries
 

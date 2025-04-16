@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { MachineEvent, SwarmProtocol } from '@actyx/machine-runner'
-import { SwarmProtocolType, Subscriptions, ResultData, InterfacingSwarms, overapproxWWFSubscriptions, projectAll, MachineType} from '@actyx/machine-check'
+import { SwarmProtocolType, Subscriptions, Result, ResultData, InterfacingSwarms, overapproxWWFSubscriptions, checkWWFSwarmProtocol, projectAll, MachineType} from '@actyx/machine-check'
 
 export const manifest = {
   appId: 'com.example.car-factory',
@@ -45,7 +45,7 @@ export const Gfactory: SwarmProtocolType = {
 
 export const warehouse_protocol: InterfacingSwarms = [{protocol: Gwarehouse, interface: null}]
 export const factory_protocol: InterfacingSwarms = [{protocol: Gfactory, interface: null}]
-export const interfacing_swarms: InterfacingSwarms = [{protocol: Gwarehouse, interface: null}, {protocol: Gfactory, interface: 'T'}]
+export const warehouse_factory_protocol: InterfacingSwarms = [{protocol: Gwarehouse, interface: null}, {protocol: Gfactory, interface: 'T'}]
 
 // Well-formed subscription for the warehouse protocol
 const result_subs_warehouse: ResultData<Subscriptions>
@@ -61,11 +61,18 @@ export var subs_factory: Subscriptions = result_subs_factory.data
 
 // Well-formed subscription for the warehouse || factory protocol
 const result_subs_composition: ResultData<Subscriptions>
-  = overapproxWWFSubscriptions(interfacing_swarms, {}, 'TwoStep')
+  = overapproxWWFSubscriptions(warehouse_factory_protocol, {}, 'TwoStep')
 if (result_subs_composition.type === 'ERROR') throw new Error(result_subs_composition.errors.join(', '))
 export var subs_composition: Subscriptions = result_subs_composition.data
 
-const result_project_all = projectAll(interfacing_swarms, subs_composition)
+// outcomment the line below to make well-formedness check fail
+//subs_composition['FL'] = ['pos']
+
+// check that the subscription generated for the composition is indeed well-formed
+const result_check_wf: Result = checkWWFSwarmProtocol(warehouse_factory_protocol, subs_composition)
+if (result_check_wf.type === 'ERROR') throw new Error(result_check_wf.errors.join(', '))
+
+const result_project_all = projectAll(warehouse_factory_protocol, subs_composition)
 
 if (result_project_all.type === 'ERROR') throw new Error('error getting subscription')
 export const all_projections: MachineType[] = result_project_all.data

@@ -1,6 +1,6 @@
 import { Actyx } from '@actyx/sdk'
 import { createMachineRunnerBT } from '@actyx/machine-runner'
-import { Events, manifest, Composition, interfacing_swarms, subs_composition, getRandomInt, factory_protocol, warehouse_protocol, subs_warehouse } from './protocol'
+import { Events, manifest, Composition, warehouse_factory_protocol, subs_composition, getRandomInt, factory_protocol, warehouse_protocol, subs_warehouse } from './protocol'
 import { checkComposedProjection, projectionAndInformation } from '@actyx/machine-check'
 
 // Using the machine runner DSL an implmentation of forklift in the warehouse protocol w.r.t. subs_warehouse is:
@@ -25,7 +25,7 @@ const checkProjResult = checkComposedProjection(warehouse_protocol, subs_warehou
 if (checkProjResult.type == 'ERROR') throw new Error(checkProjResult.errors.join(", "))
 
 // Projection of warehouse || factory over FL
-const projectionInfoResult = projectionAndInformation(interfacing_swarms, subs_composition, "FL")
+const projectionInfoResult = projectionAndInformation(warehouse_factory_protocol, subs_composition, "FL")
 if (projectionInfoResult.type == 'ERROR') throw new Error('error getting projection')
 const projectionInfo = projectionInfoResult.data
 

@@ -1,16 +1,16 @@
 import { Actyx } from '@actyx/sdk'
 import { createMachineRunnerBT } from '@actyx/machine-runner'
-import { Events, manifest, Composition, interfacing_swarms,getRandomInt, factory_protocol, subs_factory  } from './protocol'
+import { Events, manifest, Composition, warehouse_factory_protocol,getRandomInt, factory_protocol, subs_factory  } from './protocol'
 import { checkWWFSwarmProtocol, checkComposedProjection, Subscriptions, ResultData, overapproxWWFSubscriptions, projectionAndInformation } from '@actyx/machine-check'
 
 // Generate a subscription w.r.t. which Gwarehouse || Gfactory || Gquality is well-formed
 const result_sub: ResultData<Subscriptions>
-  = overapproxWWFSubscriptions(interfacing_swarms, {}, 'Medium')
+  = overapproxWWFSubscriptions(warehouse_factory_protocol, {}, 'Medium')
 if (result_sub.type === 'ERROR') throw new Error(result_sub.errors.join(', '))
 export const sub: Subscriptions = result_sub.data
 
 // Check well-formedness (should be WF since we generated subscription using overapproxWWFSubscriptions(...), only here for demonstration purposes)
-const checkResult = checkWWFSwarmProtocol(interfacing_swarms, sub)
+const checkResult = checkWWFSwarmProtocol(warehouse_factory_protocol, sub)
 if (checkResult.type == 'ERROR') throw new Error(checkResult.errors.join(", "))
 
 // Using the machine runner DSL an implmentation of robot in factory w.r.t. subs_factory is:
@@ -34,7 +34,7 @@ const checkProjResult = checkComposedProjection(factory_protocol, subs_factory, 
 if (checkProjResult.type == 'ERROR') throw new Error(checkProjResult.errors.join(", "))
 
 // Projection of warehouse || factory over R
-const projectionInfoResult = projectionAndInformation(interfacing_swarms, sub, "R")
+const projectionInfoResult = projectionAndInformation(warehouse_factory_protocol, sub, "R")
 if (projectionInfoResult.type == 'ERROR') throw new Error('error getting projection')
 const projectionInfo = projectionInfoResult.data
 
