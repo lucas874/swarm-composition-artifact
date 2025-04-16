@@ -1,6 +1,6 @@
 import { Actyx } from '@actyx/sdk'
 import { createMachineRunnerBT } from '@actyx/machine-runner'
-import { Events, manifest, Composition, interfacing_swarms,getRandomInt  } from './protocol'
+import { Events, manifest, Composition, interfacing_swarms,getRandomInt, factory_protocol, subs_factory  } from './protocol'
 import { checkWWFSwarmProtocol, checkComposedProjection, Subscriptions, ResultData, overapproxWWFSubscriptions, projectionAndInformation } from '@actyx/machine-check'
 
 // Generate a subscription w.r.t. which Gwarehouse || Gfactory || Gquality is well-formed
@@ -13,7 +13,7 @@ export const sub: Subscriptions = result_sub.data
 const checkResult = checkWWFSwarmProtocol(interfacing_swarms, sub)
 if (checkResult.type == 'ERROR') throw new Error(checkResult.errors.join(", "))
 
-// Using the machine runner DSL an implmentation of robot in Gfactory is:
+// Using the machine runner DSL an implmentation of robot in factory w.r.t. subs_factory is:
 const robot = Composition.makeMachine('R')
 export const s0 = robot.designEmpty('s0').finish()
 export const s1 = robot.designState('s1').withPayload<{part: string}>()
@@ -29,19 +29,19 @@ s0.react([Events.partOK], s1, (_, e) => {
   return s1.make({part: e.payload.part})})
 s1.react([Events.car], s2, (_) => s2.make())
 
-// Projection of Gwarehouse || Gfactory || Gquality over R
+// Check that the original machine is a correct implementation. A prerequiste for reusing it.
+const checkProjResult = checkComposedProjection(factory_protocol, subs_factory, "R", robot.createJSONForAnalysis(s0))
+if (checkProjResult.type == 'ERROR') throw new Error(checkProjResult.errors.join(", "))
+
+// Projection of warehouse || factory over R
 const projectionInfoResult = projectionAndInformation(interfacing_swarms, sub, "R")
 if (projectionInfoResult.type == 'ERROR') throw new Error('error getting projection')
 const projectionInfo = projectionInfoResult.data
 
-// Extend machine
+// Adapt machine
 const [factoryRobotAdapted, s0_] = Composition.adaptMachine("R", projectionInfo, Events.allEvents, s0)
 
-// Check machine (for demonstration purposes)
-const checkProjResult = checkComposedProjection(interfacing_swarms, sub, "R", factoryRobotAdapted.createJSONForAnalysis(s0_))
-if (checkProjResult.type == 'ERROR') throw new Error(checkProjResult.errors.join(", "))
-
-// Run the extended machine
+// Run the adapted machine
 async function main() {
     const app = await Actyx.of(manifest)
     const tags = Composition.tagWithEntityId('factory-1')

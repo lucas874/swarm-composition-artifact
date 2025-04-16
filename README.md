@@ -172,7 +172,7 @@ Experiments done. Everything is OK. Results written to /ecoop25_artifact/results
 >
 ```
 
-The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `out.pdf`. They are all located in `ecoop25_artifact/results/results_full_run` on the host machine running the container. In `out.pdf` the results in the CSVs are plotted. The line chart in `out.pdf` comparing the execution times of the Exact algorithm and Algorithm 1 should show the same relationship between the execution times of the Exact algorithm and Algorithm 1 as shown in Figure X in the paper. However, the absolute values reported may differ from the ones reported in the paper. The boxplot in should match exactly the plot shown in Figure of the paper.
+The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `out.pdf`. They are all located in `ecoop25_artifact/results/results_full_run/` on the host machine running the container. In `out.pdf` the results in the CSVs are plotted. The line chart in `out.pdf` comparing the execution times of the Exact algorithm and Algorithm 1 should show the same relationship between the execution times of the Exact algorithm and Algorithm 1 as shown in Figure X in the paper. The absolute values of the execution times, however, may differ from the ones reported in the paper. The boxplot shown in `out.pdf` should match exactly the plot shown in Figure Y of the paper.
 
 The performance experiments described in the paper reported, for each sample, the average of 50 repetitions after 3 seconds of warm-up.
 The experiment took more than a day to run, we reduced the number of repetitions to 10. That is, the experimental setup in the image repeats each sample 10 times after 3 seconds of warm-up.
@@ -200,7 +200,7 @@ The Warehouse || Factory demo, for example, consists of machines implementing th
 The machine implementing the Forklift role for instance, was implemented for the Warehouse protocol and then automatically adapted to be as outlined in Example 25 in the paper.
 The other machines were similarly implemented for their original protocol and adapted to become correct implementation of the composed swarm protocol.
 
-The source code for the machines are found in demos/wa
+The source code for the machines are found in `ecoop25_artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container.
 
 
 ## Alternative ways of running the artifact
