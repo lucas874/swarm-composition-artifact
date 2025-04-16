@@ -17,6 +17,8 @@ mkdir -p $FULL_ACCURACY_RESULT_DIR
 pkill -f "full_run_bench_sub_sizes_general"
 pkill -f "composition_benchmark_full"
 
+echo "Starting the experiments. It may take a minute to start."
+
 cd $MACHINE_CHECK_DIR
 echo "--Accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact full_run_bench_sub_sizes_general >> $logfile 2>&1 &

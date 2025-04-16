@@ -20,6 +20,8 @@ mkdir -p $SHORT_ACCURACY_RESULT_DIR
 pkill -f "short_run_bench_sub_sizes_general"
 pkill -f "composition_benchmark_short"
 
+echo "Starting the kick-the-tires script. It may take a minute to start."
+
 cd $MACHINE_CHECK_DIR
 echo "--Shortened accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general >> $logfile 2>&1 &

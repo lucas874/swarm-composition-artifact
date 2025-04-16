@@ -9,7 +9,7 @@ show_help() {
     echo "  5 - Run warehouse || factory || quality"
     echo "  6 - Run warehouse without branch tracking demo"
     echo "  help - Show this help message"
-    echo "  exit - Exit the REPL"
+    echo "  exit - Exit"
     echo
 }
 
