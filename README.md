@@ -1,87 +1,90 @@
-# ECOOP 25 Artifact - Supplementary to *Compositional Design, Implementation, and Verification of Swarms*
-## This repository contains the means to build the artifact and *not* the artifact itself. A repository for storing the work in progress for the artifact.
+# Artifact Submission
+Title of the submitted paper: Compositional Design, Implementation, and Verification of Swarms
 
-Clone this repo using `git clone --recurse-submodules ...` to get all dependencies.
+Our paper presents theory and techniques for the compositional specification and verification of swarm protocols, and for the composition of swarms.
+This artifact comprises a Docker image containing:
+* our custom extension of the Actyx toolkit supporting the theory presented in the paper,
+* scripts to reproduce the experimental results presented in the paper,
+* and several example swarms implemented using our tool. The swarms can be executed and their source code can be edited.
 
-### Files:
-* `artifact_description/` contains the artifact description. It uses the latex template listed [here](https://drops.dagstuhl.de/entities/journal/DARTS#author).
-* `machines/` is a clone of [machines](https://github.com/lucas874/machines/tree/prepare_benchmarks_for_art). Stored in the image.
-* `process_results/` contains scripts that turn the benchmarks results into csvs and pdfs. Stored in the image.
-* `Dockerfile` is used to build the image.
-    - Building the image: ```sudo docker build -t ecoop25_artifact .``` (from the root of this repo)
-    - Running the image: ```sudo docker run -it ecoop25_artifact```
-    - More commands found in `some_commands.txt`
-* `scripts/` contains various scripts used to reproduce results and run demos. Stored in the image.
-    - `run-benchmarks.sh` runs the experiments reported in the paper and generates plots corresponding to Figure 7 and Figure 8
-    - `kick-the-tires.sh` runs a shortened version of the experiments and generates corresponding plots and runs the Warehouse || Factory implemented as described in the article.
+## Content
 
-This repository should not be submitted. Only a built Docker image and the description is to be submitted.
+The artifact package (`ecoop25-artifact.tar.gz`) includes:
+* `ecoop25_artifact_docker_image.tar.gz`: a Docker image saved as a gzipped tar file. The image includes the following:
+    * `machine-runner/`: A TypeScript library offering a DSL for programming machine implementations, facilities to automatically adapt such machines to different swarms as described in the paper, and to run them using the Actyx middleware.
+    * `machine-check/`: A Rust library for statically verifying the well-formedness of swarm protocols (expressed as TypeScript data types) and for statically verifying whether a machine implementation (written using `machine-runner`) conforms to a desired projection of a swarm protocol.
+    * `scripts/`: Contains scripts to run our experiments and demos.
+    * `process_results/`: Contains scripts used to process the experimental results and generate CSVs and plots.
+    * `demos/`: Contains example implementations of a number of swarms, including examples from the paper.
+    * `logs/`: Contains log files generated while running the experiments and demos.
+* The same files found in the image and a `Dockerfile`. These are included so that the image can be rebuilt to allow customisation of the `machine-check` and `machine-runner` libraries.
+* Script for creating and running a container from our image:
+    * `run.sh`: Starts a simple REPL that offers commands to easily run our experiments and demos.
+    * `run_shell.sh`: Offers the same functionality as `run.sh`, but from a standard bash shell.
+    * `run_no_volume.sh`: The same as `run_shell.sh` except that no volumes from the host are mounted.
+* `README.md`: This document.
 
-#### Questions:
-* Getting things out of container somewhat awkward but alternative, mounting on some directory, is not very good either. Makes assumptions on host and more files etc.
-    - right now you have to run  ```docker ps``` to get the container id and then
-    - run ```docker cp <container id>:/ecoop25_artifact/process_results/results/ results``` to copy the results from the container to the host.
-    - or the oneline ```sudo docker cp $(sudo docker ps --filter "ancestor=ecoop25_artifact" --format "{{.ID}}"):/ecoop25_artifact/<file> .```
-* Changing and editing example, ideas? Reusable badge. Also to claim the reusable badge artifacts have to be "very carefully documented".
-* Functional and reusable badges. What type of documentation is requested, comments in code, readmes, good pdf, docs? Readmes awkward given that artifact is a container? What exactly is "appropriate evidence of verification and validation"? "... found to be documented, consistent, complete, exercisable, and include appropriate evidence of verification and validation."
-* Readmes are awkward given the format of the artifact. So where to give instructions? In the submission template they say in the appendix of the artifact description.
-* Running the demo. Awkward state names and when to exit? Right now a prompt telling user to press Ctrl + C.
-* Generally awkard to run extended machines -- no knowledge of statenames and weird casting. Consider making a 'has' function. Similar to current is. state.has(arg) true is when arg enables all the commands enabled in state?
-* `run-benchmarks` runs 10 repetitions of each sample. This takes ~8 hours in total on the machine it was tested on. The experiments in paper used 50 repetitions. Is this ok?
-* Licenses
-* Tested platforms.
-* Size of artifact when running, size of image, size of compressed image? Others have done it with the compressed image. The one actually downloaded. Yes also the one we give the md5sum for.
-* Storing scripts in home folder of image as xyz.sh or installing them as /usr/local/bin/xyz like now?
+## Getting the artifact
+To artifact is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
 
-#### TODO:
-* Write proper scripts to start container with and without mount. etc.
-* Test inserting panics and wrong file path. See that it is properly logged.
-* Test with windows and mac.
-* Write a proper readme. Explaining things like how to change examples etc.
-    - Show how to uncomment something to make it fail or not being a proper implementation. And how to implement something.
-    - Show how to recompile. But shipping it with source code for those libraries and say that to observe changes in container you must rebuild the container
-* Tracing in rust code. Also test inserting panics.
+## Quick-start guide (kick-the-tires)
+The following guide assumes a POSIX shell (e.g., bash, zsh). For instructions on how to run the artifact using PowerShell, please go to section [Running the artifact with Powershell](#running-the-artifact-with-powershell).
 
-#### DONE:
-* Remove date command invocation from scripts. DONE
-* Output where results are stored in scripts. DONE
-* LOG things from demos as well AND CHECK THEM DONE
-* Remember to check -- if everything ok then ok otherwise send log file to us blabla DONE
-* Report to same log everywhere? DONE. Except for demos should be separate...
-* Pipe to pv instead of dev null. Log everything basically, building and running. Looking is for our sake. DONE
-* Clearer output: Say everything ok or something went wrong please send logfile to us. Both log and long experiment DONE
-* Consider not using cargo test for subscription size things. THINK it's fine. Just redirect and monitor as now. DONE
-* Remove progress prints in rust code DONE
-* Check that perf bench has the right number of files. Checked that output csv has 5 for short or 455 lines for long. DONE
-* TEst if everythin works with redirecting stderr to log file so like make rust code not work see if stack trace logged etc. DONE dsa
-* add more logging so that we can se how/if something goes wrong. look at tracing. DONE, unless current amout of logging is not enough. Ask if it is. dsa
-* DONE. Using cargo build --release -all-targets Make build time shorter possibly, when running kick-the-tires? Building more things in dockerfile what does criterion run and what does npm run build build?
-	- Say this make take a minute...
-* Mount things, have a look at https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/jolie/lemma2jolie build script.
-* Check that everything with machines went ok. e.g. by redirecting stderr of machines to some file and then checking if empty or nonexisting.
-* checkmarks etc.
-* Consider zipping old criterion folder and old benchmark sub size folder if invoked again.
-* Test new things -- checking the existence of process -- by introducing errors to rust code. Hoping it will fail, send trace to stdout, move on report error to user and store stderr in file.
-* For mounting: consider mounting folders containing demos and the ones containing results. But not the ones with machine-check and runner source code because shadows. Might become weird?
-    - But shipping it with source code for those libraries and say that to observe changes in container you must rebuild the container
+To download, please follow the steps listed above in [Getting the artifact](#getting-the-artifact). Once downloaded, please extract the archive, e.g. by running
+```bash
+tar -xzf ecoop25-artifact.tar.gz
+```
 
-#### Other
-* You may assume bash. Try with mounting. May assume that we can hand in a readme and the artifact itself.
-* Consider just Just
-* investigate cargo target dir
-* mount multiple directories
-* have separate demo folder ...
-* Tracing! tracing env filter. Different subscribers. Appenders. DO not use that though. Consider setting up trace to only trace if something goes wrong. Then write to stdout. And then redirect to file.
-* Take a look at these things:
- - https://docs.rs/color-eyre/latest/color_eyre/
- - https://ratatui.rs/
- - https://docs.rs/indicatif/latest/indicatif/
- - https://docs.rs/xshell/latest/xshell/
- - https://github.com/matklad/cargo-xtask
-* A possibility is writing a shell script through xtask and then using indicatif to have nice progress bar.
-* Example: use this thing to use tracing for paper test... RUST_LOG=debug cargo test paper
-* Remember to remove node_modules/ from demos!
+Extracting the archive yields the directory `ecoop25-artifact/`. Please move to this directory by running:
+```bash
+cd ecoop25-artifact
+```
+
+From the `ecoop25-artifact/` directory, to load the image and start a container from it please run:
+```bash
+docker load -i ecoop25_artifact_docker_image.tar.gz && bash run.sh
+```
+This will:
+1. decompress and install the image on your system, which yields
+2. start a container from the image
+
+The output should like similar (TODO: insert updated when all done with image) to:
+```bash
+$ docker load -i ecoop25_artifact_docker_image.tar.gz && bash run.sh
+3abdd8a5e7a8: Loading layer [==================================================>]  80.61MB/80.61MB
+bfcb79809e7a: Loading layer [==================================================>]    493MB/493MB
+...
+c22014a14040: Loading layer [==================================================>]   5.12kB/5.12kB
+Loaded image: ecoop25_artifact:latest
+Available commands:
+  1 - kick-the-tires
+  2 - Run experiments
+  3 - Run warehouse demo
+  4 - Run warehouse || factory demo
+  5 - Run warehouse || factory || quality
+  6 - Run warehouse without branch tracking demo
+  help - Show this help message
+  exit - Exit the REPL
+
+>
+```
 
 
-* Print thing [1/3] etc. Did not really work find other solution
-* Set user
+Depending on your Docker system configuration, you may have preface each Docker command with `sudo`. I.e., if you get an output like:
+
+```bash
+$ permission denied while trying to connect to the Docker daemon socket ...
+```
+please instead use:
+
+```bash
+sudo docker load -i ecoop25_artifact_docker_image.tar.gz && bash run.sh
+```
+
+## Reproducing the experimental results
+
+## Running and editing example swarms
+
+## Alternative ways of running the artifact
+
+## Running the artifact with PowerShell
