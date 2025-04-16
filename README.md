@@ -7,7 +7,7 @@ This artifact comprises a Docker image containing:
 * scripts to reproduce the experimental results presented in the paper,
 * and several example swarms implemented using our tool. The swarms can be executed and their source code can be edited.
 
-## Content
+## Overview: What does the artifact comprise?
 
 The artifact package (`ecoop25-artifact.tar.gz`) includes:
 * `ecoop25_artifact_docker_image.tar.gz`: a Docker image saved as a gzipped tar file. The image includes the following:
@@ -176,6 +176,7 @@ The experiments generate the files `accuracy_results.csv`,  `performance_results
 
 The performance experiments described in the paper reported, for each sample, the average of 50 repetitions after 3 seconds of warm-up.
 The experiment took more than a day to run, we reduced the number of repetitions to 10. That is, the experimental setup in the image repeats each sample 10 times after 3 seconds of warm-up.
+With this configuration, the experiments took about 8 hours to run on a ... todo: describe expected resource usage etc. somewhere in more detail.
 This can be set back to 50 by changing line 75 of `ecoop25-artifact/machines/machine-check/benches/composition_benchmark_full.rs` from
 ```rust
 group.sample_size(10);
