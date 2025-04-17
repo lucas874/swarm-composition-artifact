@@ -1,1 +1,3 @@
-sudo docker run -it --rm ecoop25_artifact
+#!/usr/bin/env bash
+
+docker run -it --rm ecoop25_artifact

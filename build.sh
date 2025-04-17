@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-sudo docker rmi -f ecoop25_artifact
-sudo docker build -t ecoop25_artifact .
+docker rmi -f ecoop25_artifact
+docker build -t ecoop25_artifact .
