@@ -21,8 +21,9 @@ ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmar
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
 ENV DEMO_DIR="${DIR}/demos"
 ENV PROCESS_RES_DIR="${DIR}/process_results"
-ENV RES_SHORT_DIR="${DIR}/results_short_run"
 ENV RES_DIR="${DIR}/results"
+ENV RES_FULL_DIR="${RES_DIR}/results_full_run"
+ENV RES_SHORT_DIR="${RES_DIR}/results_short_run"
 ENV LOG_DIR="${DIR}/logs"
 ENV RLOG="${LOG_DIR}/robot.log"
 ENV FLOG="${LOG_DIR}/forklift.log"
@@ -49,11 +50,12 @@ RUN mv ax /usr/local/bin
 RUN rm ax-2.18.1-linux-amd64.tar.gz
 
 # Set up nvm, nodejs and npm
-ARG NODE_VERSION=20
+ARG NODE_VERSION="20.19.0"
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh -sSf | bash
 ENV NVM_DIR=/root/.nvm
 RUN source ${NVM_DIR}/nvm.sh && nvm install ${NODE_VERSION}
 RUN source ${NVM_DIR}/nvm.sh && npm install typescript -g
+ENV PATH="${NVM_DIR}/versions/node/${NODE_VERSION}/bin:${PATH}"
 
 # Set up working directory
 WORKDIR ${DIR}
@@ -61,22 +63,9 @@ COPY machines/machine-check machine-check
 RUN cd machine-check && rm -rf bench_and_results && unzip bench_and_results.zip
 COPY machines/machine-runner machine-runner
 
-COPY machines/warehouse-demo demos/warehouse-demo
-COPY new_package_jsons/warehouse-demo/package.json demos/warehouse-demo/
+COPY demos demos
 
-#COPY machines/warehouse-demo-without-branch-tracking demos/warehouse-demo-without-branch-tracking
-#COPY new_package_jsons/warehouse-demo-without-branch-tracking/package.json demos/warehouse-demo-without-branch-tracking/
-
-COPY machines/warehouse-factory-demo demos/warehouse-factory-demo
-COPY new_package_jsons/warehouse-factory-demo/package.json demos/warehouse-factory-demo/
-
-COPY machines/warehouse-factory-demo-kick demos/warehouse-factory-demo-kick
-COPY new_package_jsons/warehouse-factory-demo-kick/package.json demos/warehouse-factory-demo-kick/
-
-COPY machines/warehouse-factory-quality-demo demos/warehouse-factory-quality-demo
-COPY new_package_jsons/warehouse-factory-quality-demo/package.json demos/warehouse-factory-quality-demo/
-
-COPY process_results ./process_results
+COPY process_results process_results
 
 RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
@@ -87,7 +76,10 @@ RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm run build
+
+# run npm i in every demo -- even though we want users to mount demos. That way it should still work if not mounted.
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo-without-branch-tracking && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-kick && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
@@ -99,3 +91,4 @@ RUN chmod +x scripts/warehouse-factory-demo.sh
 RUN chmod +x scripts/warehouse-factory-quality-demo.sh
 RUN chmod +x scripts/kick-the-tires.sh
 RUN chmod +x scripts/run-benchmarks.sh
+RUN chmod +x scripts/repl.sh

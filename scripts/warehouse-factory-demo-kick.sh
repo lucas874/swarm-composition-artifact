@@ -1,13 +1,15 @@
 #!/bin/bash
 
 cd $DEMO_DIR/warehouse-factory-demo-kick/
+echo "Starting warehouse demo. It may take a minute to start."
+npm i >> $LOG_DIR/report.log 2>&1
 
 # Commands to run in each window and pane
 START_R="echo 'Starting factory-robot of the Warehouse || Factory protocol.'; npm run start-factory-robot 2>&1 | tee -a $RLOG;exec bash"
 START_FL="echo 'Starting forklift of the Warehouse || Factory protocol.'; npm run start-forklift 2>&1 | tee -a $FLOG;exec bash"
 START_T="echo 'Starting transporter of the Warehouse || Factory protocol.'; npm run start-transporter 2>&1 | tee -a $TLOG;exec bash"
 START_D="echo 'Starting door of the Warehouse || Factory protocol.'; npm run start-door 2>&1 | tee -a $DLOG;exec bash"
-START_AX="rm -rf ax-data; echo 'Silently running Actyx middleware in this window. Press Ctrl + C to exit'.; ax run >> $2 2>&1"
+START_AX="rm -rf ax-data; echo -e 'Silently running Actyx middleware in this window. \033[0;32m Press Ctrl + C to exit. \033[0m'; ax run >> $2 2>&1"
 
 date >> $1
 date >> $2
