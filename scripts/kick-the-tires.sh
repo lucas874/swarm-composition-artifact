@@ -25,12 +25,13 @@ echo "Starting the kick-the-tires script. It may take a minute to start."
 
 cd $MACHINE_CHECK_DIR
 echo "--Shortened accuracy test began at: $(date)--" >> $logfile
-cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "[1/3] Shortened accuracy experiment" $logfile "short"
+cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -l -s 4 >> $LOG_DIR/matches.log
+#bash $DIR/scripts/monitor_progress_acc.sh $SHORT_ACCURACY_RESULT_DIR $num_files "[1/3] Shortened accuracy experiment" $logfile "short"
 echo "--Shortened accuracy ended at: $(date)--" >> $logfile
 echo "--Shortened performance test began at: $(date)--" >> $logfile
-cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "[2/3] Shortened performance experiment" $logfile "short"
+#cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short >> $logfile 2>&1 &
+cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -l -s 4 >> $LOG_DIR/matches.log
+#bash $DIR/scripts/monitor_progress_perf.sh $SHORT_CRITERION_DATA_DIR $num_files "[2/3] Shortened performance experiment" $logfile "short"
 echo "--Shortened performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
