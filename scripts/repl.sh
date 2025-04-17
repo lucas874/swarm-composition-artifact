@@ -6,8 +6,8 @@ show_help() {
     echo "  2 - Run experiments"
     echo "  3 - Run warehouse demo"
     echo "  4 - Run warehouse || factory demo"
-    echo "  5 - Run warehouse || factory || quality"
-    echo "  6 - Run warehouse without branch tracking demo"
+    echo "  5 - Run warehouse || factory || quality demo"
+    echo "  6 - Run warehouse demo without branch tracking"
     echo "  help - Show this help message"
     echo "  exit - Exit"
     echo
