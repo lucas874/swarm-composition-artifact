@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd $DEMO_DIR/warehouse-factory-demo-kick/
 echo "Starting warehouse demo. It may take a minute to start."

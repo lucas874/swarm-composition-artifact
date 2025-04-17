@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$#" -ne 5 ]; then
   echo "Usage: bash monitor_progress_acc.sh <directory> <number of files expected in directory at the end> <message at progress bar> <logfile> <short/full>"
