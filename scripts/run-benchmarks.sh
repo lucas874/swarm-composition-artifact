@@ -10,7 +10,9 @@ error_and_exit() {
 }
 
 logfile=$LOG_DIR/report.log
-num_files=908
+num_files=454
+msg_acc="[1/2] Accuracy experiment"
+msg_perf="[2/2] Performance experiment"
 mkdir -p $FULL_CRITERION_DATA_DIR
 mkdir -p $FULL_ACCURACY_RESULT_DIR
 
@@ -22,12 +24,10 @@ echo "Starting the experiments. It may take a minute to start."
 
 cd $MACHINE_CHECK_DIR
 echo "--Accuracy test began at: $(date)--" >> $logfile
-cargo test -- --ignored --nocapture --exact full_run_bench_sub_sizes_general >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_acc.sh $FULL_ACCURACY_RESULT_DIR $num_files "[1/2] Accuracy experiment" $logfile "full"
+cargo test -- --ignored --nocapture --exact full_run_bench_sub_sizes_general 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_acc" -l -t -p -s $num_files >> $LOG_DIR/matches.log
 echo "--Accuracy ended at: $(date)--" >> $logfile
 echo "--Performance test began at: $(date)--" >> $logfile
-cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_full >> $logfile 2>&1 &
-bash $DIR/scripts/monitor_progress_perf.sh $FULL_CRITERION_DATA_DIR $num_files "[2/2] Performance experiment" $logfile "full"
+cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_full 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_perf" -l -t -p -s $num_files >> $LOG_DIR/matches.log
 echo "--Performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
