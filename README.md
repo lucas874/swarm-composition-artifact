@@ -112,8 +112,8 @@ When the kick-the-tires script has terminated, the output should look similar to
 ...
 > 1
 Starting the kick-the-tires script. It may take a minute to start.
-[1/3] Shortened accuracy experiment: 0:00:22 [==========================================================================================================================>] 100%
-[2/3] Shortened performance experiment: 0:01:42 [=======================================================================================================================>] 100%
+[1/3] Shortened accuracy experiment: 0:00:22 [===============================================>] 100%
+[2/3] Shortened performance experiment: 0:01:42 [============================================>] 100%
 Starting warehouse demo. It may take a minute to start.
 [exited]
 [3/3] Warehouse || Factory demo
@@ -157,7 +157,7 @@ Now, please select option 2. That is press `2` followed by `Enter`. In an exampl
 ```bash
 > 2
 Starting the experiments. It may take a minute to start.
-[1/2] Accuracy experiment: 0:00:02 [=============>                                                                                                             ]   7%
+[1/2] Accuracy experiment: 0:00:02 [==>                                                     ]   7%
 
 ```
 
@@ -166,8 +166,8 @@ When the experiments are done the output should look similar to:
 ...
 > 1
 Starting the experiments. It may take a minute to start.
-[1/2] Accuracy experiment: 0:xx:xx [==========================================================================================================================>] 100%
-[2/2] Performance experiment: 0:xx:xx [=======================================================================================================================>] 100%
+[1/2] Accuracy experiment: 0:xx:xx [=======================================================>] 100%
+[2/2] Performance experiment: 0:xx:xx [====================================================>] 100%
 Experiments done. Everything is OK. Results written to /ecoop25_artifact/results/results_full_run.
 >
 ```
