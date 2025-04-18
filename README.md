@@ -7,28 +7,8 @@ This artifact comprises a Docker image containing:
 * scripts to reproduce the experimental results presented in the paper,
 * and several example swarms implemented using our tool. The swarms can be executed and their source code can be edited.
 
-## Overview: What does the artifact comprise?
-
-The artifact package (`ecoop25-artifact.tar.gz`) includes:
-* `ecoop25_artifact_docker_image.tar.gz`: a Docker image saved as a gzipped tar file. The image includes the following:
-    * `machine-runner/`: A TypeScript library offering a DSL for programming machine implementations, facilities to automatically adapt such machines to different swarms as described in the paper, and to run them using the Actyx middleware.
-    * `machine-check/`: A Rust library for statically verifying the well-formedness of swarm protocols (expressed as TypeScript data types) and for statically verifying whether a machine implementation (written using `machine-runner`) conforms to a desired projection of a swarm protocol. This directory also includes the benchmark suite used to perform the experiments.
-    * `scripts/`: Contains scripts to run our experiments and demos.
-    * `process_results/`: Contains scripts used to process the experimental results and generate CSVs and plots.
-    * `demos/`: Contains example implementations of a number of swarms, including examples from the paper.
-    * `logs/`: Contains log files generated while running the experiments and demos.
-* The same files found in the image and a `Dockerfile`. These are included so that the image can be rebuilt to allow customisation of the `machine-check` and `machine-runner` libraries.
-* Script for creating and running a container from our image:
-    * `run.sh`: Starts a simple REPL that offers commands to easily run our experiments and demos.
-    * `run_shell.sh`: Offers the same functionality as `run.sh`, but from a standard bash shell.
-    * `run_no_volume.sh`: The same as `run_shell.sh` except that no volumes from the host are mounted.
-* `README.md`: This document.
-
-## Getting the Artifact
-To artifact is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
-
-## Quick-start Guide (kick-the-tires)
-The following guide assumes a POSIX shell (e.g., bash, zsh). For instructions on how to run the artifact using PowerShell, please go to section [Running the Artifact with Powershell](#running-the-artifact-with-powershell).
+## Quick-start guide (kick-the-tires phase)
+The following guide assumes a POSIX shell (e.g., bash, zsh). For instructions on how to run the artifact on Windows, please go to section [Running the Artifact on Windows](#running-the-artifact-on-windows).
 
 To download, please follow the steps listed above in [Getting the artifact](#getting-the-artifact). Once downloaded, please extract the archive, e.g. by running
 ```bash
@@ -50,7 +30,7 @@ The output should like similar (TODO: insert updated when all done with image) t
 .../ecoop25-artifact$ docker load -i ecoop25_artifact_docker_image.tar.gz
 3abdd8a5e7a8: Loading layer [==================================================>]  80.61MB/80.61MB
 bfcb79809e7a: Loading layer [==================================================>]    493MB/493MB
-...
+[... lines omitted ...]
 c22014a14040: Loading layer [==================================================>]   5.12kB/5.12kB
 Loaded image: ecoop25_artifact:latest
 ```
@@ -70,6 +50,8 @@ Once the image has been loaded, please run
 ```bash
 bash run.sh
 ```
+Similar to the previous command, this command may have to be prefaced with sudo.
+
 After running the command, you should see a message similar to the following:
 
 ```bash
@@ -90,11 +72,11 @@ Available commands:
 Now, please press `1` followed by `Enter` to run the kick-the-tires script. This will run:
 1. A shortened version of the accuracy experiment described in the paper.
 2. A shortened version of the performance experiment described in the paper.
-3. Execute a swarm implementing the Warehouse || Factory protocol, which is given as an example the paper.
+3. Execute a demonstration swarm implementing the Warehouse || Factory protocol, which is given as an example the paper.
 
-The experiments take about 2-3 minutes to run. The demo running after the experiments will not exit on its own -- once the demo has finished the user is instructed to close the window running the demo.
+The experiments take about 2-3 minutes to run. The demonstration running after the experiments will not exit on its own -- once the demonstration has finished the user is instructed to close the window running the demo.
 
-**NOTE:** When running the Warehouse || Factory demo **the terminal window is split in four** this is the normal and expected behavior. When the demo is over, the user is prompted to press `CTRL+C` to exit the demo. The demo does not close automatically, so the output generated by running the swarms can be inspected. When the demo has finished running the output will look like to the following:
+**NOTE:** When running the Warehouse || Factory demo **the terminal window is split in four** this is the normal and expected behavior. When the demonstration is over, the user is prompted to press `CTRL+C` to exit the demo. The demo does not close automatically, so the output generated by running the swarms can be inspected. When the demo has finished running the output will look like to the following:
 ```bash
 ...                                                    | ...
 Robot. State is: ...                                   │ Forklift. State is: ...
@@ -105,8 +87,7 @@ Robot. State is: ...                                   │ Transporter. State is
 Door reached its final state. Press CTRL+ C to exit.   │ Transporter reached its final state. Press CTRL + C to exit.
 ```
 
-
-When the kick-the-tires script has terminated, the output should look similar to the snippet below:
+Pressing the CTRL+C will four times will close these windows. Pressing CTRL + C once more will close a window running the Actyx middleware (needed to facilitate communication between the machines in the demo). Once all the windows have been closed, the kick-the-tires script is done and the output should look similar to the snippet below:
 
 ```bash
 ...
@@ -121,13 +102,35 @@ kick-the-tires everything is OK. Results are written to /ecoop25_artifact/result
 >
 ```
 
-The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `out.pdf`. They are all located in `ecoop25_artifact/results/results_short_run` on the host machine running the container. The shortened experiments use a reduced input set. In `out.pdf` the results in the CSVs are plotted. The plots should correspond *roughly* in shape to Figure X and Figure Y from the paper.
+The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `out.pdf`. They are all located in `ecoop25_artifact/results/results_short_run` on the host machine running the container. The shortened experiments use a reduced input set. In `out.pdf` the results in the CSVs are plotted:  `accuracy_results.csv` is summarized with a boxplot and `performance_results.csv` with a line chart. The plots should correspond *roughly* in shape to Figure 8 and Figure 9 from the paper.
 
 If the message:
 ```
 ERROR. Please send entire contents of /ecoop25_artifact/logs/
 ```
 appears after running the kick-the-tires script, pleas send the indicated directory, `ecoop25_artifact/logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container.
+
+## Overview: What does the artifact comprise?
+
+The artifact package (`ecoop25-artifact.tar.gz`) includes:
+* `ecoop25_artifact_docker_image.tar.gz`: a Docker image, with Ubuntu 24.04 as base image, saved as a gzipped tar file. The image includes the following:
+    * `machine-runner/`: A TypeScript library offering a DSL for programming machine implementations, facilities to automatically adapt such machines to different swarms as described in the paper, and to run them using the Actyx middleware.
+    * `machine-check/`: A Rust library for statically verifying the well-formedness of swarm protocols (expressed as TypeScript data types) and for statically verifying whether a machine implementation (written using `machine-runner`) conforms to a desired projection of a swarm protocol. This directory also includes the benchmark suite used to perform the experiments.
+    * `scripts/`: Contains scripts to run our experiments and demos.
+    * `process_results/`: Contains scripts used to process the experimental results and generate CSVs and plots.
+    * `demos/`: Contains example implementations of a number of swarms, including examples from the paper.
+    * `logs/`: Contains log files generated while running the experiments and demos.
+    * In addition to standard files that come with the Ubuntu 24.04 base image, we have installed the Actyx middleware binary `ax `in `/usr/local/bin/`.
+* `machines`: a clone of the [`machines`](https://github.com/lucas874/machines) repository, which contains the `machine-check` and `machine-runner` as well as the benchmark suite.
+* The same files found in the image and a `Dockerfile`. These are included so that the image can be rebuilt to allow customisation of the `machine-check` and `machine-runner` libraries.
+* Scripts for creating and running a container from our image:
+    * `run.sh`: Starts a simple REPL that offers commands to easily run our experiments and demos.
+    * `run_shell.sh`: Offers the same functionality as `run.sh`, but from a standard bash shell.
+    * `run_no_volume.sh`: The same as `run_shell.sh` except that no volumes from the host are mounted.
+* `README.md`: This document.
+
+## Getting the Artifact
+To artifact is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
 
 ## Reproducing the Experimental Results
 
@@ -218,7 +221,7 @@ TODO: Add more context do not just refer to causal-consistency... Also suggest o
 ## Alternative Ways of Running the Artifact
 TODO: the idea is this, you can also run the script without mounting a volume and you can run the script mounting a volume and starting a shell in the container. For inspecting the filesystem and running scripts in another way than through the REPL.
 
-## Running the Artifact with PowerShell
+## Running the Artifact on Windows
 TODO. Try out on windows and possibly add scripts for setting things up on windows.
 
 ## Altering and Recompiling the Libraries
