@@ -33,7 +33,7 @@ echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logf
 cd $PROCESS_RES_DIR
 python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_FULL_DIR >> $logfile 2>&1
 
-files=("$RES_FULL_DIR/accuracy_results.csv" "$RES_FULL_DIR/performance_results.csv" "$RES_FULL_DIR/out.pdf")
+files=("$RES_FULL_DIR/accuracy_results.csv" "$RES_FULL_DIR/performance_results.csv" "$RES_FULL_DIR/figures.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         echo "ERROR: $file does not exist" >> $logfile

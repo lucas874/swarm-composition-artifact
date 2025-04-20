@@ -23,7 +23,7 @@ def main():
     sub_size_csv_filename = "accuracy_results.csv"
     subscription_results(args.accuracy, args.output_directory, sub_size_csv_filename)
 
-    output_pdf_filename = f"{args.output_directory}/out.pdf"
+    output_pdf_filename = f"{args.output_directory}/figures.pdf"
     two_plots(f"{args.output_directory}/{execution_time_csv_filename}", f"{args.output_directory}/{sub_size_csv_filename}", output_pdf_filename)
 
 main()

@@ -40,7 +40,7 @@ bash $DIR/scripts/warehouse-factory-demo-kick.sh $machine_logfile $ax_logfile 2>
 echo "--Demo ended at: $(date)--" >> $logfile
 echo "[3/3] Warehouse || Factory demo"
 
-files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/out.pdf")
+files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/figures.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         echo "ERROR: $file does not exist" >> $logfile

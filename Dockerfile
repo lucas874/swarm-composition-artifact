@@ -71,6 +71,7 @@ RUN cd machine-check && cargo build --all-targets
 RUN cd machine-check && cargo build --release --all-targets
 
 RUN mkdir logs
+RUN mkdir results
 
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
