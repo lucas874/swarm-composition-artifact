@@ -1,6 +1,8 @@
 # Artifact Submission
 Title of the submitted paper: Compositional Design, Implementation, and Verification of Swarms
 
+ECOOP Submission nu
+
 Our paper presents theory and techniques for the compositional specification and verification of swarm protocols, and for the composition of swarms.
 This artifact comprises a Docker image containing:
 * our custom extension of the Actyx toolkit supporting the theory presented in the paper,
@@ -171,8 +173,9 @@ Now, please select option 2. That is press `2` followed by `Enter`.
 This will run the experiments on compositional subscription generation presented in the paper.
 Using the benchmark suite presented in the subsection **Benchmark Selection** on p. 23 of the paper,
 the experiments comparing the performance and the accuracy of the "exact" algorithm and Algorithm 1 (presented on p. 13 of the paper) are performed.
-On a system with an Intel Core i7-9700K CPU @ 3.60GHz and 16GiB of RAM running Ubuntu 22.04, the experiments takes about 7.5 hours (2.5 for the accuracy experiments and 5 hours for the performance experiments).
-
+On a system with an Intel Core i7-9700K CPU @ 3.60GHz and 16GiB of RAM running Ubuntu 22.04, the experiments takes about 7.5 hours
+(2.5 for the accuracy experiments and 5 hours for the performance experiments).
+The benchmark suite is public and open source. It is included in the image and can also be found in `machines/machine-check/bench_and_results/benchmarks`.
 
 In an example run, the following output could be seen on the screen some seconds after starting the script.
 
@@ -226,10 +229,23 @@ group.sample_size(50);
 ```
 For the changes to take effect one has to rebuild the image. Please refer to the section for instructions on how to do this.
 
-## Running and Editing Example Swarms
-The script `run.sh` offers four different demos each running an example swarm. To run these select option `3, 4, 5`, or `6` in the REPL.
+## Running and editing example swarms (for the "Artifacts Evaluated -- Reusable")
+We envision that the `machine-check` and `machine-runner` be used to design, implement, and verify arbitrary swarms compositionally.
+We therefore provide examples that showcase how swarm implementations can be composed, reused and verified.
+We suggest alterations to the example implementations that change the verification results or behavior of the swarm to showcase the robustness of our libraries.
 
-The Warehouse || Factory demo, for example, consists of machines implementing the projections shown in Figure 5 of the paper and are obtained using the approach presented in Section 6 in the paper.
+The script `run.sh` offers four different demos each running an example swarm:
+* The Warehouse demo: Implements the Warehouse protocol that is shown in Figure 1 and whose projections shown in Figure 6. To run this demo select option 3 in the REPL.
+* The Warehosue || Factory demo: Imp
+
+
+To run these select option `3, 4, 5`, or `6` in the REPL.
+
+
+Option 4 is the Warehouse || Factory demo, which consists of machines implementing the projections shown in Figure 5 of the paper and are obtained using the approach presented in Section 6 in the paper.
+
+That is, each machine participating in the swarm has been implemented
+
 The source code of the machines in the demo is found in `ecoop25_artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container, but simply by rerunning the demo.
 
 The machine implementing the forklift role for instance, is implemented for the Warehouse protocol and then automatically adapted to be as outlined in Example 25 in the paper.
@@ -247,15 +263,18 @@ Indicating that both causal-consistency and determinacy is violated if we change
 
 TODO: Add more context do not just refer to causal-consistency... Also suggest other ways to make it fail and things that do not make it fail, but just changes the behavior of the swarm, e.g. changing reaction code.
 
-## Alternative Ways of Running the Artifact
+### Additionally:
+Our
+
+## Alternative ways of running the artifact
 TODO: the idea is this, you can also run the script without mounting a volume and you can run the script mounting a volume and starting a shell in the container. For inspecting the filesystem and running scripts in another way than through the REPL.
 
 ### Running the artifact without volumes
 
-## Running the Artifact on Windows
+## Running the artifact on windows
 TODO. Try out on windows and possibly add scripts for setting things up on windows.
 
-## Altering and Recompiling the Libraries
+## Altering and recompiling the libraries
 
 The `machine-check` and the `machine-runner` libraries are installed in the image, but their source code can also be found in the `machines/` directory included in the artifact package.
 To alter the source code of the libraries please make your edits to the source code found in the `machines/` directory and run the command:
