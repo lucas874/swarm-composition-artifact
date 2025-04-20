@@ -144,9 +144,9 @@ The artifact package (`ecoop25-artifact.tar.gz`) includes:
 ## Getting the Artifact
 To artifact is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
 
-## Reproducing the Experimental Results
+## Reproducing the Experimental Results (for the "Artifact Evaluated -- Functional" badge)
 
-To reproduce the experiments presented in the paper please `cd` to the directory extracted from the archive package, then run:
+To reproduce the experiments presented in Section 7.3 of the paper please `cd` to the directory extracted from the archive package, then run:
 ```bash
 bash run.sh
 ```
@@ -167,7 +167,14 @@ Available commands:
 
 >
 ```
-Now, please select option 2. That is press `2` followed by `Enter`. In an example run, the following output could be seen on the screen some seconds after starting the script.
+Now, please select option 2. That is press `2` followed by `Enter`.
+This will run the experiments on compositional subscription generation presented in the paper.
+Using the benchmark suite presented in the subsection **Benchmark Selection** on p. 23 of the paper,
+the experiments comparing the performance and the accuracy of the "exact" algorithm and Algorithm 1 (presented on p. 13 of the paper) are performed.
+On a system with an Intel Core i7-9700K CPU @ 3.60GHz and 16GiB of RAM running Ubuntu 22.04, the experiments takes about 7.5 hours (2.5 for the accuracy experiments and 5 hours for the performance experiments).
+
+
+In an example run, the following output could be seen on the screen some seconds after starting the script.
 
 ```bash
 > 2
@@ -181,18 +188,35 @@ When the experiments are done the output should look similar to:
 ...
 > 1
 Starting the experiments. It may take a minute to start.
-[1/2] Accuracy experiment: 0:xx:xx [=======================================================>] 100%
-[2/2] Performance experiment: 0:xx:xx [====================================================>] 100%
+[1/2] Accuracy experiment: 2:23:21 [=======================================================>] 100%
+[2/2] Performance experiment: 4:54:01 [====================================================>] 100%
 Experiments done. Everything is OK. Results written to /ecoop25_artifact/results/results_full_run.
 >
 ```
 
-The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `out.pdf`. They are all located in `ecoop25_artifact/results/results_full_run/` on the host machine running the container. In `out.pdf` the results in the CSVs are plotted. The line chart in `out.pdf` comparing the execution times of the Exact algorithm and Algorithm 1 should show the same relationship between the execution times of the Exact algorithm and Algorithm 1 as shown in Figure X in the paper. The absolute values of the execution times, however, may differ from the ones reported in the paper. The boxplot shown in `out.pdf` should match exactly the plot shown in Figure Y of the paper.
+The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `figure.pdf`. They are all located in `ecoop25_artifact/results/results_full_run/` on the host machine running the container.
+In `figure.pdf` the results in the CSVs are plotted.
+The line chart in `figure.pdf` comparing the execution times of the "exact" algorithm and Algorithm 1 should show the same relationship between the execution times of the two algorithms as shown in Figure 8 (p. 24) in the paper.
+The absolute values of the execution times, however, may differ from the ones reported in the paper.
+The boxplot shown in `figures.pdf` should match exactly the plot shown in Figure 9 (p. 24) of the paper.
 
+If the message:
+```
+ERROR. Please send entire contents of /ecoop25_artifact/logs/
+```
+appears after running the experiments, please send the indicated directory, `ecoop25_artifact/logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container (provided that the container is started using either `run.sh `or `run_shell.sh` included in the artifact package).
+
+### Note on the total running time of the experiments
 The performance experiments described in the paper reported, for each sample, the average of 50 repetitions after 3 seconds of warm-up.
-The experiment took more than a day to run, we reduced the number of repetitions to 10. That is, the experimental setup in the image repeats each sample 10 times after 3 seconds of warm-up.
-With this configuration, the experiments took about 8 hours to run on a ... todo: describe expected resource usage etc. somewhere in more detail.
-This can be set back to 50 by changing line 75 of `ecoop25-artifact/machines/machine-check/benches/composition_benchmark_full.rs` from
+The experimental setup used in the paper was an Intel Xeon Gold 622R with 32 GiB of RAM running AlmaLinux 9.5.
+With this setup the performance experiments took 25 hours with a maximum memory usage of 1.5 GiB and an average memory usage of 165 MiB.
+The accuracy experiments took 4.5 hours with a maximum memory usage of 313 MiB and an average memory usage of 186 MiB.
+
+Due to the total run time of the experiments described in the paper, we have reduced the number of repetitions in the performance experiments to 10.
+That is, the experimental setup in the image repeats each sample 10 times after 3 seconds of warm-up.
+With this configuration, the total run time of the experiments has been about 7.5 hours Intel Core i7-9700K CPU @ 3.60GHz and 16GiB of RAM running Ubuntu 22.04.
+
+To increase the number of samples to get the same number of repetitions of each sample as used in the paper line 75 of `ecoop25-artifact/machines/machine-check/benches/composition_benchmark_full.rs` from:
 ```rust
 group.sample_size(10);
 ```
@@ -201,13 +225,6 @@ to
 group.sample_size(50);
 ```
 For the changes to take effect one has to rebuild the image. Please refer to the section for instructions on how to do this.
-
-If the message:
-```
-ERROR. Please send entire contents of /ecoop25_artifact/logs/
-```
-appears after running the kick-the-tires script, pleas send the indicated directory, `ecoop25_artifact/logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container.
-
 
 ## Running and Editing Example Swarms
 The script `run.sh` offers four different demos each running an example swarm. To run these select option `3, 4, 5`, or `6` in the REPL.
