@@ -1,9 +1,9 @@
 # Artifact Submission
 Title of the submitted paper: Compositional Design, Implementation, and Verification of Swarms
 
-ECOOP Submission nu
+ECOOP submission number for the paper:
 
-Our paper presents theory and techniques for the compositional specification and verification of swarm protocols, and for the composition of swarms.
+Our paper presents theory and techniques for the compositional specification, implementation and verification of swarm protocols, and for the composition of swarms.
 This artifact comprises a Docker image containing:
 * our custom extension of the Actyx toolkit supporting the theory presented in the paper,
 * scripts to reproduce the experimental results presented in the paper,
@@ -245,17 +245,28 @@ We suggest alterations to the example implementations that change the verificati
 All the examples are executable and their source code is found in demos/. If the container is started using `run.sh` or `run_shell.sh` this directory is mounted into the cointainer, which means that the source code of the examples can be edited and the effects of the changes can be seen immediately be rerunning the examples, i.e. no need for rebuilding the image or restarting the container.
 
 The script `run.sh` offers four different demos each running an example swarm:
-* The Warehouse demo: Implements the Warehouse swarm protocol that is depicted in Figure 1 (p. 3) and whose projections are shown in Figure 6 (p. 15).
-The swarm protocol consists of the three roles T (transport), D (door), and FL (forklift).
-The source code for the machine implementations of the roles is found in demos/warehouse-demo/src.
-Select option `3` in the REPL to run a swarm with one instance each of the T, D, and FL implementations.
-* The Warehouse || Factory demo: Implements the Warehouse || Factory protocol that is depicted in Figure 4 (p. 5) and whose projections are shown in Figure 5 (p. 15).
-The composed swarm protocol consists of the roles T, D, FL, and R (robot).
-The implementations of T, D, and FL are obtained by automatically adapting the machine implementations from the warehouse demo to become correct for the composition. Similarly, the R role is implemented for the Factory protocol (shown in Figure 3, p. 4) and automatically adapted for the composition.
-Select option `4` in the REPL to run this demo.
-* The Warehouse || Factory || Quality demo. This swarm protocol is not given as an example in the paper. It
+* **The Warehouse demo:**
+  * Implements the Warehouse swarm protocol that is depicted in Figure 1 (p. 3) and whose projections are shown in Figure 6 (p. 15).
+  * The swarm protocol consists of the three roles T (transport), D (door), and FL (forklift).
+  * The source code for the machine implementations of the roles is found in `demos/warehouse-demo/src`.
+  * Select option `3` in the REPL to run a swarm with one instance each of the T, D, and FL implementations.
+* **The Warehouse || Factory demo:**
+  * Implements the Warehouse || Factory protocol that is depicted in Figure 4 (p. 5) and whose projections are shown in Figure 5 (p. 15).
+  * The composed swarm protocol consists of the roles T, D, FL, and R (robot).
+  * The implementations of T, D, and FL are obtained by automatically adapting the machine implementations from the warehouse demo to become correct for the composition. Similarly, the R role is implemented for the Factory protocol (shown in Figure 3, p. 4) and automatically adapted for the composition.
+  * The source code for the machine implementations of the roles is found in `demos/warehouse-factory-demo/src`.
+  * Select option `4` in the REPL to run a swarm with one instance of each of the roles of the composition.
+* **The Warehouse || Factory || Quality demo:**
+  * This swarm protocol is not given as an example in the paper.
+  * It is a composition of the Warehouse and Factory protocols described above and in the paper with a third *quality control* swarm protocol.
+  * The Quality protocol interfaces with Warehouse || Factory on the R role. Besides the role R, it consists of the role QCR (quality control robot), that observes the assembly process and assesses the quality of newly built cars.
+  * The Quality protocol can be summarized as follows: `(0)--[QCR<observing>]-->(1)--[R<car>]-->(2)--[QCR<report>]-->(3)`.
+  * The implementation reuses the T, D and FL implementations made for the Warehouse protocol and the R implementation made for the factory protocol and automatically adapts these to work for the composition of the three protocols. Similarly, the QCR role is implemented for the Quality protocol and automatically adapted to the composition.
+  * The source code for the machine implementations of the roles is found in `demos/warehouse-factory-quality-demo/src`.
+  * Select option `5` in the REPL to run this demo.
+* **The Warehouse demo without branch-tracking:** ...
 
-###
+### Example: running and editing the Warehouse || Factory implementation
 
 Option 4 is the Warehouse || Factory demo, which consists of machines implementing the projections shown in Figure 5 of the paper and are obtained using the approach presented in Section 6 in the paper.
 
