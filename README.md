@@ -264,32 +264,48 @@ The script `run.sh` offers four different demos each running an example swarm:
   * The implementation reuses the T, D and FL implementations made for the Warehouse protocol and the R implementation made for the factory protocol and automatically adapts these to work for the composition of the three protocols. Similarly, the QCR role is implemented for the Quality protocol and automatically adapted to the composition.
   * The source code for the machine implementations of the roles is found in `demos/warehouse-factory-quality-demo/src`.
   * Select option `5` in the REPL to run this demo.
-* **The Warehouse demo without branch-tracking:** ...
+* **The Warehouse demo without branch-tracking:**
+  * Demonstrates the effects of not using branch tracking.
+  * Starts a transport machine, a forklift machine and a process that emits `closingTime` with invalid/garbage ljb pointers.
+  * This sometimes leads to unpredictable behavior for instance situations where the forklift thinks the door has been closed while the transport is waiting for a request for a part to be satisfied.
 
 The demos can also be started using the `run_shell.sh` and `run_shell_no_volume.sh`. Please see [Alternative ways of running the artifact](#alternative-ways-of-running-the-artifact) for instructions on how to do this.
 
-### Example: running and editing the Warehouse || Factory implementation
+### Example: running and altering the Warehouse || Factory demo
 
-Option 4 is the Warehouse || Factory demo, which consists of machines implementing the projections shown in Figure 5 of the paper and are obtained using the approach presented in Section 6 in the paper.
-
-That is, each machine participating in the swarm has been implemented
-
-The source code of the machines in the demo is found in `ecoop25_artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container, but simply by rerunning the demo.
-
-The machine implementing the forklift role for instance, is implemented for the Warehouse protocol and then automatically adapted to be as outlined in Example 25 in the paper.
-The other machines were similarly implemented for their original protocol and adapted to become correct implementation of the composed swarm protocol.
+The source code of the machines in the Warhouse || Factory demo is found in `ecoop25_artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container, but simply by rerunning the demo.
 
 The well-formedness of the subscription used for the composed swarm is generated and checked in the file `ecoop25_artifact/demos/warehouse-factory-demo/src/protocol.ts`.
-To make the well-formedness fail and see the results of this, outcomment line 69 in `protocol.ts`, which changes the subscription of the forklift role to just consist of the single event type *pos*.
+To make the well-formedness fail and see the results of this, remove the comments on line 69 in `protocol.ts` so that :
+```typescript
+//subs_composition['FL'] = ['pos']
+```
+becomes
+```typescript
+subs_composition['FL'] = ['pos']
+```
+which changes the subscription of the forklift role to just consist of the single event type *pos*.
 By rerunning the Warehouse || Factory demo (by running option 4 in the REPL), we get the following error:
 
 ```bash
-Error: subsequently active role FL does not subscribe to events in transition (0 || 0)--[request@T<partReq>]-->(1 || 1), role FL does not subscribe to event types closingTime, partReq in branching transitions at state 0 || 0, but is involved after transition (0 || 0)--[request@T<partReq>]-->(1 || 1)
+Error: subsequently active role FL does not subscribe to events in transition (0 || 0)--[request@T<partReq>]-->(1 || 1),
+role FL does not subscribe to event types closingTime, partReq in branching transitions at state 0 || 0, but is involved after transition (0 || 0)--[request@T<partReq>]-->(1 || 1)
 ```
 
-Indicating that both causal-consistency and determinacy is violated if we change the subscription of forklift to only contain *pos*.
+indicating that both causal-consistency and determinacy is violated if we change the subscription of forklift to only contain *pos*.
 
-TODO: Add more context do not just refer to causal-consistency... Also suggest other ways to make it fail and things that do not make it fail, but just changes the behavior of the swarm, e.g. changing reaction code.
+The machine implementing the forklift role is implemented for the Warehouse protocol and then automatically adapted to be as outlined in Example 25 in the paper.
+To turn the implementation into an incorrect implementation outcomment for instance line 22:
+```typescript
+s0.react([Events.closingTime], s2, (_, e) => { print_event(e); return s2.make() })
+```
+This yields the error:
+```bash
+Error: missing transition closingTime? in state s0 (from reference state { { { 0 }, { 2 } } })
+```
+indicating that, compared to the projection of Warehouse, the implementation lacks a transition from the initial state s0 consuming an event of type `closingTime`.
+
+**Note**: When the demo terminates with an error, it should be closed using `CTRL + D`.
 
 ### Additionally:
 The machine-runner and machine-check libraries are open source. They can be found in ... and are also included in the artifact package. To recompile them ..

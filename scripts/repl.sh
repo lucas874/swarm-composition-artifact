@@ -41,8 +41,6 @@ run_warehouse_no_bt_demo() {
     /ecoop25_artifact/scripts/warehouse-demo-no-branch-tracking.sh
 }
 
-
-
 source $NVM_DIR/nvm.sh
 
 # Show help at startup
