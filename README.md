@@ -144,11 +144,17 @@ The artifact package (`ecoop25-artifact.tar.gz`) includes:
 * `README.md`: This document.
 
 ## Getting the Artifact
-To artifact is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
+The artifact package is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
 
 ## Reproducing the Experimental Results (for the "Artifact Evaluated -- Functional" badge)
 
-To reproduce the experiments presented in Section 7.3 of the paper please `cd` to the directory extracted from the archive package, then run:
+Two experimental claims are made in the paper (**Section 7.3**):
+1. In the section **Performance Results (p. 23)**, we claim that the compositional Algorithm 1 is faster and more scalable than the "exact" algorithm, which suffers from the the exponential blow-up of the composition. These results are plotted **Figure 8 (p. 24)**.
+2. In the section **Accuracy Results (p. 23)**, we claim that the "exact" algorithm yields smaller subscriptions than Algorithm 1.
+For our benchmark suite, we found that the "exact" algorithm requires roles to subscribe to about 22.2% of all events in a protocol on average and Algorithm 1 requires roles 29.8% of all events on average.
+These results are plotted in **Figure 9 (p. 24)**.
+
+To reproduce the experiments presented in Section 7.3, please `cd` to the directory extracted from the archive package, then run:
 ```bash
 bash run.sh
 ```
@@ -170,10 +176,13 @@ Available commands:
 >
 ```
 Now, please select option 2. That is press `2` followed by `Enter`.
-This will run the experiments on compositional subscription generation presented in the paper.
-Using the benchmark suite presented in the subsection **Benchmark Selection** on p. 23 of the paper,
-the experiments comparing the performance and the accuracy of the "exact" algorithm and Algorithm 1 (presented on p. 13 of the paper) are performed.
-On a system with an Intel Core i7-9700K CPU @ 3.60GHz and 16GiB of RAM running Ubuntu 22.04, the experiments takes about 7.5 hours
+This will run the experiments on compositional subscription generation presented in the paper
+using the benchmark suite presented in the subsection **Benchmark Selection (p. 23)**.
+The script runs:
+1. The accuracy experiments.
+2. The performance experiments.
+
+On a system with an Intel Core i7-9700K CPU @ 3.60GHz and 16GiB of RAM running Ubuntu 22.04, the experiments took **about 7.5 hours**
 (2.5 for the accuracy experiments and 5 hours for the performance experiments).
 The benchmark suite is public and open source. It is included in the image and can also be found in `machines/machine-check/bench_and_results/benchmarks`.
 
@@ -199,9 +208,9 @@ Experiments done. Everything is OK. Results written to /ecoop25_artifact/results
 
 The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `figure.pdf`. They are all located in `ecoop25_artifact/results/results_full_run/` on the host machine running the container.
 In `figure.pdf` the results in the CSVs are plotted.
-The line chart in `figure.pdf` comparing the execution times of the "exact" algorithm and Algorithm 1 should show the same relationship between the execution times of the two algorithms as shown in Figure 8 (p. 24) in the paper.
+The line chart in `figure.pdf` comparing the execution times of the "exact" algorithm and Algorithm 1 should show the same relationship between the execution times of the two algorithms as shown in **Figure 8 (p. 24)**.
 The absolute values of the execution times, however, may differ from the ones reported in the paper.
-The boxplot shown in `figures.pdf` should match exactly the plot shown in Figure 9 (p. 24) of the paper.
+The boxplot shown in `figures.pdf` should match exactly the plot shown in **Figure 9 (p. 24)**.
 
 If the message:
 ```
@@ -211,7 +220,7 @@ appears after running the experiments, please send the indicated directory, `eco
 
 ### Note on the total running time of the experiments
 The performance experiments described in the paper reported, for each sample, the average of 50 repetitions after 3 seconds of warm-up.
-The experimental setup used in the paper was an Intel Xeon Gold 622R with 32 GiB of RAM running AlmaLinux 9.5.
+The experimental setup used in the paper is an Intel Xeon Gold 622R with 32 GiB of RAM running AlmaLinux 9.5.
 With this setup the performance experiments took 25 hours with a maximum memory usage of 1.5 GiB and an average memory usage of 165 MiB.
 The accuracy experiments took 4.5 hours with a maximum memory usage of 313 MiB and an average memory usage of 186 MiB.
 
@@ -230,17 +239,23 @@ group.sample_size(50);
 For the changes to take effect one has to rebuild the image. Please refer to the section for instructions on how to do this.
 
 ## Running and editing example swarms (for the "Artifacts Evaluated -- Reusable")
-We envision that the `machine-check` and `machine-runner` be used to design, implement, and verify arbitrary swarms compositionally.
-We therefore provide examples that showcase how swarm implementations can be composed, reused and verified.
-We suggest alterations to the example implementations that change the verification results or behavior of the swarm to showcase the robustness of our libraries.
+We envision that the `machine-check` and `machine-runner` libraries be used to design, implement, and verify arbitrary swarms compositionally.
+We therefore provide examples that show how swarm implementations can be composed, reused and verified.
+We suggest alterations to the example implementations that change the verification results or behavior of the swarm to show the robustness of our libraries.
+All the examples are executable and their source code is found in demos/. If the container is started using `run.sh` or `run_shell.sh` this directory is mounted into the cointainer, which means that the source code of the examples can be edited and the effects of the changes can be seen immediately be rerunning the examples, i.e. no need for rebuilding the image or restarting the container.
 
 The script `run.sh` offers four different demos each running an example swarm:
-* The Warehouse demo: Implements the Warehouse protocol that is shown in Figure 1 and whose projections shown in Figure 6. To run this demo select option 3 in the REPL.
-* The Warehosue || Factory demo: Imp
+* The Warehouse demo: Implements the Warehouse swarm protocol that is depicted in Figure 1 (p. 3) and whose projections are shown in Figure 6 (p. 15).
+The swarm protocol consists of the three roles T (transport), D (door), and FL (forklift).
+The source code for the machine implementations of the roles is found in demos/warehouse-demo/src.
+Select option `3` in the REPL to run a swarm with one instance each of the T, D, and FL implementations.
+* The Warehouse || Factory demo: Implements the Warehouse || Factory protocol that is depicted in Figure 4 (p. 5) and whose projections are shown in Figure 5 (p. 15).
+The composed swarm protocol consists of the roles T, D, FL, and R (robot).
+The implementations of T, D, and FL are obtained by automatically adapting the machine implementations from the warehouse demo to become correct for the composition. Similarly, the R role is implemented for the Factory protocol (shown in Figure 3, p. 4) and automatically adapted for the composition.
+Select option `4` in the REPL to run this demo.
+* The Warehouse || Factory || Quality demo. This swarm protocol is not given as an example in the paper. It
 
-
-To run these select option `3, 4, 5`, or `6` in the REPL.
-
+###
 
 Option 4 is the Warehouse || Factory demo, which consists of machines implementing the projections shown in Figure 5 of the paper and are obtained using the approach presented in Section 6 in the paper.
 
@@ -264,7 +279,7 @@ Indicating that both causal-consistency and determinacy is violated if we change
 TODO: Add more context do not just refer to causal-consistency... Also suggest other ways to make it fail and things that do not make it fail, but just changes the behavior of the swarm, e.g. changing reaction code.
 
 ### Additionally:
-Our
+The machine-runner and machine-check libraries are open source. They can be found in ... and are also included in the artifact package. To recompile them ..
 
 ## Alternative ways of running the artifact
 TODO: the idea is this, you can also run the script without mounting a volume and you can run the script mounting a volume and starting a shell in the container. For inspecting the filesystem and running scripts in another way than through the REPL.
