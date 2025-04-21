@@ -5,7 +5,7 @@ ECOOP submission number for the paper:
 
 Our paper presents theory and techniques for the compositional specification, implementation and verification of swarm protocols, and for the composition of swarms.
 This artifact comprises a Docker image containing:
-* our custom extension of the Actyx toolkit supporting the theory presented in the paper,
+* our custom open-source extension of the Actyx toolkit supporting the theory presented in the paper,
 * scripts to reproduce the experimental results presented in the paper,
 * and several example swarms implemented using our tool. The swarms can be executed and their source code can be edited.
 
@@ -144,7 +144,9 @@ The artifact package (`ecoop25-artifact.tar.gz`) includes:
 * `README.md`: This document.
 
 ## Getting the Artifact
-The artifact package is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ...
+The artifact package is freely available at Zenodo following [this link](https://zenodo.org/records/15223873?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImZjY2UyYTliLWFlMmEtNDdmNi1hNzU3LWE4ODNhNGQ4NWVkYyIsImRhdGEiOnt9LCJyYW5kb20iOiI3MTIyNWQ2OGFmZjIyMmU3YmVjYzc5NGI5Yjc2OGQzZSJ9.8cdbVWxttB6iCsvKCClUxb2DbJdb1WePAyx7PB7dOS_l6WZWZHAwaOdYp7yzRCZtx6ISY9vDU27Hw-cTCpZHBQ). In addition, the artifact is also available at ....
+
+TODO: update zenodo link when done.
 
 ## Reproducing the Experimental Results (for the "Artifact Evaluated -- Functional" badge)
 
@@ -269,7 +271,8 @@ The script `run.sh` offers four different demos each running an example swarm:
   * Starts a transport machine, a forklift machine and a process that emits `closingTime` with invalid/garbage ljb pointers.
   * This sometimes leads to unpredictable behavior for instance situations where the forklift thinks the door has been closed while the transport is waiting for a request for a part to be satisfied.
 
-The demos can also be started using the `run_shell.sh` and `run_shell_no_volume.sh`. Please see [Alternative ways of running the artifact](#alternative-ways-of-running-the-artifact) for instructions on how to do this.
+The demos can also be started using the `run_shell.sh` and `run_shell_no_volume.sh`.
+Please see [Alternative ways of running the artifact](#alternative-ways-of-running-the-artifact) for instructions on how to do this.
 
 ### Example: running and altering the Warehouse || Factory demo
 
@@ -308,12 +311,13 @@ indicating that, compared to the projection of Warehouse, the implementation lac
 **Note**: When the demo terminates with an error, it should be closed using `CTRL + D`.
 
 ### Additionally:
-The machine-runner and machine-check libraries are open source. They can be found in ... and are also included in the artifact package. To recompile them ..
+The machine-runner and machine-check libraries are open source. For more information on how to compile the libraries please see [Altering and recompiling the libraries](#altering-and-recompiling-the-libraries)
 
 ## Alternative ways of running the artifact
 TODO: the idea is this, you can also run the script without mounting a volume and you can run the script mounting a volume and starting a shell in the container. For inspecting the filesystem and running scripts in another way than through the REPL.
 
 ### Running the artifact without volumes
+TODO
 
 ## Running the artifact on windows
 TODO. Try out on windows and possibly add scripts for setting things up on windows.
@@ -321,6 +325,17 @@ TODO. Try out on windows and possibly add scripts for setting things up on windo
 ## Altering and recompiling the libraries
 
 The `machine-check` and the `machine-runner` libraries are installed in the image, but their source code can also be found in the `machines/` directory included in the artifact package.
+They are also available in [`this GitHub repository`](https://github.com/lucas874/machines)
 To alter the source code of the libraries please make your edits to the source code found in the `machines/` directory and run the command:
 
 ```bash docker build -t ecoop25_artifact``` from the `ecoop25-artifact` directory to make the changes take effect. This command rebuilds the Docker image and recompiles the code found in `machines` while doing so.
+
+To compile the libraries locally, `cd` to `machines/` then start by compiling `machine-check` by running:
+```bash
+cd machine-check && npm i && npm run build && cd ..
+```
+
+Now compile `machine-runner` by running:
+```bash
+cd machine-runner && npm i && npm run build && cd ..
+```
