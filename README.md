@@ -206,7 +206,7 @@ Experiments done. Everything is OK. Results written to /ecoop25_artifact/results
 >
 ```
 
-The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `figure.pdf`. They are all located in `ecoop25_artifact/results/results_full_run/` on the host machine running the container.
+The experiments generate the files `accuracy_results.csv`,  `performance_results.csv`, and `figure.pdf`. They are all located in `results/results_full_run/` on the host machine running the container.
 In `figure.pdf` the results in the CSVs are plotted.
 The line chart in `figure.pdf` comparing the execution times of the "exact" algorithm and Algorithm 1 should show the same relationship between the execution times of the two algorithms as shown in **Figure 8 (p. 24)**.
 The absolute values of the execution times, however, may differ from the ones reported in the paper.
@@ -216,7 +216,7 @@ If the message:
 ```
 ERROR. Please send entire contents of /ecoop25_artifact/logs/
 ```
-appears after running the experiments, please send the indicated directory, `ecoop25_artifact/logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container (provided that the container is started using either `run.sh `or `run_shell.sh` included in the artifact package).
+appears after running the experiments, please send the indicated directory, `logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container (provided that the container is started using either `run.sh `or `run_shell.sh` included in the artifact package).
 
 ### Note on the total running time of the experiments
 The performance experiments described in the paper reported, for each sample, the average of 50 repetitions after 3 seconds of warm-up.
@@ -228,7 +228,7 @@ Due to the total run time of the experiments described in the paper, we have red
 That is, the experimental setup in the image repeats each sample 10 times after 3 seconds of warm-up.
 With this configuration, the total run time of the experiments has been about 7.5 hours Intel Core i7-9700K CPU @ 3.60GHz and 16GiB of RAM running Ubuntu 22.04.
 
-To increase the number of samples to get the same number of repetitions of each sample as used in the paper line 75 of `ecoop25-artifact/machines/machine-check/benches/composition_benchmark_full.rs` from:
+To increase the number of samples to get the same number of repetitions of each sample as used in the paper line 75 of `machines/machine-check/benches/composition_benchmark_full.rs` from:
 ```rust
 group.sample_size(10);
 ```
@@ -265,6 +265,8 @@ The script `run.sh` offers four different demos each running an example swarm:
   * The source code for the machine implementations of the roles is found in `demos/warehouse-factory-quality-demo/src`.
   * Select option `5` in the REPL to run this demo.
 * **The Warehouse demo without branch-tracking:** ...
+
+The demos can also be started using the `run_shell.sh` and `run_shell_no_volume.sh`. Please see [Alternative ways of running the artifact](#alternative-ways-of-running-the-artifact) for instructions on how to do this.
 
 ### Example: running and editing the Warehouse || Factory implementation
 
