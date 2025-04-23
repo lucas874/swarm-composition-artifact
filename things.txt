@@ -1,7 +1,0 @@
-They refer to a number of different submission templates?
-Reviewing template lists: If so, please check if each claim that the authors stated under "For authors claiming a reusable badge: What are claims about the artifact’s reusability to be evaluated by the committee?" in the artifact documentation
-This point is mentioned in https://zenodo.org/records/7314238 which is some ecoop submission template
-but not in https://zenodo.org/records/15046467 which is the submission template for this year?
-
-The difference is they want everything in a pdf this year. But then in the review guidelines they refer to a point only mentioned in old template?
-Following the old style? Then making the pdf with the points with the same content if we get accepted.
