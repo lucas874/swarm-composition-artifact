@@ -1,6 +1,6 @@
 import { Actyx } from '@actyx/sdk'
 import { createMachineRunnerBT } from '@actyx/machine-runner'
-import { Events, manifest, Composition, warehouse_factory_protocol, factory_protocol, subs_factory, subs_composition, printState, getRandomInt  } from './protocol'
+import { Events, manifest, Composition, warehouseFactoryProtocol, factoryProtocol, subsFactory, subsComposition, printState  } from './protocol'
 import * as readline from 'readline';
 import { checkComposedProjection } from '@actyx/machine-check';
 
@@ -23,16 +23,16 @@ export const s1 = robot.designState('s1').withPayload<{partName: string}>()
 
 export const s2 = robot.designEmpty('s2').finish()
 
-s0.react([Events.part], s1, (_, e) => {
+s0.react([Events.partOK], s1, (_, e) => {
   return s1.make({partName: e.payload.partName})})
 s1.react([Events.car], s2, (_, e) => { return s2.make()})
 
 // Check that the original machine is a correct implementation. A prerequisite for reusing it.
-const checkProjResult = checkComposedProjection(factory_protocol, subs_factory, "R", robot.createJSONForAnalysis(s0))
+const checkProjResult = checkComposedProjection(factoryProtocol, subsFactory, "R", robot.createJSONForAnalysis(s0))
 if (checkProjResult.type == 'ERROR') throw new Error(checkProjResult.errors.join(", \n"))
 
 // Adapt machine
-const [factoryRobotAdapted, s0Adapted] = Composition.adaptMachine('R', warehouse_factory_protocol, subs_composition, 1, [robot, s0], true).data!
+const [factoryRobotAdapted, s0Adapted] = Composition.adaptMachine('R', warehouseFactoryProtocol, 1, subsComposition, [robot, s0], true).data!
 
 // Run the adapted machine
 async function main() {
@@ -44,13 +44,12 @@ async function main() {
 
   for await (const state of machine) {
     if(state.isLike(s1)) {
-      setTimeout(() => {
+      rl.on('line', (_) => {
         const stateAfterTimeOut = machine.get()
         if (stateAfterTimeOut?.isLike(s1)) {
-          console.log()
           stateAfterTimeOut?.cast().commands()?.build()
         }
-      }, getRandomInt(2000, 8000))
+      })
     }
   }
   rl.close();

@@ -9,7 +9,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Set up some environment variables
-ENV DIR=/ecoop25_artifact
+ENV DIR=/swarm-composition
 ENV MACHINE_CHECK_DIR="${DIR}/machine-check"
 ENV MACHINE_RUNNER_DIR="${DIR}/machine-runner"
 ENV CRITERION_DATA_DIR="${MACHINE_CHECK_DIR}/target/criterion/data/main"
@@ -73,10 +73,10 @@ RUN cd machine-check && cargo build --release --all-targets
 RUN mkdir logs
 RUN mkdir results
 
-RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-check && npm run build
+RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
 
 # run npm i in every demo -- even though we want users to mount demos. That way it should still work if not mounted.
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install

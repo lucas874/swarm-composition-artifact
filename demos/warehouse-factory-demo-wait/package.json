@@ -1,5 +1,5 @@
 {
-  "name": "warehouse_factory_demo_kick",
+  "name": "warehouse_factory_demo",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   "dependencies": {
     "@actyx/machine-check": "file:../../machine-check",
     "@actyx/machine-runner": "file:../../machine-runner",
-    "@actyx/sdk": "^0.5.9"
+    "@actyx/sdk": "^0.5.9",
+    "chalk": "^4.1.2"
   }
 }

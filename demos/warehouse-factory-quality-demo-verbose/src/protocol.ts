@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { MachineEvent, SwarmProtocol } from '@actyx/machine-runner'
-import { SwarmProtocolType, Subscriptions, Result, DataResult, overapproxWWFSubscriptions, checkWWFSwarmProtocol, MachineType, InterfacingProtocols} from '@actyx/machine-check'
+import { SwarmProtocolType, Subscriptions, Result, DataResult, overapproxWWFSubscriptions, checkWWFSwarmProtocol, InterfacingProtocols} from '@actyx/machine-check'
+import chalk from "chalk";
 
 export const manifest = {
   appId: 'com.example.car-factory',
@@ -53,6 +54,7 @@ export const Gquality: SwarmProtocolType = {
     {source: '1', target: '2', label: { cmd: 'build', role: 'R', logType: [Events.car.type] }},
     {source: '2', target: '3', label: { cmd: 'test', role: 'QCR', logType: [Events.report.type] }},
   ]}
+
 export const warehouse_protocol: InterfacingProtocols = [Gwarehouse]
 export const factory_protocol: InterfacingProtocols = [Gfactory]
 export const quality_protocol: InterfacingProtocols = [Gquality]
@@ -94,4 +96,8 @@ export function getRandomInt(min: number, max: number) {
 
 export function print_event(e: any) {
   console.log(`received an event: ${JSON.stringify(e.payload, null, 2)}`)
+}
+
+export const printState = (machineName: string, stateName: string, statePayload: any) => {
+  console.log(chalk.bgBlack.white.bold`${machineName} - State: ${stateName}. Payload: ${statePayload ? JSON.stringify(statePayload, null, 0) : "{}"}`)
 }
