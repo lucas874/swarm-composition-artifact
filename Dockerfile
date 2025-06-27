@@ -82,7 +82,7 @@ RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo-without-branch-tracking && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-wait && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-interactive && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo-verbose && npm install
 
