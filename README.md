@@ -14,38 +14,38 @@ The following guide assumes a POSIX shell (e.g., bash, zsh). If you use Windows,
 
 To download, please follow the steps listed above in [Getting the artifact](#getting-the-artifact). Once downloaded, please extract the archive, e.g. by running
 ```bash
-tar -xzf ecoop25-artifact.tar.gz
+tar -xzf swarm-composition-artifact.tar.gz
 ```
 
-Extracting the archive yields the directory `ecoop25-artifact/`. Please move to this directory by running:
+Extracting the archive yields the directory `swarm-composition-artifact/`. Please move to this directory by running:
 ```bash
-cd ecoop25-artifact
+cd swarm-composition-artifact
 ```
 
-From the `ecoop25-artifact/` directory, to load the image and start a container from it please run:
+From the `swarm-composition-artifact/` directory, to load the image and start a container from it please run:
 ```bash
-docker load -i ecoop25_artifact_docker_image.tar.gz
+docker load -i swarm-composition-docker-image.tar.gz
 ```
 This will decompress and load the image on your system.
 The output should like similar (TODO: insert updated when all done with image) to the following:
 ```bash
-.../ecoop25-artifact$ docker load -i ecoop25_artifact_docker_image.tar.gz
+.../swarm-composition-artifact$ docker load -i swarm-composition-docker-image.tar.gz
 3abdd8a5e7a8: Loading layer [==================================================>]  80.61MB/80.61MB
 bfcb79809e7a: Loading layer [==================================================>]    493MB/493MB
 ...
 c22014a14040: Loading layer [==================================================>]   5.12kB/5.12kB
-Loaded image: ecoop25_artifact:latest
+Loaded image: swarm-composition:latest
 ```
 
 Depending on your Docker system configuration, you may have preface each Docker command with `sudo`. I.e., if you get an output like:
 
 ```bash
-.../ecoop25-artifact$ permission denied while trying to connect to the Docker daemon socket ...
+.../swarm-composition-artifact$ permission denied while trying to connect to the Docker daemon socket ...
 ```
 please instead use:
 
 ```bash
-sudo docker load -i ecoop25_artifact_docker_image.tar.gz
+sudo docker load -i swarm-composition-docker-image.tar.gz
 ```
 
 Once the image has been loaded, please run:
@@ -55,7 +55,7 @@ Once the image has been loaded, please run:
 After running the command, you should see a message similar to the following:
 
 ```bash
-.../ecoop25-artifact$ bash run.sh
+.../swarm-composition-artifact$ bash run.sh
 Available commands:
   1 - kick-the-tires
   2 - Run experiments
@@ -121,8 +121,8 @@ appears after running the kick-the-tires script, pleas send the indicated direct
 
 ## Overview: What does the artifact comprise?
 
-The artifact package (`ecoop25-artifact.tar.gz`) includes:
-* `ecoop25_artifact_docker_image.tar.gz`: a Docker image, with Ubuntu 24.04 as base image, saved as a gzipped tar file. The image includes the following:
+The artifact package (`swarm-composition-artifact.tar.gz`) includes:
+* `swarm-composition-docker-image.tar.gz`: a Docker image, with Ubuntu 24.04 as base image, saved as a gzipped tar file. The image includes the following:
     * `machine-runner/`: A TypeScript library offering a DSL for programming machine implementations, facilities to automatically adapt such machines to different swarms as described in the paper, and to run them using the Actyx middleware.
     * `machine-check/`: A Rust library for statically verifying the well-formedness of swarm protocols (expressed as TypeScript data types) and for statically verifying whether a machine implementation (written using `machine-runner`) conforms to a desired projection of a swarm protocol. This directory also includes the benchmark suite used to perform the experiments.
     * `scripts/`: Contains scripts to run our experiments and demos. Contains the following scripts:
@@ -170,7 +170,7 @@ or
 After running the command, you should see a message similar to the following:
 
 ```bash
-.../ecoop25-artifact$ bash run.sh
+.../swarm-composition-artifact$ bash run.sh
 Available commands:
   1 - kick-the-tires
   2 - Run experiments
@@ -340,7 +340,7 @@ The `machine-check` and the `machine-runner` libraries are installed in the imag
 They are also available in [`this GitHub repository`](https://github.com/lucas874/machines)
 To alter the source code of the libraries please make your edits to the source code found in the `machines/` directory and run the command:
 
-```bash docker build -t ecoop25_artifact``` from the `ecoop25-artifact` directory to make the changes take effect. This command rebuilds the Docker image and recompiles the code found in `machines` while doing so.
+```bash docker build -t swarm-composition``` from the `swarm-composition-artifact` directory to make the changes take effect. This command rebuilds the Docker image and recompiles the code found in `machines` while doing so.
 
 To compile the libraries locally, `cd` to `machines/` then start by compiling `machine-check` by running:
 ```bash
