@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd $DEMO_DIR/warehouse-factory-demo-kick/
+cd $DEMO_DIR/warehouse-factory-demo/
 echo "Starting warehouse demo. It may take a minute to start."
 npm i >> $LOG_DIR/report.log 2>&1
 

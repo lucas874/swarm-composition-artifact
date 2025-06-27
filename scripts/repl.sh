@@ -6,39 +6,45 @@ show_help() {
     echo "  2 - Run experiments"
     echo "  3 - Run warehouse demo"
     echo "  4 - Run warehouse || factory demo"
-    echo "  5 - Run warehouse || factory || quality demo"
-    echo "  6 - Run warehouse demo without branch tracking"
+    echo "  5 - Run interactive warehouse || factory demo"
+    echo "  6 - Run warehouse || factory || quality demo"
+    echo "  7 - Run warehouse demo without branch tracking"
     echo "  help - Show this help message"
     echo "  exit - Exit"
     echo
 }
 
 kick_the_tires() {
-    /ecoop25_artifact/scripts/kick-the-tires.sh
+    /swarm-composition/scripts/kick-the-tires.sh
 }
 
 run_experiments() {
-    /ecoop25_artifact/scripts/run-benchmarks.sh
+    /swarm-composition/scripts/run-benchmarks.sh
 }
 
 run_warehouse_demo() {
     echo "Starting warehouse demo. It may take a minute to start."
-    /ecoop25_artifact/scripts/warehouse-demo.sh
+    /swarm-composition/scripts/warehouse-demo.sh
 }
 
 run_warehouse_factory_demo() {
     echo "Starting warehouse || factory demo. It may take a minute to start."
-    /ecoop25_artifact/scripts/warehouse-factory-demo.sh
+    /swarm-composition/scripts/warehouse-factory-demo.sh
+}
+
+run_interactive_warehouse_factory_demo() {
+    echo "Starting warehouse || factory demo. It may take a minute to start."
+    /swarm-composition/scripts/warehouse-factory-demo-interactive.sh
 }
 
 run_warehouse_factory_quality_demo() {
     echo "Starting warehouse || factory || quality demo. It may take a minute to start."
-    /ecoop25_artifact/scripts/warehouse-factory-quality-demo.sh
+    /swarm-composition/scripts/warehouse-factory-quality-demo.sh
 }
 
 run_warehouse_no_bt_demo() {
     echo "Starting warehouse demo without branch tracking. It may take a minute to start."
-    /ecoop25_artifact/scripts/warehouse-demo-no-branch-tracking.sh
+    /swarm-composition/scripts/warehouse-demo-no-branch-tracking.sh
 }
 
 source $NVM_DIR/nvm.sh
@@ -64,9 +70,12 @@ while true; do
             run_warehouse_factory_demo
             ;;
         5)
-            run_warehouse_factory_quality_demo
+            run_interactive_warehouse_factory_demo
             ;;
         6)
+            run_warehouse_factory_quality_demo
+            ;;
+        7)
             run_warehouse_no_bt_demo
             ;;
         help)
