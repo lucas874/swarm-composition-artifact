@@ -1,2 +1,1 @@
-docker run -it --rm ecoop25_artifact
-  
+docker run -it --rm swarm-composition
