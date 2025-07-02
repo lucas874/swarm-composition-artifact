@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y curl gzip zip nano python3-pip python3.12-venv pv tmux && \
+    apt-get install -y curl gzip zip nano python3-pip python3.12-venv pv tmux locales && \
     apt-get clean
 
 # Use bash for the shell
@@ -29,6 +29,13 @@ ENV RLOG="${LOG_DIR}/robot.log"
 ENV FLOG="${LOG_DIR}/forklift.log"
 ENV TLOG="${LOG_DIR}/transporter.log"
 ENV DLOG="${LOG_DIR}/door.log"
+
+# Set locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 # Install cargo etc.
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
