@@ -9,6 +9,7 @@ show_help() {
     echo "  5 - Run interactive warehouse || factory demo"
     echo "  6 - Run warehouse || factory || quality demo"
     echo "  7 - Run warehouse demo without branch tracking"
+    echo "  8 - Run interactive warehouse || factory demo (clean copy)"
     echo "  help - Show this help message"
     echo "  exit - Exit"
     echo
@@ -35,6 +36,11 @@ run_warehouse_factory_demo() {
 run_interactive_warehouse_factory_demo() {
     echo "Starting warehouse || factory demo. It may take a minute to start."
     /swarm-composition/scripts/warehouse-factory-demo-interactive.sh
+}
+
+run_interactive_warehouse_factory_demo_clean() {
+    echo "Starting warehouse || factory demo. It may take a minute to start."
+    /swarm-composition/scripts/warehouse-factory-demo-interactive-clean.sh
 }
 
 run_warehouse_factory_quality_demo() {
@@ -77,6 +83,9 @@ while true; do
             ;;
         7)
             run_warehouse_no_bt_demo
+            ;;
+        8)
+            run_interactive_warehouse_factory_demo_clean
             ;;
         help)
             show_help

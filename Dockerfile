@@ -98,6 +98,7 @@ COPY scripts scripts
 RUN chmod +x scripts/warehouse-demo.sh
 RUN chmod +x scripts/warehouse-factory-demo.sh
 RUN chmod +x scripts/warehouse-factory-demo-interactive.sh
+RUN chmod +x scripts/warehouse-factory-demo-interactive-clean.sh
 RUN chmod +x scripts/warehouse-factory-quality-demo.sh
 RUN chmod +x scripts/warehouse-demo-no-branch-tracking.sh
 RUN chmod +x scripts/kick-the-tires.sh
