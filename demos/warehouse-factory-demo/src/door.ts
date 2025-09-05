@@ -49,6 +49,10 @@ async function main() {
         }
       }, getRandomInt(4000, 8000))
     }
+    if (state.type === "3 || 3" || state.type === "3 || 2" || state.type === "3 || 0") {
+      console.log("final state")
+      break
+    }
   }
   rl.close();
   app.dispose()

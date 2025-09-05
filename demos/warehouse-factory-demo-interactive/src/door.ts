@@ -1,6 +1,6 @@
 import { Actyx } from '@actyx/sdk'
-import { createMachineRunnerBT} from '@actyx/machine-runner'
-import { Events, manifest, Composition, warehouseFactoryProtocol, subsComposition, warehouseProtocol, subsWarehouse, printState } from './protocol'
+import { createMachineRunnerBT } from '@actyx/machine-runner'
+import { Events, manifest, Composition, listOfProtocols, subscriptions, warehouseProtocol, subsWarehouse, printState } from './protocol'
 import * as readline from 'readline';
 import chalk from "chalk";
 import { checkComposedProjection } from '@actyx/machine-check';
@@ -14,22 +14,22 @@ const rl = readline.createInterface({
 const door = Composition.makeMachine('Door')
 export const s0 = door.designEmpty('s0')
     .command('close', [Events.closingTime], () => {
-        var dateString = new Date().toLocaleString();
+        const dateString = new Date().toString();
         return [Events.closingTime.make({timeOfDay: dateString})]})
     .finish()
 export const s1 = door.designEmpty('s1').finish()
 export const s2 = door.designEmpty('s2').finish()
 
-s0.react([Events.partReq], s1, (_, e) => { return s1.make() })
-s1.react([Events.partOK], s0, (_, e) => { return s0.make() })
-s0.react([Events.closingTime], s2, (_, e) => { return s2.make() })
+s0.react([Events.partReq], s1, () => { return s1.make() })
+s1.react([Events.partOK], s0, () => { return s0.make() })
+s0.react([Events.closingTime], s2, () => { return s2.make() })
 
 // Check that the original machine is a correct implementation. A prerequisite for reusing it.
 const checkProjResult = checkComposedProjection(warehouseProtocol, subsWarehouse, "D", door.createJSONForAnalysis(s0))
 if (checkProjResult.type == 'ERROR') throw new Error(checkProjResult.errors.join(", \n"))
 
 // Adapted machine
-const [doorAdapted, s0Adapted] = Composition.adaptMachine('D', warehouseFactoryProtocol, 0, subsComposition, [door, s0], true).data!
+const [doorAdapted, s0Adapted] = Composition.adaptMachine('D', listOfProtocols, 0, subscriptions, [door, s0], true).data!
 
 // Run the adapted machine
 async function main() {

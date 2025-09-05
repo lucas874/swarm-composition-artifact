@@ -92,13 +92,14 @@ RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-interactive && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo-verbose && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-readme-demo && npm install
 
 # Should they be in workdir instead so that they can easily be reviewed/inspected? Now they are in workdir
 COPY scripts scripts
 RUN chmod +x scripts/warehouse-demo.sh
 RUN chmod +x scripts/warehouse-factory-demo.sh
 RUN chmod +x scripts/warehouse-factory-demo-interactive.sh
-RUN chmod +x scripts/warehouse-factory-demo-interactive-clean.sh
+RUN chmod +x scripts/warehouse-readme-demo.sh
 RUN chmod +x scripts/warehouse-factory-quality-demo.sh
 RUN chmod +x scripts/warehouse-demo-no-branch-tracking.sh
 RUN chmod +x scripts/kick-the-tires.sh
