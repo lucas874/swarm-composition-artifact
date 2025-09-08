@@ -60,7 +60,7 @@ for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         echo "ERROR: $file does not exist" >> $logfile
         error_and_exit
-    elif ! grep "final state" $file > /dev/null 2>&1; then
+    elif ! grep "please press CTRL + C" $file > /dev/null 2>&1; then
         echo "ERROR: $file machine did not reach final state" >> $logfile
         error_and_exit
     fi
