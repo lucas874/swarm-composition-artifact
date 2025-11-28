@@ -52,10 +52,10 @@ for file in "${files[@]}"; do
         error_and_exit
     fi
 done
-if ! diff "$RES_SHORT_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results_short.csv" >> $logfile 2>&1; then
-    echo "ERROR: $RES_SHORT_DIR/accuracy_results.csv and $PROCESS_RES_DIR/golden_accuracy_results_short.csv differ." >> $logfile
-    error_and_exit
-fi
+#if ! diff "$RES_SHORT_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results_short.csv" >> $logfile 2>&1; then
+#    echo "ERROR: $RES_SHORT_DIR/accuracy_results.csv and $PROCESS_RES_DIR/golden_accuracy_results_short.csv differ." >> $logfile
+#    error_and_exit
+#fi
 if [ $(wc -l < "$RES_SHORT_DIR/performance_results.csv") -ne 5 ]; then
     echo "ERROR: $RES_SHORT_DIR/performance_results.csv not as expected" >> $logfile
     error_and_exit

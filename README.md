@@ -98,7 +98,7 @@ Starting the kick-the-tires script. It may take a minute to start.
 Starting warehouse demo. It may take a minute to start.
 [exited]
 [3/3] Warehouse || Factory demo
-kick-the-tires everything is OK. Results are written to /ecoop25_artifact/results/results_short_run.
+kick-the-tires everything is OK. Results are written to /swarm-composition-artifact/results/results_short_run.
 >
 ```
 By invoking `run.sh` the directories `results/` and `logs/` are created and mounted into the container.
@@ -115,7 +115,7 @@ The shortened experiments use a reduced input set. In `results.pdf` the results 
 
 If the message:
 ```
-ERROR. Please send entire contents of /ecoop25_artifact/logs/
+ERROR. Please send entire contents of /swarm-composition-artifact/logs/
 ```
 appears after running the kick-the-tires script, pleas send the indicated directory, `logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container.
 
@@ -213,7 +213,7 @@ When the experiments are done the output should look similar to:
 Starting the experiments. It may take a minute to start.
 [1/2] Accuracy experiment: 2:23:21 [=======================================================>] 100%
 [2/2] Performance experiment: 4:54:01 [====================================================>] 100%
-Experiments done. Everything is OK. Results written to /ecoop25_artifact/results/results_full_run.
+Experiments done. Everything is OK. Results written to /swarm-composition-artifact/results/results_full_run.
 >
 ```
 
@@ -226,7 +226,7 @@ The leftmost boxplot shown in `figures.pdf` should match exactly the plot shown 
 
 If the message:
 ```
-ERROR. Please send entire contents of /ecoop25_artifact/logs/
+ERROR. Please send entire contents of /swarm-composition-artifact/logs/
 ```
 appears after running the experiments, please send the indicated directory, `logs/` to luccl@dtu.dk. The directory is accessible from the host machine running the container (provided that the container is started using either `run.sh `or `run_shell.sh` included in the artifact package).
 
@@ -285,9 +285,9 @@ Please see [Alternative ways of running the artifact](#alternative-ways-of-runni
 
 ### Example: running and altering the Warehouse || Factory demo
 
-The source code of the machines in the Warhouse || Factory demo is found in `ecoop25_artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container, but simply by rerunning the demo.
+The source code of the machines in the Warhouse || Factory demo is found in `swarm-composition-artifact/demos/warehouse-factory-demo/src/`. The implementation of the machines can be altered and the effect of the changes can be observed without restarting the container, but simply by rerunning the demo.
 
-The well-formedness of the subscription used for the composed swarm is generated and checked in the file `ecoop25_artifact/demos/warehouse-factory/src/protocol.ts`.
+The well-formedness of the subscription used for the composed swarm is generated and checked in the file `swarm-composition-artifact/demos/warehouse-factory/src/protocol.ts`.
 To make the well-formedness fail and see the results of this, remove the comments on line 69 in `protocol.ts` so that :
 ```typescript
 //subs_composition['FL'] = ['pos']
