@@ -309,7 +309,7 @@ indicating that both causal-consistency and determinacy is violated if we change
 The machine implementing the forklift role is implemented for the Warehouse protocol and then automatically adapted to be as outlined in Example 25 in the paper.
 To turn the implementation into an incorrect implementation outcomment for instance line 22:
 ```typescript
-s0.react([Events.closingTime], s2, (_, e) => { print_event(e); return s2.make() })
+initialState.react([Events.closingTimeEvent], closedState, () => closedState.make())
 ```
 This yields the error:
 ```bash
