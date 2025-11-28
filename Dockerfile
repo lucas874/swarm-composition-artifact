@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y curl gzip zip nano python3-pip python3.12-venv pv tmux locales && \
+    apt-get install -y build-essential cmake protobuf-compiler curl gzip zip nano python3-pip python3.12-venv pv tmux locales && \
     apt-get clean
 
 # Use bash for the shell
@@ -43,18 +43,15 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN cargo install cargo-criterion
 RUN cargo install wasm-pack
 
+# Install ax
+RUN cargo install ax
+
 # Set up python virual environment
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv ${VIRTUAL_ENV}
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 COPY process_results/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
-
-# Download ax
-RUN curl https://axartifacts.blob.core.windows.net/releases/ax-2.18.1-linux-amd64.tar.gz -sSf > ax-2.18.1-linux-amd64.tar.gz
-RUN tar -xvf ax-2.18.1-linux-amd64.tar.gz
-RUN mv ax /usr/local/bin
-RUN rm ax-2.18.1-linux-amd64.tar.gz
 
 # Set up nvm, nodejs and npm
 ARG NODE_VERSION="20.19.0"
