@@ -37,6 +37,11 @@ cd $PROCESS_RES_DIR
 python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_SHORT_DIR >> $logfile 2>&1
 echo "--Running demo at: $(date)--" >> $logfile
 bash $DIR/scripts/warehouse-factory-demo-kick.sh $machine_logfile $ax_logfile 2>> $logfile
+mv $DEMO_DIR/warehouse-factory/transport_log.txt $TLOG
+mv $DEMO_DIR/warehouse-factory/door_log.txt $DLOG
+mv $DEMO_DIR/warehouse-factory/forklift_log.txt $FLOG
+mv $DEMO_DIR/warehouse-factory/robot_log.txt $RLOG
+
 echo "--Demo ended at: $(date)--" >> $logfile
 echo "[3/3] Warehouse || Factory demo"
 
@@ -60,7 +65,7 @@ for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         echo "ERROR: $file does not exist" >> $logfile
         error_and_exit
-    elif ! grep "final state" $file > /dev/null 2>&1; then
+    elif ! grep "ok" $file > /dev/null 2>&1; then
         echo "ERROR: $file machine did not reach final state" >> $logfile
         error_and_exit
     fi

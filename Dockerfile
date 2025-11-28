@@ -83,12 +83,8 @@ RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm install
 RUN source ${NVM_DIR}/nvm.sh && cd machine-runner && npm run build
 
 # run npm i in every demo -- even though we want users to mount demos. That way it should still work if not mounted.
-RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-demo-without-branch-tracking && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-demo-interactive && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo && npm install
-RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory-quality-demo-verbose && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/warehouse-factory && npm install
+RUN source ${NVM_DIR}/nvm.sh && cd demos/car-factory && npm install
 
 # Should they be in workdir instead so that they can easily be reviewed/inspected? Now they are in workdir
 COPY scripts scripts

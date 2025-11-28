@@ -6,10 +6,8 @@ show_help() {
     echo "  2 - Run experiments"
     echo "  3 - Run warehouse demo"
     echo "  4 - Run warehouse || factory demo"
-    echo "  5 - Run interactive warehouse || factory demo"
-    echo "  6 - Run warehouse || factory || quality demo"
-    echo "  7 - Run warehouse demo without branch tracking"
-    echo "  8 - Run interactive warehouse || factory demo (clean copy)"
+    echo "  5 - Run warehouse || factory || quality demo"
+    echo "  6 - Run car factory demo (composition of 7 protocols instantiated with 25 machines)"
     echo "  help - Show this help message"
     echo "  exit - Exit"
     echo
@@ -33,22 +31,12 @@ run_warehouse_factory_demo() {
     /swarm-composition/scripts/warehouse-factory-demo.sh
 }
 
-run_interactive_warehouse_factory_demo() {
-    echo "Starting warehouse || factory demo. It may take a minute to start."
-    /swarm-composition/scripts/warehouse-factory-demo-interactive.sh
-}
-
-run_interactive_warehouse_factory_demo_clean() {
-    echo "Starting warehouse || factory demo. It may take a minute to start."
-    /swarm-composition/scripts/warehouse-factory-demo-interactive-clean.sh
-}
-
 run_warehouse_factory_quality_demo() {
     echo "Starting warehouse || factory || quality demo. It may take a minute to start."
     /swarm-composition/scripts/warehouse-factory-quality-demo.sh
 }
 
-run_warehouse_no_bt_demo() {
+run_car_factory_demo() {
     echo "Starting warehouse demo without branch tracking. It may take a minute to start."
     /swarm-composition/scripts/warehouse-demo-no-branch-tracking.sh
 }
@@ -76,16 +64,10 @@ while true; do
             run_warehouse_factory_demo
             ;;
         5)
-            run_interactive_warehouse_factory_demo
-            ;;
-        6)
             run_warehouse_factory_quality_demo
             ;;
-        7)
-            run_warehouse_no_bt_demo
-            ;;
-        8)
-            run_interactive_warehouse_factory_demo_clean
+        6)
+            run_car_factory_demo
             ;;
         help)
             show_help
