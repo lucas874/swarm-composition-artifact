@@ -11,8 +11,10 @@ error_and_exit() {
 
 logfile=$LOG_DIR/report.log
 num_files=454
-msg_acc="[1/2] Accuracy experiment"
-msg_perf="[2/2] Performance experiment"
+num_files_compositional_vs_ecoop23=2093
+msg_acc="[1/3] Accuracy experiment"
+msg_comp_vs_ecoop23="[2/3] Compositional vs. ECOOP23 experiment"
+msg_perf="[3/3] Performance experiment"
 mkdir -p $FULL_CRITERION_DATA_DIR
 mkdir -p $FULL_ACCURACY_RESULT_DIR
 
@@ -26,14 +28,18 @@ cd $MACHINE_CHECK_DIR
 echo "--Accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact full_run_bench_sub_sizes_general 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_acc" -l -t -p -s $num_files >> $LOG_DIR/matches.log
 echo "--Accuracy ended at: $(date)--" >> $logfile
+echo "--Compositional vs ecoop23 test began at: $(date)--" >> $logfile
+cargo test full_simple_run_bench_sub_sizes_general -- --nocapture --ignored --exact 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_comp_vs_ecoop23" -l -t -p -s $num_files_compositional_vs_ecoop23 >> $LOG_DIR/matches.log
+echo "--Compositional vs ecoop23 ended at: $(date)--" >> $logfile
 echo "--Performance test began at: $(date)--" >> $logfile
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_full 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_perf" -l -t -p -s $num_files >> $LOG_DIR/matches.log
 echo "--Performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
 python3 process_results.py -p $FULL_CRITERION_DATA_DIR -a $FULL_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_FULL_DIR >> $logfile 2>&1
+python3 process_compositional_vs_kmt23_results.py -a $FULL_COMPOSITIONAL_VS_ECOOP23_DIR -o $RES_FULL_DIR -c $FULL_COMPOSITIONAL_VS_ECOOP23_CSV >> $logfile 2>&1
 
-files=("$RES_FULL_DIR/accuracy_results.csv" "$RES_FULL_DIR/performance_results.csv" "$RES_FULL_DIR/figures.pdf")
+files=("$RES_FULL_DIR/accuracy_results.csv" "$RES_FULL_DIR/performance_results.csv" "$RES_FULL_DIR/figures.pdf" "$RES_FULL_DIR/compositional_vs_ecoop23.csv" "$RES_FULL_DIR/compositional_vs_ecoop23.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         echo "ERROR: $file does not exist" >> $logfile

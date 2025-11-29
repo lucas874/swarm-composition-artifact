@@ -1,4 +1,4 @@
-import { DataResult, overapproxWFSubscriptions, Subscriptions } from "@actyx/machine-check";
+import { Result, DataResult, overapproxWFSubscriptions, Subscriptions, checkComposedSwarmProtocol } from "@actyx/machine-check";
 import { MachineEvent, SwarmProtocol } from "@actyx/machine-runner";
 import chalk from "chalk";
 import * as fs from 'fs';
@@ -20,6 +20,8 @@ export const finalState = "finalState";
 export const buildState = "buildState";
 export const carFinishedState = "carFinishedState";
 export const car = "car";
+export const obs = "observing"
+export const report = "report"
 export const Robot = "Robot";
 export const buildCar = "buildCar";
 export const closingTime = "closingTime";
@@ -50,8 +52,8 @@ export namespace Events {
   export const positionEvent = MachineEvent.design(position).withPayload<PositionPayload>()
   export const closingTimeEvent = MachineEvent.design(closingTime).withPayload<ClosingTimePayload>()
   export const carEvent = MachineEvent.design(car).withPayload<CarPayload>()
-  export const observingEvent = MachineEvent.design('obs').withoutPayload()
-  export const reportEvent = MachineEvent.design('report').withPayload<ReportPayload>()
+  export const observingEvent = MachineEvent.design(obs).withoutPayload()
+  export const reportEvent = MachineEvent.design(report).withPayload<ReportPayload>()
   export const allEvents = [partReqEvent, partOKEvent, positionEvent, closingTimeEvent, carEvent, observingEvent, reportEvent] as const
 }
 
@@ -72,6 +74,8 @@ const resultSubsWarehouse: DataResult<Subscriptions>
   = overapproxWFSubscriptions([warehouse], {}, 'TwoStep')
 if (resultSubsWarehouse.type === 'ERROR') throw new Error(resultSubsWarehouse.errors.join(', '))
 export const subsWarehouse: Subscriptions = resultSubsWarehouse.data
+const checkResultWarehouse: Result = checkComposedSwarmProtocol([warehouse], subsWarehouse)
+if (checkResultWarehouse.type === 'ERROR') throw new Error(checkResultWarehouse.errors.join(', '))
 
 export const factory = {
   initial: initialState,
@@ -85,6 +89,8 @@ export const factory = {
 const resultSubsFactory: DataResult<Subscriptions> = overapproxWFSubscriptions([factory], {}, 'TwoStep')
 if (resultSubsFactory.type === 'ERROR') throw new Error(resultSubsFactory.errors.join(', '))
 export const subsFactory: Subscriptions = resultSubsFactory.data
+const checkResultFactory: Result = checkComposedSwarmProtocol([factory], subsFactory)
+if (checkResultFactory.type === 'ERROR') throw new Error(checkResultFactory.errors.join(', '))
 
 export const quality = {
   initial: initialState,
@@ -98,15 +104,22 @@ export const quality = {
 const resultSubsQuality: DataResult<Subscriptions> = overapproxWFSubscriptions([quality], {}, 'TwoStep')
 if (resultSubsQuality.type === 'ERROR') throw new Error(resultSubsQuality.errors.join(', '))
 export const subsQuality: Subscriptions = resultSubsQuality.data
+const checkResultQuality: Result = checkComposedSwarmProtocol([quality], subsQuality)
+if (checkResultQuality.type === 'ERROR') throw new Error(checkResultQuality.errors.join(', '))
 
 const resultSubsWarehouseFactory: DataResult<Subscriptions> = overapproxWFSubscriptions([warehouse, factory], {}, 'TwoStep')
 if (resultSubsWarehouseFactory.type === 'ERROR') throw new Error(resultSubsWarehouseFactory.errors.join(', '))
-export const subsWarehouseFactory: Subscriptions = resultSubsWarehouseFactory.data
+export var subsWarehouseFactory: Subscriptions = resultSubsWarehouseFactory.data
+//subsWarehouseFactory[Forklift] = [Events.positionEvent.type]
+const checkResultWarehouseFactory: Result = checkComposedSwarmProtocol([warehouse, factory], subsWarehouseFactory)
+if (checkResultWarehouseFactory.type === 'ERROR') throw new Error(checkResultWarehouseFactory.errors.join(', '))
 
 const resultSubsWarehouseFactoryQuality: DataResult<Subscriptions>
   = overapproxWFSubscriptions([warehouse, factory, quality], {}, 'TwoStep')
 if (resultSubsWarehouseFactoryQuality.type === 'ERROR') throw new Error(resultSubsWarehouseFactoryQuality.errors.join(', '))
 export const subsWarehouseFactoryQuality: Subscriptions = resultSubsWarehouseFactoryQuality.data
+const checkResultWarehouseFactoryQuality: Result = checkComposedSwarmProtocol([warehouse, factory, quality], subsWarehouseFactoryQuality)
+if (checkResultWarehouseFactoryQuality.type === 'ERROR') throw new Error(checkResultWarehouseFactoryQuality.errors.join(', '))
 
 export const printState = (machineName: string, stateName: string, statePayload: any, commands?: string[]) => {
   console.log(chalk.bgBlack.white.bold`${machineName} - State: ${stateName}. Payload: ${statePayload ? JSON.stringify(statePayload, null, 0) : "{}"}`)

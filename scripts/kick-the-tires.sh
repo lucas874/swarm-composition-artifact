@@ -13,8 +13,10 @@ logfile=$LOG_DIR/report.log
 machine_logfile=$LOG_DIR/machines.log
 ax_logfile=$LOG_DIR/ax_all.log
 num_files=4
-msg_acc="[1/3] Shortened accuracy experiment"
-msg_perf="[2/3] Shortened performance experiment"
+num_files_compositional_vs_ecoop23=18
+msg_acc="[1/4] Shortened accuracy experiment"
+msg_comp_vs_ecoop23="[2/4] Shortened compositional vs. ECOOP23 experiment"
+msg_perf="[3/4] Shortened performance experiment"
 rm -rf $SHORT_CRITERION_DATA_DIR
 mkdir -p $SHORT_CRITERION_DATA_DIR
 rm -rf $SHORT_ACCURACY_RESULT_DIR
@@ -29,12 +31,16 @@ cd $MACHINE_CHECK_DIR
 echo "--Shortened accuracy test began at: $(date)--" >> $logfile
 cargo test -- --ignored --nocapture --exact short_run_bench_sub_sizes_general 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_acc" -l -t -p -s $num_files >> $LOG_DIR/matches.log
 echo "--Shortened accuracy ended at: $(date)--" >> $logfile
+echo "--Shortened compositional vs ecoop23 test began at: $(date)--" >> $logfile
+cargo test short_simple_run_bench_sub_sizes_general -- --nocapture --ignored --exact 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_comp_vs_ecoop23" -l -t -p -s $num_files_compositional_vs_ecoop23 >> $LOG_DIR/matches.log
+echo "--Shortened compositional vs ecoop23 ended at: $(date)--" >> $logfile
 echo "--Shortened performance test began at: $(date)--" >> $logfile
 cargo criterion --offline --output-format quiet --plotting-backend disabled --bench composition_benchmark_short 2>&1 | tee -a $logfile | grep --line-buffered "done-special-symbol" | pv -N "$msg_perf" -l -t -p -s $num_files >> $LOG_DIR/matches.log
 echo "--Shortened performance test ended at: $(date)--" >> $logfile
 echo "--Entering "$PROCESS_RES_DIR" and generating plots at: $(date)--" >> $logfile
 cd $PROCESS_RES_DIR
 python3 process_results.py -p $SHORT_CRITERION_DATA_DIR -a $SHORT_ACCURACY_RESULT_DIR -b $BENCHMARK_DIR_GENERAL -o $RES_SHORT_DIR >> $logfile 2>&1
+python3 process_compositional_vs_kmt23_results.py -a $SHORT_COMPOSITIONAL_VS_ECOOP23_DIR -o $RES_SHORT_DIR -c $SHORT_COMPOSITIONAL_VS_ECOOP23_CSV >> $logfile 2>&1
 echo "--Running demo at: $(date)--" >> $logfile
 bash $DIR/scripts/warehouse-factory-demo-kick.sh $machine_logfile $ax_logfile 2>> $logfile
 mv $DEMO_DIR/warehouse-factory/transport_log.txt $TLOG
@@ -43,19 +49,16 @@ mv $DEMO_DIR/warehouse-factory/forklift_log.txt $FLOG
 mv $DEMO_DIR/warehouse-factory/robot_log.txt $RLOG
 
 echo "--Demo ended at: $(date)--" >> $logfile
-echo "[3/3] Warehouse || Factory demo"
+echo "[4/4] Warehouse || Factory demo"
 
-files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/figures.pdf")
+files=("$RES_SHORT_DIR/accuracy_results.csv" "$RES_SHORT_DIR/performance_results.csv" "$RES_SHORT_DIR/figures.pdf" "$RES_SHORT_DIR/short_run_compositional_vs_ecoop23.csv" "$RES_SHORT_DIR/compositional_vs_ecoop23.pdf")
 for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
         echo "ERROR: $file does not exist" >> $logfile
         error_and_exit
     fi
 done
-#if ! diff "$RES_SHORT_DIR/accuracy_results.csv" "$PROCESS_RES_DIR/golden_accuracy_results_short.csv" >> $logfile 2>&1; then
-#    echo "ERROR: $RES_SHORT_DIR/accuracy_results.csv and $PROCESS_RES_DIR/golden_accuracy_results_short.csv differ." >> $logfile
-#    error_and_exit
-#fi
+
 if [ $(wc -l < "$RES_SHORT_DIR/performance_results.csv") -ne 5 ]; then
     echo "ERROR: $RES_SHORT_DIR/performance_results.csv not as expected" >> $logfile
     error_and_exit

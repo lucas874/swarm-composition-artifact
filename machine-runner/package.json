@@ -1,0 +1,83 @@
+{
+  "name": "@actyx/machine-runner",
+  "version": "0.5.7",
+  "description": "asymmetric replicated state machines: runtime support",
+  "type": "module",
+  "types": "./lib/esm/index.d.ts",
+  "module": "./lib/esm/index.js",
+  "main": "./lib/cjs/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    },
+    "./test-utils": {
+      "import": "./lib/esm/test-utils/index.js",
+      "require": "./lib/cjs/test-utils/index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "ABC"
+  },
+  "files": [
+    "./lib/**/*",
+    "./example-workflow.png"
+  ],
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs && npm run build:copy-package-json",
+    "copy:esm": "npx tsx scripts/build/copy-cjs-esm.ts esm",
+    "build:esm": "npm run copy:esm && tsc --build tsconfig.esm.json",
+    "copy:cjs": "npx tsx scripts/build/copy-cjs-esm.ts cjs",
+    "build:cjs": "npm run copy:cjs && tsc --build tsconfig.cjs.json",
+    "build:copy-package-json": "npx tsx scripts/build/copy-package-json.ts",
+    "clean": "npm run clean:lib && npm run test:cjs:clean",
+    "clean:lib": "rimraf ./lib",
+    "test": "npm run test:esm && npm run test:cjs",
+    "test:esm": "npm run build:esm && cross-env NODE_OPTIONS=--experimental-vm-modules jest --config=tests/esm/jest.config.ts",
+    "test:cjs": "npm run build:cjs && npm run test:cjs:clean && npm run test:cjs:copy && jest --config=tests/cjs/jest.config.ts",
+    "test:cjs:copy": "npx tsx scripts/test/cjs-copy.ts",
+    "test:cjs:clean": "npx tsx scripts/test/cjs-remove.ts",
+    "lint": "npx eslint src/**/*.ts",
+    "lint:strict": "npm run lint -- --max-warnings 0",
+    "lint:fix": "npm run lint -- --fix",
+    "prepublishOnly": "npm run clean && npm run build && npm run test && npm run lint"
+  },
+  "keywords": [
+    "local-first"
+  ],
+  "author": "ABC",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@jest/globals": "^30.1.2",
+    "@types/glob": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "glob": "^11.0.3",
+    "jest": "^30.1.3",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.4.1",
+    "tsx": "^4.20.5",
+    "typedoc": "^0.28.12"
+  },
+  "dependencies": {
+    "@actyx/machine-check": "file:../machine-check",
+    "@actyx/sdk": "^0.5.10",
+    "@types/events": "^3.0.3",
+    "chalk": "^4.1.2",
+    "events": "^3.3.0",
+    "fast-equals": "^5.2.2",
+    "ts-node": "^10.9.2",
+    "typed-emitter": "^2.1.0",
+    "typescript": "^5.9.2"
+  },
+  "optionalDependencies": {
+    "zod": "^4.1.5",
+    "zod-validation-error": "^4.0.1"
+  }
+}

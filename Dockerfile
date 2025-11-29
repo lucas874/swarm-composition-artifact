@@ -19,6 +19,10 @@ ENV BENCHMARK_DIR="${MACHINE_CHECK_DIR}/bench_and_results"
 ENV BENCHMARK_DIR_GENERAL="${BENCHMARK_DIR}/benchmarks/general_pattern"
 ENV SHORT_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmarks/general_pattern"
 ENV FULL_ACCURACY_RESULT_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/general_pattern"
+ENV SHORT_COMPOSITIONAL_VS_ECOOP23_DIR="${BENCHMARK_DIR}/short_subscription_size_benchmarks/ecoop23-compositional-comparison"
+ENV FULL_COMPOSITIONAL_VS_ECOOP23_DIR="${BENCHMARK_DIR}/subscription_size_benchmarks/ecoop23-compositional-comparison/general_pattern"
+ENV SHORT_COMPOSITIONAL_VS_ECOOP23_CSV="short_run_compositional_vs_ecoop23.csv"
+ENV FULL_COMPOSITIONAL_VS_ECOOP23_CSV="compositional_vs_ecoop23.csv"
 ENV DEMO_DIR="${DIR}/demos"
 ENV PROCESS_RES_DIR="${DIR}/process_results"
 ENV RES_DIR="${DIR}/results"
@@ -63,12 +67,10 @@ ENV PATH="${NVM_DIR}/versions/node/${NODE_VERSION}/bin:${PATH}"
 
 # Set up working directory
 WORKDIR ${DIR}
-COPY machines/machine-check machine-check
-RUN cd machine-check && rm -rf bench_and_results && unzip bench_and_results.zip
-COPY machines/machine-runner machine-runner
-
+COPY machine-check machine-check
+RUN cd machine-check && rm -rf bench_and_results && unzip bench_and_results.zip && rm bench_and_results.zip
+COPY machine-runner machine-runner
 COPY demos demos
-
 COPY process_results process_results
 
 RUN cd machine-check && cargo build --all-targets

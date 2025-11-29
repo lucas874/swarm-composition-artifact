@@ -37,8 +37,8 @@ run_warehouse_factory_quality_demo() {
 }
 
 run_car_factory_demo() {
-    echo "Starting warehouse demo without branch tracking. It may take a minute to start."
-    /swarm-composition/scripts/warehouse-demo-no-branch-tracking.sh
+    echo "Starting car factory demo. It may take a minute to start."
+    /swarm-composition/scripts/car-factory-demo.sh
 }
 
 source $NVM_DIR/nvm.sh

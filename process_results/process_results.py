@@ -3,7 +3,6 @@ from process_subscription_size_results import subscription_results
 from generate_plots import two_plots
 import sys
 import argparse
-#import os
 
 def main():
     parser = argparse.ArgumentParser(description="Turn experiment results in to csvs")
@@ -26,4 +25,5 @@ def main():
     output_pdf_filename = f"{args.output_directory}/figures.pdf"
     two_plots(f"{args.output_directory}/{execution_time_csv_filename}", f"{args.output_directory}/{sub_size_csv_filename}", output_pdf_filename)
 
-main()
+if __name__ == "__main__":
+    main()
