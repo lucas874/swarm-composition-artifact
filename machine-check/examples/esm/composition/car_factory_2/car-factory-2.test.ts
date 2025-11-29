@@ -3,10 +3,6 @@ import { MachineEvent, SwarmProtocol } from '@actyx/machine-runner'
 import { describe, expect, it } from '@jest/globals'
 import { SwarmProtocolType, Subscriptions, checkComposedSwarmProtocol, DataResult, InterfacingProtocols, overapproxWFSubscriptions, checkComposedProjection} from '../../../..'
 
-/*
- * Example from CoPLaWS slides by Florian Furbach
- */
-
 export namespace Events {
   export const partID = MachineEvent.design('partID').withoutPayload()
   export const part = MachineEvent.design('part').withoutPayload()

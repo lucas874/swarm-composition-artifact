@@ -2,12 +2,6 @@ import { describe, expect, it } from '@jest/globals'
 import { SwarmProtocolType, Subscriptions, DataResult, InterfacingProtocols, checkComposedSwarmProtocol, exactWFSubscriptions, overapproxWFSubscriptions, composeProtocols} from '../../..'
 import { Events } from './car-factory-protos.js'
 
-/*
- * example from CoPLaWS slides by Florian Furbach
- * protocols are wwf but not wf under the generated subscriptions.
- *
- */
-
 const G1: SwarmProtocolType = {
   initial: '0',
   transitions: [

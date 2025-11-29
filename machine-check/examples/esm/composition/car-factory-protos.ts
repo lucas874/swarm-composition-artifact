@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { MachineEvent, SwarmProtocol } from '@actyx/machine-runner'
 
-/*
- * Example from CoPLaWS slides by Florian Furbach
- */
-
 export namespace Events {
   export const partID = MachineEvent.design('partID').withoutPayload()
   export const part = MachineEvent.design('part').withoutPayload()
