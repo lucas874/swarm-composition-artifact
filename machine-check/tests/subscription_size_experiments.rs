@@ -238,7 +238,7 @@ pub struct SimpleProtoBenchMarkInput  {
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Version {
-    KMT23, // Kuhn, Melgratti, Tuosto 23
+    KMT23, // ECOOP 23 paper
     CompositionalExact, // expand protocol and compute subscription
     CompositionalOverapprox // overapproximated well formed -- 'Algorithm 1'
 }
