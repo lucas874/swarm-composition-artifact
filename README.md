@@ -16,7 +16,7 @@ To build the artifact please run:
 ```bash
 bash build.sh
 ```
-The output should like similar to the following:
+The output should look similar to the following:
 ```bash
 .../swarm-composition-artifact$ bash build.sh
 bash build.sh
